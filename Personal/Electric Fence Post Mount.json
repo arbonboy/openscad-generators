@@ -1,0 +1,84 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Box_Height": "27",
+            "Side1_Connector_Type": "slidelock",
+            "Side1_Thickness": "3.5",
+            "Side2_Connector_Type": "none",
+            "Side2_Thickness": "1.5",
+            "Side3_Connector_Type": "none",
+            "Side3_Thickness": "1.5",
+            "Side4_Connector_Type": "none",
+            "Side4_Thickness": "1.5"
+        },
+        "New set 2": {
+            "Base_Thickness": "1",
+            "Box_Height": "21",
+            "Side1_Connector_Type": "open",
+            "Side1_Thickness": "0",
+            "Side2_Connector_Type": "tbscrew",
+            "Side2_Thickness": "5",
+            "Side3_Connector_Type": "slidelock",
+            "Side3_Thickness": "0",
+            "Side4_Connector_Type": "tbscrew",
+            "Side4_Thickness": "5"
+        },
+        "23x23 Post": {
+            "Base_Thickness": "2",
+            "Box_Height": "27",
+            "Box_Width_X": "23",
+            "Box_Width_Y": "23",
+            "Side1_Connector_Type": "tbscrew",
+            "Side1_Thickness": "2",
+            "Side2_Connector_Type": "slidelock",
+            "Side2_Thickness": "0",
+            "Side3_Connector_Type": "wwire",
+            "Side3_Thickness": "0",
+            "Side4_Connector_Type": "postclip",
+            "Side4_Thickness": "0"
+        },
+        "Old Electric Fence Post": {
+            "Base_Thickness": "2",
+            "Box_Height": "27",
+            "Box_Width_X": "27",
+            "Box_Width_Y": "20",
+            "Side1_Connector_Type": "tbscrew",
+            "Side1_Thickness": "2",
+            "Side2_Connector_Type": "slidelock",
+            "Side2_Thickness": "0",
+            "Side3_Connector_Type": "wwire",
+            "Side3_Thickness": "0",
+            "Side4_Connector_Type": "postclip",
+            "Side4_Thickness": "0"
+        },
+        "New set 3": {
+            "Base_Thickness": "2",
+            "Box_Height": "27",
+            "Box_Width_X": "150",
+            "Box_Width_Y": "150",
+            "Side1_Connector_Type": "tbscrew",
+            "Side1_Thickness": "0",
+            "Side2_Connector_Type": "slidelock",
+            "Side2_Thickness": "0",
+            "Side3_Connector_Type": "wwire",
+            "Side3_Thickness": "0",
+            "Side4_Connector_Type": "postclip",
+            "Side4_Thickness": "0"
+        },
+        "New set 4": {
+            "Base_Thickness": "2",
+            "Box_Height": "27",
+            "Box_Width_X": "25",
+            "Box_Width_Y": "25",
+            "Side1_Connector_Type": "tbscrew",
+            "Side1_Thickness": "0",
+            "Side2_Connector_Type": "slidelock",
+            "Side2_Thickness": "0",
+            "Side3_Connector_Type": "wwire",
+            "Side3_Thickness": "0",
+            "Side4_Connector_Type": "postclip",
+            "Side4_Thickness": "0"
+        }
+    }
+}

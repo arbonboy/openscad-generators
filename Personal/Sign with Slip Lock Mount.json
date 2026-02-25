@@ -1,0 +1,67 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Slot_Height": "50",
+            "Slot_Tolerance": "0.59999999999999998",
+            "Stl": ""
+        },
+        "New set 2": {
+            "Slot_Entry_Height": "25",
+            "Slot_Height": "30",
+            "Slot_Tolerance": "1.3999999999999999",
+            "Stl": "Sign with Slip Lock Mount.stl"
+        },
+        "New set 3": {
+            "Slot_Entry_Height": "25",
+            "Slot_Height": "30",
+            "Slot_Tolerance": "1.4000000000000001",
+            "Stl": "Sign with Slip Lock Mount.stl"
+        },
+        "New set 4": {
+            "Show_Components": "both",
+            "Slot_Entry_Height": "25",
+            "Slot_Height": "30",
+            "Slot_Offset": "[0, -5, 0]",
+            "Slot_Rotation": "[0, 0, 0]",
+            "Slot_Tolerance": "1.3999999999999999",
+            "Stl": "\/Users\/john.andersen\/Downloads\/AmberBirthday_cutout.stl"
+        },
+        "New set 5": {
+            "Show_Components": "both",
+            "Slot_Entry_Height": "25",
+            "Slot_Height": "30",
+            "Slot_Offset": "[0, 30, 0]",
+            "Slot_Rotation": "[0, 0, 0]",
+            "Slot_Tolerance": "1.3999999999999999",
+            "Stl": "\/Users\/john.andersen\/odrive\/GDrive (Personal)\/Personal\/3D Printing\/3D Printing Queue\/0000 - Repeats\/Parking Signs\/Handicap\/Handicap_cutout.stl"
+        },
+        "New set 6": {
+            "Show_Components": "both",
+            "Slot_Entry_Height": "25",
+            "Slot_Height": "30",
+            "Slot_Offset": "[0, 0, 3.1]",
+            "Slot_Rotation": "[0, 0, 0]",
+            "Slot_Tolerance": "0.90000000000000002",
+            "Stl": "\/Users\/john.andersen\/odrive\/GDrive (Personal)\/Personal\/3D Printing\/3D Printing Queue\/0000 - Repeats\/Parking Signs\/ParkingLeft\/ParkingLeft_cutout.stl"
+        },
+        "New set 7": {
+            "Show_Components": "both",
+            "Slot_Entry_Height": "25",
+            "Slot_Height": "30",
+            "Slot_Offset": "[0, 0, 0.7]",
+            "Slot_Rotation": "[0, 0, 0]",
+            "Slot_Tolerance": "1.2000000000000002",
+            "Stl": "\/Users\/john.andersen\/odrive\/GDrive (Personal)\/Personal\/3D Printing\/3D Printing Queue\/0000 - Repeats\/Parking Signs\/ParkLeftRight\/ParkingLeftRight_cutout.stl"
+        },
+        "New set 8": {
+            "Show_Components": "both",
+            "Slot_Entry_Height": "25",
+            "Slot_Height": "30",
+            "Slot_Offset": "[0, 0, 1.7]",
+            "Slot_Rotation": "[0, 0, 0]",
+            "Slot_Tolerance": "1.3999999999999999",
+            "Stl": "\/Users\/john.andersen\/odrive\/GDrive (Personal)\/Personal\/3D Printing\/3D Printing Queue\/0000 - Repeats\/Parking Signs\/NoParking\/NoParking_cutout.stl"
+        }
+    }
+}

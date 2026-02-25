@@ -1,0 +1,360 @@
+import OpenSCAD from "./openscad-wasm/openscad.js"
+import * as THREE from "https://esm.sh/three@0.160.0"
+import { STLLoader } from "https://esm.sh/three@0.160.0/examples/jsm/loaders/STLLoader.js"
+import { GLTFExporter } from "https://esm.sh/three@0.160.0/examples/jsm/exporters/GLTFExporter.js"
+
+console.log("Worker started")
+
+const MAX_LOG_CHARS = 1024 * 1024
+let currentLog = ""
+let currentLogTruncated = false
+
+function stringifyLogValue(v) {
+    if (v instanceof Error) {
+        return v && v.stack ? String(v.stack) : String(v)
+    }
+    if (typeof v === "string") {
+        return v
+    }
+    if (v === null) {
+        return "null"
+    }
+    if (v === undefined) {
+        return "undefined"
+    }
+    try {
+        return JSON.stringify(v)
+    } catch (e) {
+        return String(v)
+    }
+}
+
+function appendLogLine(line) {
+    if (!line) {
+        line = ""
+    }
+    currentLog += String(line) + "\n"
+    if (currentLog.length > MAX_LOG_CHARS) {
+        currentLog = currentLog.slice(currentLog.length - MAX_LOG_CHARS)
+        if (!currentLogTruncated) {
+            currentLogTruncated = true
+            currentLog = "[log truncated]\n" + currentLog
+        }
+    }
+}
+
+function logToConsoleAndBuffer(level, ...args) {
+    const line = args.map(stringifyLogValue).join(" ")
+    appendLogLine(line)
+    const fn = console[level] || console.log
+    fn.apply(console, args)
+}
+
+function logInfo(...args) {
+    logToConsoleAndBuffer("log", ...args)
+}
+
+function logError(...args) {
+    logToConsoleAndBuffer("error", ...args)
+}
+
+function formatErrorForMessage(e) {
+    if (e instanceof Error) {
+        return String(e && e.message ? e.message : e)
+    }
+    if (typeof e === "string") {
+        return e
+    }
+    if (!e || typeof e !== "object") {
+        return String(e)
+    }
+
+    const message = typeof e.message === "string" ? e.message.trim() : ""
+    if (message) {
+        return message
+    }
+    if (typeof e.name === "string" && e.name) {
+        if (typeof e.errno === "number") {
+            return `${e.name} (errno ${e.errno})`
+        }
+        return e.name
+    }
+    if (typeof e.errno === "number") {
+        return `Error (errno ${e.errno})`
+    }
+    try {
+        return JSON.stringify(e)
+    } catch (err) {
+        return String(e)
+    }
+}
+
+let runQueue = Promise.resolve()
+// OpenSCAD's WASM build aborts its runtime after a render.
+// Create a fresh instance for each render.
+
+const INPUTS = {{ inputs | json_dump }}
+
+function base64ToUint8Array(base64) {
+    const binary = atob(base64)
+    const bytes = new Uint8Array(binary.length)
+    for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i)
+    }
+    return bytes
+}
+
+function uint8ArrayToArrayBuffer(bytes) {
+    return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)
+}
+
+async function stlBytesToGlb(stlBytes) {
+    let geometry = new STLLoader().parse(uint8ArrayToArrayBuffer(stlBytes))
+    if (geometry.index) {
+        // STL is typically non-indexed, but if we ever get indexed geometry,
+        // convert to non-indexed so per-triangle vertex colors are stable.
+        geometry = geometry.toNonIndexed()
+    }
+    if (!geometry.getAttribute("normal")) {
+        geometry.computeVertexNormals()
+    }
+
+    // Add simple depth cueing: tint triangles based on their Z position.
+    // This makes pockets easier to read without AO.
+    {
+        const pos = geometry.getAttribute("position")
+        if (pos && pos.count >= 3) {
+            let minZ = Infinity
+            let maxZ = -Infinity
+            for (let i = 0; i < pos.count; i++) {
+                const z = pos.getZ(i)
+                if (z < minZ) minZ = z
+                if (z > maxZ) maxZ = z
+            }
+
+            const range = maxZ - minZ
+            if (isFinite(range) && range > 0) {
+                // this logic shades faces based on Z position to make pockets easier to distinguish
+
+                // Base material color is 0x9aa3ad; these are subtle tints around it.
+                const topColor = new THREE.Color(0x63696f)
+                const bottomColor = new THREE.Color(0xc4d0dd)
+
+                const colors = new Float32Array(pos.count * 3)
+                // geometry is non-indexed, so each triangle is 3 consecutive vertices.
+                for (let i = 0; i < pos.count; i += 3) {
+                    const z0 = pos.getZ(i)
+                    const z1 = pos.getZ(i + 1)
+                    const z2 = pos.getZ(i + 2)
+                    const z = Math.min(z0, z1, z2)
+                    const t = (z - minZ) / range
+
+                    const c = bottomColor.clone().lerp(topColor, t)
+                    for (let j = 0; j < 3; j++) {
+                        const k = (i + j) * 3
+                        colors[k] = c.r
+                        colors[k + 1] = c.g
+                        colors[k + 2] = c.b
+                    }
+                }
+                geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3))
+            }
+        }
+    }
+
+    const material = new THREE.MeshStandardMaterial({
+        color: 0xc4d0dd,
+        metalness: 0.8,
+        roughness: 0.4,
+        flatShading: true,
+        vertexColors: true,
+    })
+    const mesh = new THREE.Mesh(geometry, material)
+    // OpenSCAD uses mm; glTF uses meters.
+    mesh.scale.setScalar(0.001)
+
+    const scene = new THREE.Scene()
+    scene.add(mesh)
+
+    // Add a few basic lights so the exported GLB shades nicely even without an HDR environment.
+    const lightA = new THREE.DirectionalLight(0xd6629e, 20) // pink
+    lightA.position.set(1000, 1000, 1000) // north east, top
+    lightA.lookAt(0, 0, 0)
+    scene.add(lightA)
+
+    const lightB = new THREE.DirectionalLight(0x5571a8, 20) // blue
+    lightB.position.set(-1000, 1000, 1000) // north west, top
+    lightB.lookAt(0, 0, 0)
+    scene.add(lightB)
+
+    const lightC = new THREE.DirectionalLight(0xbf86bb, 15) // purple
+    lightC.position.set(0, -1000, -1000) // south, bottom
+    lightC.lookAt(0, 0, 0)
+    scene.add(lightC)
+
+    const lightD = new THREE.DirectionalLight(0xbf86bb, 15) // purple
+    lightD.position.set(0, -1000, 1000) // south, top
+    lightD.lookAt(0, 0, 0)
+    scene.add(lightD)
+
+    return await new Promise((resolve, reject) => {
+        const exporter = new GLTFExporter()
+        exporter.parse(
+            scene,
+            (result) => {
+                if (result instanceof ArrayBuffer) {
+                    resolve(result)
+                } else {
+                    reject(new Error("Expected binary glTF (ArrayBuffer)"))
+                }
+            },
+            (error) => reject(error),
+            { binary: true },
+        )
+    })
+}
+
+async function createInstance() {
+    const instance = await OpenSCAD({
+        noInitialRun: true,
+        print: logInfo,
+        printErr: logInfo,
+    })
+
+    // OpenSCAD uses fontconfig for text() rendering.
+    // In WASM there is no system fontconfig, so we ship a small config + fonts.
+    // The Emscripten runtime exposes process environment via instance.ENV.
+    // Set this before calling into OpenSCAD.
+    if (instance.ENV) {
+        instance.ENV.FONTCONFIG_PATH = "/fonts"
+        instance.ENV.FONTCONFIG_FILE = "/fonts/fonts.conf"
+        instance.ENV.HOME = "/tmp"
+    }
+    instance.FS.mkdirTree("/tmp/fontconfig")
+    {% for k, v in fs.items() %}
+    {
+        const data = base64ToUint8Array("{{ v }}")
+        logInfo("Loading {{ k }} (" + data.length + " bytes)")
+        const parent = "{{ k }}".substring(0, "{{ k }}".lastIndexOf("/"))
+        if (parent) {
+            instance.FS.mkdirTree(parent)
+        }
+        instance.FS.writeFile("{{ k }}", data)
+    }
+    {% endfor %}
+    return instance
+}
+
+function normalizeInputPath(input) {
+    const inputPath = String(input || "")
+    if (!inputPath) {
+        throw new Error("Missing input SCAD path")
+    }
+    const normalized = inputPath.startsWith("/") ? inputPath : "/" + inputPath
+    if (!INPUTS.includes(normalized)) {
+        throw new Error("Unknown input SCAD path: " + normalized)
+    }
+    return normalized
+}
+
+async function renderOnce({ input, customization, additionalParamNames }) {
+    const instance = await createInstance()
+    const inputPath = normalizeInputPath(input)
+
+    const additionalParamNameSet = new Set(
+        Array.isArray(additionalParamNames)
+            ? additionalParamNames.filter((x) => typeof x === "string")
+            : [],
+    )
+
+    const stringifiedParameters = {}
+    const additionalDefinitions = []
+    for (const [k, v] of Object.entries(customization)) {
+        if (additionalParamNameSet.has(k)) {
+            // -D expects an OpenSCAD expression; JSON happens to be close enough for our value types.
+            additionalDefinitions.push(`${k}=${JSON.stringify(v)}`)
+        } else {
+            // Parameter set files use unquoted strings for string parameters.
+            stringifiedParameters[k] = typeof v === "string" ? v : JSON.stringify(v)
+        }
+    }
+    logInfo("Parameters:", stringifiedParameters)
+    logInfo("Additional -D:", additionalDefinitions)
+    instance.FS.writeFile(
+        "/parameters.json",
+        JSON.stringify({
+            fileFormatVersion: 1,
+            parameterSets: {
+                single: stringifiedParameters,
+            },
+        }),
+    )
+
+    const output = "/output.stl"
+    try {
+        instance.FS.unlink(output)
+    } catch (e) {
+        // ignore
+    }
+    const args = [
+        inputPath,
+        "-o",
+        output,
+        "--export-format=binstl",
+        "-p",
+        "/parameters.json",
+        "-P",
+        "single",
+    ]
+    for (const def of additionalDefinitions) {
+        args.push("-D", def)
+    }
+    try {
+        instance.callMain(args)
+        const stlBytes = instance.FS.readFile(output)
+        const glb = await stlBytesToGlb(stlBytes)
+        self.postMessage({
+            type: "ok",
+            glb: glb,
+            stl: stlBytes,
+        })
+    } catch (e) {
+        logError(e)
+        self.postMessage({
+            type: "error",
+            error: formatErrorForMessage(e),
+            stack: String(e && e.stack ? e.stack : ""),
+            log: currentLog,
+        })
+    }
+}
+
+self.addEventListener("message", (event) => {
+    const msg = event && event.data
+    if (!msg || typeof msg !== "object") {
+        return
+    }
+
+    // Serialize OpenSCAD runs to avoid concurrent FS/wasm access.
+    runQueue = runQueue.then(async () => {
+        if (msg.type !== "render") {
+            return
+        }
+        currentLog = ""
+        currentLogTruncated = false
+        await renderOnce({
+            input: msg.input,
+            customization: msg.customization,
+            additionalParamNames: msg.additionalParamNames,
+        })
+    })
+    runQueue.catch((e) => {
+        logError(e)
+        self.postMessage({
+            type: "error",
+            error: formatErrorForMessage(e),
+            stack: String(e && e.stack ? e.stack : ""),
+            log: currentLog,
+        })
+    })
+})

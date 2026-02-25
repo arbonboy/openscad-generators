@@ -1,0 +1,12 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Head_Height": "8",
+            "Hook_Radius": "2",
+            "Stem_Radius": "2.5",
+            "Thread_Height": "10",
+            "Tolerance": "0.20000000000000004"
+        }
+    }
+}

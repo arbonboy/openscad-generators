@@ -1,0 +1,9 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "gridfinity_pitch": "42",
+            "part": "5"
+        }
+    }
+}

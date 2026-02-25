@@ -1,0 +1,32 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Card_Height": "89",
+            "Card_Width": "59",
+            "Cutout_Bottom_Height_Percentage": "50",
+            "Cutout_Bottom_Width_Percentage": "50",
+            "Cutout_Corner_Radius": "6",
+            "Cutout_Side_Depth_Percentage": "100",
+            "Cutout_Side_Lower_Width_Percentage": "40",
+            "Cutout_Side_Upper_Width_Percentage": "70",
+            "Inner_Frame_Depth": "66",
+            "Number_of_Holders": "2",
+            "Wall_Thickness": "3"
+        },
+        "Red Flags": {
+            "Additional_Floor_Thickness": "6",
+            "Card_Height": "89",
+            "Card_Width": "59",
+            "Cutout_Bottom_Height_Percentage": "50",
+            "Cutout_Bottom_Width_Percentage": "50",
+            "Cutout_Corner_Radius": "6",
+            "Cutout_Side_Depth_Percentage": "100",
+            "Cutout_Side_Lower_Width_Percentage": "40",
+            "Cutout_Side_Upper_Width_Percentage": "70",
+            "Inner_Frame_Depth": "66",
+            "Number_of_Holders": "2",
+            "Wall_Thickness": "1.5"
+        }
+    }
+}

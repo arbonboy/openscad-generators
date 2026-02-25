@@ -1,0 +1,47 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate site
+        uses: ./
+        with:
+          scad: test.scad
+          output: out
+
+      - name: Publish
+        uses: cloudflare/wrangler-action@v3
+        id: cf_publish
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: >-
+            pages deploy out/
+            --project-name=web-openscad-editor-yawk-at
+            --branch=main
+      - name: Check PR
+        uses: 8BitJonny/gh-get-current-pr@4.0.0
+        id: pr
+      - name: Comment on PR
+        if: steps.pr.outputs.pr_found == 'true'
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          comment-tag: deployment
+          message: ":rocket: Preview deployed to ${{ steps.cf_publish_pr.outputs.deployment-url }}"
+          pr-number: "${{steps.pr.outputs.number}}"

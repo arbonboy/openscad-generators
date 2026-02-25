@@ -1,0 +1,20 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "box_corner_attachments_only": "false",
+            "default_chambers": "2",
+            "default_efficient_floor": "false",
+            "default_fingerslide": "false",
+            "default_floor_thickness": "1.2",
+            "default_half_pitch": "true",
+            "default_hole_overhang_remedy": "false",
+            "default_labelWidth": "0",
+            "default_lip_style": "normal",
+            "default_magnet_diameter": "6.5",
+            "default_screw_depth": "6",
+            "default_wall_thickness": "0.94999999999999996",
+            "default_withLabel": "disabled"
+        }
+    }
+}

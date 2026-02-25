@@ -1,0 +1,29 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Character_Depth": "0.5",
+            "Character_Font": "Liberation Mono",
+            "Character_Size": "5",
+            "Character_Style": "extruded",
+            "Characters": "ACEGKMORSW",
+            "Ring_Height": "15",
+            "Ring_Inner_Diameter": "59.100000000000001",
+            "Ring_Outer_Diameter": "63",
+            "Ring_Tolerance": "0.20000000000000001",
+            "Sides": "10"
+        },
+        "New set 2": {
+            "Character_Depth": "0.5",
+            "Character_Font": "Liberation Mono",
+            "Character_Size": "10",
+            "Character_Style": "extruded",
+            "Characters": "ACEGKMORSW27",
+            "Ring_Height": "15",
+            "Ring_Inner_Diameter": "59.100000000000001",
+            "Ring_Outer_Diameter": "63",
+            "Ring_Tolerance": "0.20000000000000001",
+            "Sides": "8"
+        }
+    }
+}

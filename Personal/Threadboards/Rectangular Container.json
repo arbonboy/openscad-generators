@@ -1,0 +1,100 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "Grinder Blades Container": {
+            "Back_Wall_Thickness": "10",
+            "Board_Cols": "2",
+            "Board_Rows": "3",
+            "Inner_Depth": "125",
+            "Inner_Height": "55",
+            "Inner_Width": "40",
+            "Mounting_Board_Thickness": "2",
+            "Wall_Thickness": "3"
+        },
+        "New set 1": {
+            "Back_Wall_Thickness": "8",
+            "Board_Cols": "5",
+            "Board_Rows": "1",
+            "Floor_Wall_Thickness": "3",
+            "Inner_Depth": "20",
+            "Inner_Height": "80",
+            "Inner_Width": "114",
+            "Mounting_Board_Thickness": "2",
+            "Wall_Thickness": "3"
+        },
+        "New set 2": {
+            "Back_Wall_Thickness": "10",
+            "Board_Cols": "4",
+            "Board_Rows": "1",
+            "Floor_Wall_Thickness": "2",
+            "Inner_Depth": "55",
+            "Inner_Height": "40",
+            "Inner_Width": "85",
+            "Mounting_Board_Thickness": "2",
+            "Wall_Thickness": "2"
+        },
+        "New set 3": {
+            "Back_Wall_Thickness": "8",
+            "Board_Cols": "8",
+            "Board_Rows": "2",
+            "Floor_Wall_Thickness": "3",
+            "Front_Scoop": "false",
+            "Inner_Depth": "30",
+            "Inner_Height": "5",
+            "Inner_Width": "188",
+            "Mounting_Board_Thickness": "2",
+            "Wall_Thickness": "2"
+        },
+        "C Clamp Mount": {
+            "Back_Wall_Thickness": "8",
+            "Board_Cols": "6",
+            "Board_Rows": "2",
+            "Floor_Wall_Thickness": "8",
+            "Front_Scoop": "false",
+            "Inner_Depth": "30",
+            "Inner_Height": "1",
+            "Inner_Width": "150",
+            "Mounting_Board_Thickness": "4",
+            "Wall_Thickness": "2"
+        },
+        "New set 4": {
+            "Back_Wall_Thickness": "1",
+            "Board_Cols": "6",
+            "Board_Rows": "1",
+            "Center_Cutout_Width": "40",
+            "Floor_Wall_Thickness": "4",
+            "Front_Scoop": "false",
+            "Inner_Depth": "80",
+            "Inner_Height": "10",
+            "Inner_Width": "180",
+            "Mounting_Board_Thickness": "2",
+            "Wall_Thickness": "3"
+        },
+        "New set 5": {
+            "Back_Wall_Thickness": "8",
+            "Board_Cols": "6",
+            "Board_Rows": "1",
+            "Center_Cutout_Width": "1",
+            "Floor_Wall_Thickness": "3",
+            "Front_Scoop": "false",
+            "Inner_Depth": "150",
+            "Inner_Height": "15",
+            "Inner_Width": "138",
+            "Mounting_Board_Thickness": "3",
+            "Wall_Thickness": "3"
+        },
+        "Holder for large storage rack boxes": {
+            "Back_Wall_Thickness": "8",
+            "Board_Cols": "6",
+            "Board_Rows": "1",
+            "Center_Cutout_Width": "1",
+            "Floor_Wall_Thickness": "3",
+            "Front_Scoop": "false",
+            "Inner_Depth": "150",
+            "Inner_Height": "15",
+            "Inner_Width": "138",
+            "Mounting_Board_Thickness": "3",
+            "Wall_Thickness": "3"
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Bottom_Length": "4",
+            "Lip_Length": "40",
+            "Num_Upper_Holes": "4",
+            "Thickness": "8",
+            "Top_Length_MM": "130"
+        },
+        "C Clamp Brace": {
+            "Bottom_Length": "2",
+            "Lip_Length": "30",
+            "Num_Upper_Holes": "3",
+            "Thickness": "7",
+            "Top_Length_MM": "90"
+        },
+        "New set 2": {
+            "Bottom_Length": "3",
+            "Lip_Length": "30",
+            "Num_Upper_Holes": "2",
+            "Thickness": "4",
+            "Top_Length_MM": "50"
+        }
+    }
+}

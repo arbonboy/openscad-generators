@@ -1,0 +1,59 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "bezwidth": "0.12",
+            "frame_thickness": "2",
+            "max_piecesize": "20",
+            "min_piecesize": "12",
+            "x": "200",
+            "y": "200",
+            "z": "15"
+        },
+        "New set 2": {
+            "bezwidth": "0.12",
+            "frame_thickness": "2",
+            "max_piecesize": "15",
+            "min_piecesize": "8",
+            "x": "160",
+            "y": "240",
+            "z": "15"
+        },
+        "New set 3": {
+            "bezwidth": "0.12",
+            "frame_thickness": "2",
+            "max_piecesize": "30",
+            "min_piecesize": "15",
+            "x": "160",
+            "y": "240",
+            "z": "15"
+        },
+        "New set 4": {
+            "Preview_Cutter": "false",
+            "STL_File": "puzzle_image_sample.stl",
+            "STL_xshift": "0",
+            "STL_yshift": "0",
+            "bezwidth": "0.29999999999999999",
+            "frame_thickness": "2",
+            "max_piecesize": "20",
+            "min_piecesize": "20",
+            "x": "135",
+            "y": "202",
+            "z": "15"
+        },
+        "New set 5": {
+            "Preview_Cutter": "false",
+            "STL_File": "\/Users\/john.andersen\/Downloads\/PuzzleGame_cutout.stl",
+            "STL_xshift": "-150",
+            "STL_yshift": "-85",
+            "STL_zshift": "0",
+            "bezwidth": "0.12",
+            "frame_thickness": "2",
+            "max_piecesize": "70",
+            "min_piecesize": "40",
+            "x": "300",
+            "y": "168",
+            "z": "15"
+        }
+    }
+}

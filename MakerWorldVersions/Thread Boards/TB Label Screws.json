@@ -1,0 +1,55 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Create_Swivel_Style": "true",
+            "Cutout": "false",
+            "Head_Height": "8",
+            "Label_Plate_Height": "32",
+            "Label_Plate_Thickness": "1.5",
+            "Label_Plate_Width": "42",
+            "Swivel_Tolerance": "0.80000000000000004",
+            "Thread_Height": "10"
+        },
+        "40x30 Swivel Label": {
+            "Create_Swivel_Style": "true",
+            "Cutout": "false",
+            "Head_Height": "8",
+            "Label_Plate_Height": "32",
+            "Label_Plate_Thickness": "1.5",
+            "Label_Plate_Width": "42",
+            "Swivel_Tolerance": "0.80000000000000004",
+            "Thread_Height": "10"
+        },
+        "40x30 Set Label": {
+            "Create_Swivel_Style": "false",
+            "Cutout": "false",
+            "Head_Height": "8",
+            "Label_Plate_Height": "32",
+            "Label_Plate_Thickness": "1.5",
+            "Label_Plate_Width": "42",
+            "Swivel_Tolerance": "0.80000000000000004",
+            "Thread_Height": "10"
+        },
+        "40x15 Set Label": {
+            "Create_Swivel_Style": "false",
+            "Cutout": "false",
+            "Head_Height": "8",
+            "Label_Plate_Height": "20",
+            "Label_Plate_Thickness": "1.5",
+            "Label_Plate_Width": "42",
+            "Swivel_Tolerance": "0.80000000000000004",
+            "Thread_Height": "10"
+        },
+        "40x20 Swivel Label": {
+            "Create_Swivel_Style": "true",
+            "Cutout": "false",
+            "Head_Height": "8",
+            "Label_Plate_Height": "20",
+            "Label_Plate_Thickness": "1.5",
+            "Label_Plate_Width": "42",
+            "Swivel_Tolerance": "0.80000000000000004",
+            "Thread_Height": "10"
+        }
+    }
+}

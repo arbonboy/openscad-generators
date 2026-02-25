@@ -1,0 +1,12 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "cup_height": "5",
+            "easement_z": "0.69999999999999996",
+            "gridfinity_pitch": "21",
+            "minimum_wall": "4",
+            "stick_diameter": "30"
+        }
+    }
+}

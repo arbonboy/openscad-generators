@@ -1,0 +1,59 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "For_Horizontal_Printing": "false",
+            "Head_Height": "8",
+            "Head_Type": "Hex",
+            "Include_Mounting_Hole": "false",
+            "Mounting_Hole_Radius": "2",
+            "Mounting_Hole_Type": "chamfered",
+            "Thread_Height": "10"
+        },
+        "HexHD8THR10": {
+            "For_Horizontal_Printing": "false",
+            "Head_Height": "8",
+            "Head_Type": "Hex",
+            "Include_Mounting_Hole": "false",
+            "Mounting_Hole_Radius": "2",
+            "Mounting_Hole_Type": "chamfered",
+            "Thread_Height": "10"
+        },
+        "HexHD8THR12": {
+            "For_Horizontal_Printing": "false",
+            "Head_Height": "8",
+            "Head_Type": "Hex",
+            "Include_Mounting_Hole": "false",
+            "Mounting_Hole_Radius": "2",
+            "Mounting_Hole_Type": "chamfered",
+            "Thread_Height": "12"
+        },
+        "HexHD8THR16": {
+            "For_Horizontal_Printing": "false",
+            "Head_Height": "8",
+            "Head_Type": "Hex",
+            "Include_Mounting_Hole": "false",
+            "Mounting_Hole_Radius": "2",
+            "Mounting_Hole_Type": "chamfered",
+            "Thread_Height": "16"
+        },
+        "New set 2": {
+            "For_Horizontal_Printing": "false",
+            "Head_Height": "8",
+            "Head_Type": "Minimal",
+            "Include_Mounting_Hole": "true",
+            "Mounting_Hole_Radius": "1.5",
+            "Mounting_Hole_Type": "phillips",
+            "Thread_Height": "26"
+        },
+        "MinHD THR26 Phillips": {
+            "For_Horizontal_Printing": "false",
+            "Head_Height": "8",
+            "Head_Type": "Minimal",
+            "Include_Mounting_Hole": "true",
+            "Mounting_Hole_Radius": "2",
+            "Mounting_Hole_Type": "phillips",
+            "Thread_Height": "26"
+        }
+    }
+}

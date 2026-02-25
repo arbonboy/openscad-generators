@@ -1,0 +1,49 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Door_Hanger_Back_Length": "50",
+            "Door_Hanger_Depth": "52",
+            "Door_Hanger_Thickness": "5",
+            "Hook_Inner_Depth": "30",
+            "Hook_Lip_Height": "10",
+            "Hook_Wall_Thickness": "5",
+            "Number_Of_Hooks": "2",
+            "Total_Height": "82",
+            "Width": "20"
+        },
+        "Double Hooks for Hot Tub Fence Top": {
+            "Door_Hanger_Back_Length": "50",
+            "Door_Hanger_Depth": "52",
+            "Door_Hanger_Thickness": "5",
+            "Hook_Inner_Depth": "30",
+            "Hook_Lip_Height": "10",
+            "Hook_Wall_Thickness": "5",
+            "Number_Of_Hooks": "2",
+            "Total_Height": "82",
+            "Width": "20"
+        },
+        "New set 2": {
+            "Door_Hanger_Back_Length": "100",
+            "Door_Hanger_Depth": "5",
+            "Door_Hanger_Thickness": "3",
+            "Hook_Inner_Depth": "30",
+            "Hook_Lip_Height": "10",
+            "Hook_Wall_Thickness": "3",
+            "Number_Of_Hooks": "1",
+            "Total_Height": "100",
+            "Width": "50"
+        },
+        "Hot Tub Cover Hook": {
+            "Door_Hanger_Back_Length": "100",
+            "Door_Hanger_Depth": "2",
+            "Door_Hanger_Thickness": "3",
+            "Hook_Inner_Depth": "30",
+            "Hook_Lip_Height": "10",
+            "Hook_Wall_Thickness": "3",
+            "Number_Of_Hooks": "1",
+            "Total_Height": "100",
+            "Width": "30"
+        }
+    }
+}

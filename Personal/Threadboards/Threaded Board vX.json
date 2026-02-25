@@ -1,0 +1,12 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Cols": "9",
+            "Number_of_Boards": "3",
+            "Rows": "9",
+            "Space_Between_Boards_MM": "0.30000000000000004",
+            "Thickness": "6"
+        }
+    }
+}

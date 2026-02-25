@@ -1,0 +1,23 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+.idea/
+*.iml
+
+out/
+openscad-wasm/
+
+# GitHub Action download cache
+.openscad-cache/
+
+# Local OpenSCAD downloads
+OpenSCAD-*-WebAssembly-*.zip
+OpenSCAD-*-x86_64.AppImage

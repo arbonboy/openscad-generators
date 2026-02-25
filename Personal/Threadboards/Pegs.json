@@ -1,0 +1,17 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Peg_Length": "40",
+            "Peg_Radius": "2",
+            "Peg_Terminator_Height": "2",
+            "Peg_Terminator_Radius": "2"
+        },
+        "L40-R2": {
+            "Peg_Length": "40",
+            "Peg_Radius": "2",
+            "Peg_Terminator_Height": "2",
+            "Peg_Terminator_Radius": "2"
+        }
+    }
+}

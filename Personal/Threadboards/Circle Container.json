@@ -1,0 +1,25 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "Saws-All Blades Container": {
+            "Back_Wall_Thickness": "10",
+            "Board_Cols": "2",
+            "Board_Margin": "4",
+            "Bottom_Thickness": "0",
+            "Inner_Diameter": "51",
+            "Mounting_Board_Thickness": "2",
+            "Outer_Height": "25",
+            "Wall_Thickness": "2"
+        },
+        "Swapable Bit Screwdriver Holder": {
+            "Back_Wall_Thickness": "15",
+            "Board_Cols": "2",
+            "Board_Margin": "2.5",
+            "Bottom_Thickness": "0",
+            "Inner_Diameter": "22",
+            "Mounting_Board_Thickness": "2",
+            "Outer_Height": "50",
+            "Wall_Thickness": "1.5"
+        }
+    }
+}
