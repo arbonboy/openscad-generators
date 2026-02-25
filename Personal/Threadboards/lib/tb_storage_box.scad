@@ -174,17 +174,23 @@ module tbSb_StorageBoxDrawer(
     wallThickness = 1.5,
     drawerHeight = 100,
     drawerWidth = 400,
-    drawerDepth = 400
+    drawerDepth = 400,
+    drawerSectionThickness = 2,
+    drawerSectionHeight = 40,
+    drawerSectionsY = 1,
+    drawerSectionsX = 1
 ){
     //Floor
     cuboid([drawerWidth, drawerDepth, wallThickness]);
 
     //Back Wall
-    translate([0,drawerDepth/2-wallThickness/2,drawerHeight/2-wallThickness/2]) rotate([0,0,0])
+    backWallStartY = drawerDepth/2 - wallThickness/2;
+    translate([0,backWallStartY,drawerHeight/2-wallThickness/2]) rotate([0,0,0])
         cuboid([drawerWidth, wallThickness, drawerHeight]);
 
     //Left Wall
-    translate([-drawerWidth/2+wallThickness/2,0,drawerHeight/2-wallThickness/2]) rotate([0,0,0])
+    leftWallStartX = -drawerWidth/2 + wallThickness/2;
+    translate([leftWallStartX,0,drawerHeight/2-wallThickness/2]) rotate([0,0,0])
         cuboid([wallThickness, drawerDepth, drawerHeight]);
 
     //Right Wall
@@ -204,5 +210,25 @@ module tbSb_StorageBoxDrawer(
                 [drawerWidth/2-drawerCutoutWidth/2, drawerHeight],
                 [0, drawerHeight]
             ]);
+    
+    // Sections
+    echo(str("drawerSectionsX: ", drawerSectionsX, " drawerSectionsY: ", drawerSectionsY));
+    for (y = [1:drawerSectionsY-1]) {
+        sectionWidthY = drawerWidth / drawerSectionsY;
+        echo(str("y: ", y));
+        translate([leftWallStartX + y * sectionWidthY - drawerSectionThickness / 2,
+            0,
+            drawerSectionHeight / 2])
+                cuboid([drawerSectionThickness, drawerDepth, drawerSectionHeight]);
+    }
+    for (x = [1:drawerSectionsX-1]) {
+        sectionWidthX = drawerDepth / drawerSectionsX;
+        echo(str("x: ", x));
+        translate([0,
+            backWallStartY - x * sectionWidthX + drawerSectionThickness / 2,
+            drawerSectionHeight / 2])
+                cuboid([drawerWidth, drawerSectionThickness, drawerSectionHeight]);
+    }
+      
         
 }
