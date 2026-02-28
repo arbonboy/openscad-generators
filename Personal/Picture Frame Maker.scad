@@ -164,7 +164,8 @@ module create_label(width, height, index) {
     translate([width/2, 0, -lip_d - 1])
     union() {
         linear_extrude(height = 1.25) {
-            text(size=3, str(index));
+            rotate([180, 0, 180])
+                text(size=3, str(index));
         }
     }
 }

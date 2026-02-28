@@ -1,0 +1,38 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Bottom_Wall_Type": "solid",
+            "Internal_Rack_Depth": "200",
+            "Internal_Rack_Height": "70",
+            "Internal_Rack_Width": "235",
+            "Screw_Head_Tolerance": "8",
+            "Side_Wall_Brace_Ratio": "0.60000000000000009",
+            "Side_Wall_Type": "brace",
+            "Wall_Thickness": "4"
+        },
+        "New set 2": {
+            "Bottom_Wall_Type": "solid",
+            "Internal_Rack_Depth": "200",
+            "Internal_Rack_Height": "70",
+            "Internal_Rack_Width": "230",
+            "Screw_Head_Tolerance": "8",
+            "Side_Brace_Depth_Ratio": "0.95000000000000007",
+            "Side_Wall_Brace_Ratio": "0.30000000000000004",
+            "Side_Wall_Type": "brace",
+            "Wall_Thickness": "1.5"
+        },
+        "Vertical - Filament Box Holder": {
+            "Bottom_Hollowing_Ratio": "0.70000000000000007",
+            "Bottom_Wall_Type": "hollow",
+            "Internal_Rack_Depth": "180",
+            "Internal_Rack_Height": "96",
+            "Internal_Rack_Width": "78",
+            "Screw_Head_Tolerance": "8",
+            "Side_Brace_Depth_Ratio": "0.90000000000000002",
+            "Side_Wall_Brace_Ratio": "0.70000000000000007",
+            "Side_Wall_Type": "brace",
+            "Wall_Thickness": "4"
+        }
+    }
+}

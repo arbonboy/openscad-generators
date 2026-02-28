@@ -21,6 +21,13 @@
             "Num_Upper_Holes": "2",
             "Thickness": "4",
             "Top_Length_MM": "50"
+        },
+        "New set 3": {
+            "Bottom_Length": "4",
+            "Lip_Length": "10",
+            "Num_Upper_Holes": "3",
+            "Thickness": "6",
+            "Top_Length_MM": "228"
         }
     }
 }
