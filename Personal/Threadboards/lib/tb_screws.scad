@@ -4,6 +4,14 @@ include <BOSL2/threading.scad>;
 /* [hidden] */
 TB_SCREW_Threaded_Rod_Diameter = 16;
 TB_SCREW_Head_Padding = 2; //The minimum amount of solid head above the cutout portion of the screw head
+TB_SCREW_Head_Hex_Radius = 8.4;
+TB_SCREW_Mounting_Hole_Hex_Radius = 4.8;
+
+TB_SCREW_Head_Phillips_Depth = 3;
+TB_SCREW_Head_Phillips_Arm_Len = 3.4;
+TB_SCREW_Head_Phillips_Arm_Width = 1;
+TB_SCREW_Head_Phillips_Arm_Taper = 0.8;
+
 
 
 module threadedRod(length = 20, center = false, hole_radius=TB_SCREW_Threaded_Rod_Diameter/2) {
@@ -34,7 +42,7 @@ module headHex(height = 8, center = false, radius = 10.5) {
     translate([0, 0, 0])
     difference() {
         cylinder(h = height, r = radius, center = center);
-        translate([0, 0, -TB_SCREW_Head_Padding]) cylinder(h = height, r = 8.4, $fn = 6, center = center);
+        translate([0, 0, -TB_SCREW_Head_Padding]) cylinder(h = height, r = TB_SCREW_Head_Hex_Radius, $fn = 6, center = center);
     }
 }
 
@@ -83,9 +91,13 @@ module screw(rodHeight = 8, headHeight = 8, headRadius = 10.5, headStyle = "hex"
                 if (mountingHoleType == "chamfered") {
                     cylinder(r2 = mountingHoleRadius, r1 = mountingHoleRadius * 2, h = 2, center = false);
                 } else if (mountingHoleType == "phillips") {
-                    phillips_recess(depth = 3, arm_len = 3, arm_width = 1, taper = 0.3);
+                    phillips_recess(depth = TB_SCREW_Head_Phillips_Depth, arm_len = TB_SCREW_Head_Phillips_Arm_Len, arm_width = TB_SCREW_Head_Phillips_Arm_Width, taper = TB_SCREW_Head_Phillips_Arm_Taper);
                 } else if (mountingHoleType == "hex") {
-                    cylinder(r = 3, $fn = 6, h = 3, center = false);
+                    cylinder(r = TB_SCREW_Mounting_Hole_Hex_Radius, $fn = 6, h = 3, center = false);
+                } else if (mountingHoleType == "hexphillips") {
+                    cylinder(r = TB_SCREW_Mounting_Hole_Hex_Radius, $fn = 6, h = 3, center = false);
+                    translate([0, 0, TB_SCREW_Head_Phillips_Depth])
+                        phillips_recess(depth = TB_SCREW_Head_Phillips_Depth, arm_len = TB_SCREW_Head_Phillips_Arm_Len, arm_width = TB_SCREW_Head_Phillips_Arm_Width, taper = TB_SCREW_Head_Phillips_Arm_Taper);
                 }
             }
         }

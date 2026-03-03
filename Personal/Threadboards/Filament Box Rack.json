@@ -33,6 +33,19 @@
             "Side_Wall_Brace_Ratio": "0.70000000000000007",
             "Side_Wall_Type": "brace",
             "Wall_Thickness": "4"
+        },
+        "3 Wide Tall v2": {
+            "Bottom_Hollowing_Ratio": "0.5",
+            "Bottom_Wall_Type": "hollow",
+            "Internal_Rack_Depth": "200",
+            "Internal_Rack_Height": "72",
+            "Internal_Rack_Width": "76",
+            "Number_of_Slots": "3",
+            "Screw_Head_Tolerance": "8",
+            "Side_Brace_Depth_Ratio": "0.80000000000000004",
+            "Side_Wall_Brace_Ratio": "0.30000000000000004",
+            "Side_Wall_Type": "brace",
+            "Wall_Thickness": "3"
         }
     }
 }

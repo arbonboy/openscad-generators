@@ -101,7 +101,7 @@ module backWallSingleOld(){
 module sideWall(side="left", wall_type="solid"){
     totalIndividualWidth = Internal_Rack_Width + Wall_Thickness*2;
     roundedEdge = side == "left" ? LEFT : RIGHT;
-    translate([side=="left" ? -totalIndividualWidth/2+Wall_Thickness/2 : totalIndividualWidth/2-Wall_Thickness/2, -Total_Depth/2+Wall_Thickness/2, 0]){
+    translate([side=="left" ? -totalIndividualWidth/2+Wall_Thickness/2 : totalIndividualWidth/2-Wall_Thickness/2, -Total_Depth/2, 0]){
         rotate([0, 0, 0]){
             if( wall_type == "solid" || wall_type == "peg"){
                 difference(){

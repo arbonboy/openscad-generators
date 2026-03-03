@@ -10,7 +10,7 @@ For_Horizontal_Printing = false; // [true,false]
 // Mounting Holes are NOT supported for Hex head screws
 Include_Mounting_Hole = false; // [true, false]
 Mounting_Hole_Radius = 2; // [0:.25:8]
-Mounting_Hole_Type = "chamfered"; // [chamfered, phillips, hex]
+Mounting_Hole_Type = "chamfered"; // [chamfered, phillips, hex, hexphillips:Hex & Phillips]
 
 
 /* [Hidden] */
