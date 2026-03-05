@@ -29,24 +29,24 @@ H6 = "TD: 3.4";
 /* [Advanced Parameters] */
 
 // Label Placeholder Dimensions  
-Label_Width = 40;               // Width of label area (mm)
-Label_Height = 30;              // Height of label area (mm)
+Label_Width = 40;  //[20:1:80]
+Label_Height = 30; //[20:1:80]
 
 // Clip Dimensions
 Clip_Height = 20;               // Height of clip portions outside label area (mm)
-Clip_Front_Thickness = 3;       // Thickness of front face (label and clip) (mm)
+Clip_Front_Thickness = 3.4;  //[0.5:0.1:10] 
 
 // Inner Brace (extends into spool interior)
 Inner_Brace_Thickness = 2;      // Thickness of inner brace (mm)
 Inner_Brace_Length = 8;         // How far into spool interior (mm)
 
 // Outer Brace (extends along spool exterior)
-Outer_Brace_Thickness = 1.5;      // Thickness of outer brace (mm) 
-Outer_Brace_Length = 4;         // How far along spool exterior (mm)
+Outer_Brace_Thickness = 2; //[0:0.1:5]
+Outer_Brace_Length = 10; //[0:0.5:20]
 
 // Design Parameters
-Rounded_Lip_Radius = 1;         // Radius for rounded pressure lip (mm)
-Tolerance = 0.2;                // Fit tolerance (mm)
+Rounded_Lip_Radius = 1;   //[0:0.1:3]
+Tolerance = 0.2;  //[0:0.1:1]
 
 Back_Text_Size = 6;             // Size of the text on the back of the clip (mm)
 Back_Text_Height = 0.6;
@@ -54,7 +54,7 @@ Back_Text_Height = 0.6;
 H1Size = 6;
 H2Size = 4;
 
-Filament_Hole_Diameter = 2.5; // Diameter of the filament hole (mm)
+Filament_Hole_Diameter = 2.2; //[1:0.1:3]
 
 
 /* [Hidden Parameters] */
