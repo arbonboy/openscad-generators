@@ -1,0 +1,25 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "Built Protein Bars": {
+            "Add_Inset_Bottom": "true",
+            "Dispenser_Opening_Top_Height": "120",
+            "Inner_Depth": "120",
+            "Item_Depth": "50",
+            "Item_Height": "30",
+            "Item_Tolerance": "5",
+            "Item_Width": "140",
+            "Landing_Length": "40",
+            "Opening_Height": "100",
+            "Outer_Height": "150",
+            "Pattern": "none",
+            "Ramp_Depth_Ratio": "0.69000000000000006",
+            "Ramp_Height_Ratio": "0.33000000000000002",
+            "Solid_Bottom": "true",
+            "Stopper_Bar_Width": "30",
+            "Stopper_Height": "14",
+            "Stopper_Length": "7",
+            "Wall_Thickness": "2"
+        }
+    }
+}
