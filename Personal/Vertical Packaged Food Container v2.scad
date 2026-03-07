@@ -1,4 +1,5 @@
 /* [Container Parameters] */
+Part = "main"; //[main:Main, extension:Extension]
 Inner_Depth = 100;  // Depth of the container in millimeters
 Outer_Height = 200  ;  // Height of the container in millimeters
 Wall_Thickness = 3;  // Thickness of the container walls in millimeters
@@ -34,7 +35,7 @@ Solid_Bottom = false;
 Add_Inset_Bottom = true;
 
 /* [Wall Pattern] */
-Pattern = "hexagon"; //[none:None, hexagon:Hexagon]
+Pattern = "hexagon"; //[none:None, hexagon:Hexagon, circle:Circle, square:Square, quartz:Quartz]
 Pattern_Wall_Thickness = 1;
 Pattern_Size = 10;
 
@@ -46,12 +47,13 @@ Outer_Depth = Inner_Depth + 2 * Wall_Thickness;
 Inner_Height = Outer_Height - Wall_Thickness;
 
 
-main();
+if(Part=="main") {
+    main();
+} else {
+    extension();
+}
+// extension();
 
-xstep = sin(30) * (Pattern_Wall_Thickness + sqrt(3) * Pattern_Size / 2);
-ystep = cos(30) * (Pattern_Wall_Thickness + sqrt(3) * Pattern_Size / 2);
-xmove = [ 2 * xstep, 0];
-ymove = [ xstep, ystep ];
 
 module main(){
     difference() {
@@ -83,6 +85,53 @@ module main(){
     }
 }
 
+
+module extension(){
+    // translate([0, 0, Outer_Height/2]) {
+    //     difference(){
+    //         cube([Outer_Width, Outer_Depth, Outer_Height], center=true);
+    //         cube([Outer_Width-2*Wall_Thickness, Outer_Depth-2*Wall_Thickness, Outer_Height+2], center=true);
+    //     }
+    // }
+    
+    translate([Outer_Width/2, Outer_Depth/2, 0]){
+        color("red") sideWall("left");
+        color("green") sideWall("right");
+        color("blue") sideWall("front");
+        color("pink") sideWall("back");
+    }
+        
+    difference(){
+        union() {
+            floorWall();
+            translate([0, 0, 0]) {
+                color("red") insetBottom();            
+            }
+        }
+        cutoutWidth = Outer_Width-Wall_Thickness*4;
+        cutoutDepth = Outer_Depth-Wall_Thickness*4;
+        translate([Outer_Width/2, Outer_Depth/2, -Wall_Thickness]){
+            cube([cutoutWidth, cutoutDepth, 20], center=true);    
+        }
+        
+    }    
+    
+    
+
+
+    
+    // insetBraceWidth = Outer_Width - 2*Wall_Thickness;
+    // insetBraceDepth = Outer_Depth - 2*Wall_Thickness;
+    // insetBraceHeight = Wall_Thickness*8;
+
+    // translate([Outer_Width/2, Outer_Depth/2, 0]) {
+    //     difference(){
+    //         cube([insetBraceWidth, insetBraceDepth, insetBraceHeight], center=true);
+    //         cube([insetBraceWidth-2*Wall_Thickness, insetBraceDepth-2*Wall_Thickness, insetBraceHeight+2], center=true);
+    //     }
+    // }
+}
+
 module sideWall(side = "left"){
     xoffset = side == "left" ? -Outer_Width/2  - Wall_Thickness/2 : 
         side == "right" ? Outer_Width/2 - Wall_Thickness*3/2 : 0;
@@ -100,7 +149,7 @@ module sideWall(side = "left"){
             patterned_wall(Wall_Thickness, width, Outer_Height) {
                 difference(){
                     square([width, Outer_Height], center=true);
-                    if(side == "front"){
+                    if(side == "front" && Part != "extension"){
                         a = [Wall_Thickness, 0];
                         b = [Wall_Thickness, Item_Height];
                         c = [Item_Width/4, Item_Height*2];
@@ -115,8 +164,39 @@ module sideWall(side = "left"){
                     }
                 }
                 if(Pattern == "hexagon"){
+                    xstep = sin(30) * (Pattern_Wall_Thickness + sqrt(3) * Pattern_Size / 2);
+                    ystep = cos(30) * (Pattern_Wall_Thickness + sqrt(3) * Pattern_Size / 2);
+                    xmove = [ 2 * xstep, 0];
+                    ymove = [ xstep, ystep ];
                     spray_pattern([[-20,-20], [width, Outer_Height]], [ xmove, ymove])
                         rotate([0, 0, 90])cylinder(d = Pattern_Size, h = Wall_Thickness, center = true, $fn = 6);
+                } else if(Pattern == "circle"){
+                    xstep = Pattern_Size+Pattern_Wall_Thickness;
+                    ystep = Pattern_Size+Pattern_Wall_Thickness;
+                    xmove = [ xstep, 0];
+                    ymove = [ xstep/2, ystep ];
+                    spray_pattern([[-20,-20], [width, Outer_Height]], [ xmove, ymove])
+                        cylinder(d = Pattern_Size, h = Wall_Thickness, center = true, $fn = 92);
+                } else if(Pattern == "square"){
+                    xstep = Pattern_Size+Pattern_Wall_Thickness;
+                    ystep = Pattern_Size/2+Pattern_Wall_Thickness;
+                    xmove = [ xstep, 0];
+                    ymove = [ xstep/2, ystep ];
+                    spray_pattern([[-20,-20], [width, Outer_Height]], [ xmove, ymove])
+                        translate([0, 0, -Wall_Thickness/2])
+                            linear_extrude(height = Wall_Thickness){
+                                polygon([[0,Pattern_Size/2], [Pattern_Size/2, Pattern_Size], [Pattern_Size, Pattern_Size/2], [Pattern_Size/2, 0], [0, Pattern_Size/2]]);
+                            } 
+                } else if(Pattern == "quartz"){
+                    xstep = Pattern_Size+Pattern_Wall_Thickness;
+                    ystep = Pattern_Size*3/2+Pattern_Wall_Thickness;
+                    xmove = [ xstep, 0];
+                    ymove = [ xstep/2, ystep ];
+                    spray_pattern([[-20,-20], [width, Outer_Height]], [ xmove, ymove])
+                        translate([0, 0, -Wall_Thickness/2])
+                            linear_extrude(height = Wall_Thickness){
+                                polygon([[0,Pattern_Size/2], [0, Pattern_Size*3/2], [Pattern_Size/2, Pattern_Size*2], [Pattern_Size, Pattern_Size*3/2],[Pattern_Size, Pattern_Size/2], [Pattern_Size/2, 0], [0, Pattern_Size/2]]);
+                            } 
                 }
             }
         }
