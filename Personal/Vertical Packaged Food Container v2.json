@@ -12,6 +12,7 @@
             "Landing_Length": "40",
             "Opening_Height": "100",
             "Outer_Height": "150",
+            "Part": "main",
             "Pattern": "none",
             "Ramp_Depth_Ratio": "0.69000000000000006",
             "Ramp_Height_Ratio": "0.33000000000000002",
@@ -20,6 +21,29 @@
             "Stopper_Height": "14",
             "Stopper_Length": "7",
             "Wall_Thickness": "2"
+        },
+        "New set 1": {
+            "Add_Inset_Bottom": "true",
+            "Dispenser_Opening_Top_Height": "100",
+            "Inner_Depth": "100",
+            "Item_Depth": "50",
+            "Item_Height": "20",
+            "Item_Tolerance": "5",
+            "Item_Width": "120",
+            "Landing_Length": "40",
+            "Opening_Height": "50",
+            "Outer_Height": "100",
+            "Part": "extension",
+            "Pattern": "none",
+            "Pattern_Size": "10",
+            "Pattern_Wall_Thickness": "1",
+            "Ramp_Depth_Ratio": "0.80000000000000004",
+            "Ramp_Height_Ratio": "0.29999999999999999",
+            "Solid_Bottom": "false",
+            "Stopper_Bar_Width": "30",
+            "Stopper_Height": "40",
+            "Stopper_Length": "20",
+            "Wall_Thickness": "3"
         }
     }
 }
