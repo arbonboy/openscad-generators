@@ -72,6 +72,15 @@
             "Mounting_Hole_Radius": "2",
             "Mounting_Hole_Type": "chamfered",
             "Thread_Height": "8"
+        },
+        "HexHD8THR18": {
+            "For_Horizontal_Printing": "false",
+            "Head_Height": "8",
+            "Head_Type": "Hex",
+            "Include_Mounting_Hole": "false",
+            "Mounting_Hole_Radius": "2",
+            "Mounting_Hole_Type": "chamfered",
+            "Thread_Height": "18"
         }
     }
 }

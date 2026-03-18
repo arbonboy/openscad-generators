@@ -12,6 +12,12 @@
             "Peg_Radius": "2",
             "Peg_Terminator_Height": "2",
             "Peg_Terminator_Radius": "2"
+        },
+        "New set 2": {
+            "Peg_Length": "20",
+            "Peg_Radius": "4",
+            "Peg_Terminator_Height": "2",
+            "Peg_Terminator_Radius": "8.5"
         }
     }
 }

@@ -79,6 +79,34 @@
             "Side3_Thickness": "0",
             "Side4_Connector_Type": "postclip",
             "Side4_Thickness": "0"
+        },
+        "4x4 Wood Post - GC": {
+            "Base_Thickness": "4",
+            "Box_Height": "90",
+            "Box_Width_X": "90",
+            "Box_Width_Y": "90",
+            "Side1_Connector_Type": "tbscrew",
+            "Side1_Thickness": "0",
+            "Side2_Connector_Type": "slidelock",
+            "Side2_Thickness": "0",
+            "Side3_Connector_Type": "tbscrew",
+            "Side3_Thickness": "0",
+            "Side4_Connector_Type": "postclip",
+            "Side4_Thickness": "0"
+        },
+        "T-Post Mount": {
+            "Base_Thickness": "2",
+            "Box_Height": "27",
+            "Box_Width_X": "35",
+            "Box_Width_Y": "31",
+            "Side1_Connector_Type": "slidelock",
+            "Side1_Thickness": "0",
+            "Side2_Connector_Type": "tbscrew",
+            "Side2_Thickness": "5",
+            "Side3_Connector_Type": "postclip",
+            "Side3_Thickness": "0",
+            "Side4_Connector_Type": "tbscrew",
+            "Side4_Thickness": "5"
         }
     }
 }

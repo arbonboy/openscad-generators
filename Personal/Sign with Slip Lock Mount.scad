@@ -2,13 +2,13 @@
 // [File]
 Stl = "~/Downloads/AmberPic1_Front_133x200.stl"; 
 
-Show_Components = "both"; //[both:Both, sign:Sign only, slot:Slot only]
+Show_Components = "both"; //[both:Both, sign:Sign only, slot:Slot only, placement:Transparent object with solid slot]
 
 
 /* [Slot Parameters] */
-Slot_Height = 30;
+Slot_Height = 30; //[10:1:100]
 Slot_Tolerance = 1.4; //[0:0.1:5]
-Slot_Entry_Height = 25;
+Slot_Entry_Height = 25; //[10:1:100]
 
 Slot_Offset = [0,0,0];  //[-100:0.1:100] 
 Slot_Rotation = [0,0,0];
@@ -27,7 +27,7 @@ Slot_Entry_Diameter = Slot_Channel_Width_Large_End + 2;
 Slot_Depth = 4;
 
 
-if(Show_Components == "both" || Show_Components == "sign"){
+if(Show_Components == "both" || Show_Components == "sign" || Show_Components == "placement"){
     if(Show_Components == "both"){
         difference(){
             # sign();
@@ -36,8 +36,11 @@ if(Show_Components == "both" || Show_Components == "sign"){
     } else {
         sign();
     }
-} else if(Show_Components == "slot"){
+}
+if(Show_Components == "slot"){
     slot();
+} else if(Show_Components == "placement"){
+    % color("red") slot();
 }
 
 
@@ -84,18 +87,18 @@ module mainOld(){
 }
 
 
-module slideLockSlot(slotWidthLarge=Slot_Channel_Width_Large_End, slotWidthSmall=Slot_Channel_Width_Small_End, slotDepth=Slot_Depth, slotHeight=Slot_Height){
+module slideLockSlot(slotWidthLarge=Slot_Channel_Width_Large_End, slotWidthSmall=Slot_Channel_Width_Small_End, slotDepth=Slot_Depth, slotHeight=Slot_Height, entryHeight=Slot_Entry_Height){
     slotWidthLarge = slotWidthLarge + Slot_Tolerance*1.5;
     slotWidthSmall = slotWidthSmall + Slot_Tolerance;
     // slotDepth = slotDepth + Slot_Tolerance;
 
-    pointArray=[
-        [slotDepth/tan(45),0],
-        [0, slotDepth],
-        [slotWidthLarge, slotDepth],
-        [slotWidthLarge-slotDepth/tan(45),0],
-        [0,0]
-    ];
+    // pointArray=[
+    //     [slotDepth/tan(45),0],
+    //     [0, slotDepth],
+    //     [slotWidthLarge, slotDepth],
+    //     [slotWidthLarge-slotDepth/tan(45),0],
+    //     [0,0]
+    // ];
 
     pointArrayMultiConnectCompatible=[
         [(slotWidthLarge-slotWidthSmall)/2,0],
@@ -106,8 +109,8 @@ module slideLockSlot(slotWidthLarge=Slot_Channel_Width_Large_End, slotWidthSmall
         [(slotWidthLarge-slotWidthSmall)/2+slotWidthSmall,0],
         [0,0]
     ];
+    echo ("slotWidthLarge: ", slotWidthLarge);
 
-    echo(str("Using multi-connect compatible slot profile with points: ", pointArrayMultiConnectCompatible));
     rotate([90,0,0]){
         translate([-slotWidthLarge/2, 0, 0]){
             rotate([90,0,0]){
@@ -116,12 +119,12 @@ module slideLockSlot(slotWidthLarge=Slot_Channel_Width_Large_End, slotWidthSmall
                 }
             } 
             linear_extrude(height=slotDepth*2, center=true){
-                translate([slotWidthLarge/2, -slotHeight, slotDepth]){
+                translate([slotWidthLarge/2, -slotHeight/2-entryHeight/2-slotWidthLarge/2+1, slotDepth]){
                     hull(){
-                        translate([-slotWidthLarge/4, slotHeight/4, 0]) circle(r=slotWidthLarge/2);  
-                        translate([slotWidthLarge/4, slotHeight/4, 0]) circle(r=slotWidthLarge/2);  
-                        translate([slotWidthLarge/4, -slotHeight/4, 0]) circle(r=slotWidthLarge/2);  
-                        translate([-slotWidthLarge/4, -slotHeight/4, 0]) circle(r=slotWidthLarge/2);  
+                        translate([-slotWidthLarge/4, entryHeight/2, 0]) circle(r=slotWidthLarge/2);  
+                        translate([slotWidthLarge/4, entryHeight/2, 0]) circle(r=slotWidthLarge/2);  
+                        translate([slotWidthLarge/4, -entryHeight/2, 0]) circle(r=slotWidthLarge/2);  
+                        translate([-slotWidthLarge/4, -entryHeight/2, 0]) circle(r=slotWidthLarge/2);  
                     }
                 }
             }

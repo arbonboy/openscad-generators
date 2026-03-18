@@ -1,13 +1,16 @@
 include <BOSL2/std.scad>;
 include <BOSL2/threading.scad>;
 
+/* [Peg Parameters] */
 Peg_Length = 20; //[5:1:150]
 Peg_Radius = 4; //[0.5:0.5:20]
 Peg_Terminator_Radius = 5; //[0:0.5:20]
-Peg_Terminator_Height = 2;
+Peg_Terminator_Height = 5; //[0:0.5:30]
+
+/* [Thread Parameters] */
+Thread_Height = 8; //[1:1:20]
 
 /* [Hidden] */
-Thread_Height = 8;
 Base_Bevel_Height = 1;
 TB_SCREW_Threaded_Rod_Diameter = 16;
 TB_SCREW_Head_Padding = 2; //The minimum amount of solid head above the cutout portion of the screw head
@@ -30,8 +33,13 @@ module pegStaff(startingHeight) {
 }
 
 module pegTerminator(startingHeight) {
-    translate([0,0,startingHeight])
-        cylinder(h=Peg_Terminator_Height, r1=Peg_Radius, r2=Peg_Terminator_Radius, center=false);
+    translate([0,0,startingHeight]){
+        hull(){
+            cylinder(r=Peg_Radius, h=0.1);
+            translate([0, 0, Peg_Terminator_Height/3]) cylinder(r=Peg_Terminator_Radius, h=Peg_Terminator_Height/3);
+            translate([0, 0, Peg_Terminator_Height]) cylinder(r=Peg_Radius, h=0.1);
+        }
+    }
 }
 
 module peg() {

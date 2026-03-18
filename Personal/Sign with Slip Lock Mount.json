@@ -62,6 +62,15 @@
             "Slot_Rotation": "[0, 0, 0]",
             "Slot_Tolerance": "1.3999999999999999",
             "Stl": "\/Users\/john.andersen\/odrive\/GDrive (Personal)\/Personal\/3D Printing\/3D Printing Queue\/0000 - Repeats\/Parking Signs\/NoParking\/NoParking_cutout.stl"
+        },
+        "GC Birdhouse2x": {
+            "Show_Components": "both",
+            "Slot_Entry_Height": "50",
+            "Slot_Height": "50",
+            "Slot_Offset": "[35, 60.1, -30]",
+            "Slot_Rotation": "[90, 136, 0]",
+            "Slot_Tolerance": "1.2000000000000002",
+            "Stl": "\/Users\/john.andersen\/Downloads\/Birdhouse2x.stl"
         }
     }
 }
