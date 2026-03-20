@@ -1,0 +1,16 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Handle_Size": "20",
+            "Handle_Type": "tstyle",
+            "Hex_Length": "139"
+        },
+        "New set 2": {
+            "Handle_Size": "50",
+            "Handle_Type": "arm",
+            "Hex_Length": "68",
+            "Thread_Board_Hex_Size": "TB Mounting Hole"
+        }
+    }
+}

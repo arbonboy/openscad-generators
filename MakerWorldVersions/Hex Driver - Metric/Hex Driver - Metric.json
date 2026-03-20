@@ -1,0 +1,11 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Handle_Size": "20",
+            "Handle_Type": "tstyle",
+            "Hex_Length": "145",
+            "Metric_Hex_Size": "19"
+        }
+    }
+}
