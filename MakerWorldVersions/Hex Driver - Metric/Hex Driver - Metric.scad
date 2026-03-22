@@ -125,7 +125,7 @@ module renderHexDriver(hexSize, hexLabel, handleType, handleSize){
                     translate([0, hexSize/2-hexSize/10, Hex_Length/2]){ // Position the label above the driver
                         rotate([90, 90, 180]){
                             linear_extrude(height=202){
-                                text(hexLabel, size=hexSize/2, halign="center", valign="center", font=":style=Bold");
+                                text(hexLabel, size=hexSize*3/8, halign="center", valign="center", font=":style=Bold");
                             }
                         } 
                     }
