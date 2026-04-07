@@ -27,6 +27,34 @@
             "Inner_Frame_Depth": "66",
             "Number_of_Holders": "2",
             "Wall_Thickness": "1.5"
+        },
+        "New set 2": {
+            "Additional_Floor_Thickness": "5",
+            "Card_Height": "89",
+            "Card_Width": "64",
+            "Cutout_Bottom_Height_Percentage": "50",
+            "Cutout_Bottom_Width_Percentage": "50",
+            "Cutout_Corner_Radius": "6",
+            "Cutout_Side_Depth_Percentage": "100",
+            "Cutout_Side_Lower_Width_Percentage": "40",
+            "Cutout_Side_Upper_Width_Percentage": "70",
+            "Inner_Frame_Depth": "20",
+            "Number_of_Holders": "2",
+            "Wall_Thickness": "3"
+        },
+        "Playing Cards": {
+            "Additional_Floor_Thickness": "1",
+            "Card_Height": "90",
+            "Card_Width": "66",
+            "Cutout_Bottom_Height_Percentage": "65",
+            "Cutout_Bottom_Width_Percentage": "60",
+            "Cutout_Corner_Radius": "6",
+            "Cutout_Side_Depth_Percentage": "81",
+            "Cutout_Side_Lower_Width_Percentage": "40",
+            "Cutout_Side_Upper_Width_Percentage": "70",
+            "Inner_Frame_Depth": "22",
+            "Number_of_Holders": "1",
+            "Wall_Thickness": "2.5"
         }
     }
 }

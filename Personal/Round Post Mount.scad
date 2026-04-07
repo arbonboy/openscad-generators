@@ -1,7 +1,7 @@
 include <ThreadBoards/lib/tb_screws.scad>;
 include <lib/Mounts.scad>;
 
-Inner_Diameter = 150; //[10:1:300]
+Inner_Diameter = 150; //[10:1:350]
 Wall_Thickness = 6; //[1:0.5:20]
 Height = 50; //[1:1:250]
 

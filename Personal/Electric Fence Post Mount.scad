@@ -137,7 +137,12 @@ module drawBox(){
 
 module boxSideTBScrewHole(wallThickness=2, side=1){
     width = (side == 1 || side == 3) ? Box_Width_X : Box_Width_Y;
-    mnts_tBScrewHole(wallThickness=wallThickness, width=width, height=Box_Height, baseThickness=Base_Thickness);
+    translate([0,-wallThickness/2,0]){
+        rotate([90, 0, 0]){
+            mnts_tBScrewHole(wallThickness=wallThickness, width=width, height=Box_Height, baseThickness=Base_Thickness);
+        }
+    }
+    
     // rotate([90,0,0]){
     //     difference(){
     //         cube([width+Base_Thickness, Box_Height, wallThickness], center=true);

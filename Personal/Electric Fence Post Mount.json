@@ -107,6 +107,20 @@
             "Side3_Thickness": "0",
             "Side4_Connector_Type": "tbscrew",
             "Side4_Thickness": "5"
+        },
+        "New set 5": {
+            "Base_Thickness": "2",
+            "Box_Height": "27",
+            "Box_Width_X": "25",
+            "Box_Width_Y": "20",
+            "Side1_Connector_Type": "tbscrew",
+            "Side1_Thickness": "0",
+            "Side2_Connector_Type": "none",
+            "Side2_Thickness": "0",
+            "Side3_Connector_Type": "tbscrew",
+            "Side3_Thickness": "0",
+            "Side4_Connector_Type": "none",
+            "Side4_Thickness": "0"
         }
     }
 }

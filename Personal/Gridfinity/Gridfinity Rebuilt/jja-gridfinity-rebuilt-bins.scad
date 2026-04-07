@@ -91,7 +91,7 @@ scoop = 1; //[0:0.1:1]
 // only cut magnet/screw holes at the corners of the bin to save uneccesary print time
 only_corners = false;
 //Use gridfinity refined hole style. Not compatible with magnet_holes!
-refined_holes = true;
+refined_holes = false;
 // Base will have holes for 6mm Diameter x 2mm high magnets.
 magnet_holes = false;
 // Base will have holes for M3 screws.
