@@ -4,6 +4,7 @@ Stl = "~/Downloads/AmberPic1_Front_133x200.stl";
 
 Show_Components = "both"; //[both:Both, sign:Sign only, slot:Slot only, placement:Transparent object with solid slot]
 
+Stl_Scale = [1, 1, 1]; //[0.1:0.1:4]
 
 /* [Slot Parameters] */
 Slot_Height = 30; //[10:1:100]
@@ -47,7 +48,9 @@ if(Show_Components == "slot"){
 module sign(){
     translate([0, 0, 0]){
         rotate([0, 0, 0]){
-            import(file=Stl, convexity=10, center=true);
+            scale(Stl_Scale){
+                import(file=Stl, convexity=10, center=true);
+            }
         }
     }
 }

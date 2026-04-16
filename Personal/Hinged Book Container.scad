@@ -6,8 +6,8 @@ include <Gridfinity/Gridfinity Rebuilt/src/core/gridfinity-rebuilt-holes.scad>
 View_Type = "open"; //[open,closed]
 
 /* [Box Parameters] */
-Inner_Box_Width = 50; //[10:1:300]
-Inner_Box_Height = 70; //[10:1:350]
+Inner_Box_Width = 65; //[10:1:300]
+Inner_Box_Height = 90; //[10:1:350]
 Box_Left_Depth = 5; //[1:1:100]
 Box_Right_Depth = 20; //[1:1:200]
 Box_Corner_Rounding = 3; //[0:1:10]
@@ -35,7 +35,7 @@ FC_Title_Text_Color = "white";
 FC_Title_Starting_Y = 0; //[-300:1:300]
 
 /* [Front Cover Image] */
-FC_SVG_Image = "";
+FC_SVG_Image = "default.svg";
 FC_SVG_Image_Starting_Pos_Y = 50; //[-300:1:300]
 FC_SVG_Image_Scale = [1, 1, 1]; //[0.01:0.01:5]
 

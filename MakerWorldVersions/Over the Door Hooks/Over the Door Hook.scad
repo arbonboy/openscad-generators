@@ -2,19 +2,19 @@ include <BOSL2/std.scad>
 
 
 /* [Hook Settings ] */
-Hook_Inner_Depth = 30;
-Hook_Wall_Thickness = 5;
-Hook_Lip_Height = 10;
-Number_Of_Hooks = 2;
+Hook_Inner_Depth = 30;  //[1:1:150]
+Hook_Wall_Thickness = 5; //[1:1:20]
+Hook_Lip_Height = 10; //[1:1:50]
+Number_Of_Hooks = 2; //[1:1:15]
 
 /* [ Door Hanger Settings ] */
-Door_Hanger_Thickness = 3;
-Door_Hanger_Depth = 46;
-Door_Hanger_Back_Length = 30;
-Width = 20;
-Total_Height = 85;
+Door_Hanger_Thickness = 3; //[1:1:20]
+Door_Hanger_Depth = 46; //[1:1:100]
+Door_Hanger_Back_Length = 30; //[1:1:100]
+Width = 20; //[1:1:60]
+Total_Height = 85; //[1:1:200]
 
-/* [ Hidden ] */
+/* [Hidden] */
 Rounding = 1;
 Brace_Angle = 30;
 

@@ -3,20 +3,27 @@ include <BOSL2/std.scad>
 // A pressure-fit clip that attaches to the inner walls of a spool
 // Created for labeling spools
 
-// ============================================
-// USER CONFIGURABLE PARAMETERS
-// ============================================
 
-// Spool Dimensions
+/* [Spool] */
+//Distance in between inner faces of spool walls
 Inner_Spool_Width = 59;      //[30:0.1:70]
+//Thickness of left spool wall
 Spool_Wall_Thickness_Left = 3.5;   //[1:0.1:7]
+//Thickness of right spool wall
 Spool_Wall_Thickness_Right = 5.5;  //[1:0.1:7]
-Use_Back_Size_Text = true;          // Whether to include size text on the back of the clip
+
+/* [Back Label] */
+// The spool dimensions will be shown on back of clip
+Use_Back_Size_Text = true;  
+// Label text on back of clip above dimensions        
 Back_Text_String = "";
 
-Filament_Clip = "internal"; // [internal:Inside the Label,under:Underneath the Label,none:None]
+/* [Filament Channel] */
+Filament_Channel = "internal"; // [internal:Inside the Label,under:Underneath the Label,none:None]
+Filament_Hole_Diameter = 2.2; //[1:0.1:3]
 
-/* [Front Label Parameters] */
+
+/* [Front Label] */
 Front_Label_Type = "blank"; // [blank:Label Sticker,engraved:Engraved,none:None]
 Front_Text_Depth = 0.6; // How much the text is extruded into the label face
 H1 = "00A-01F8-00A";
@@ -32,44 +39,42 @@ H6 = "TD: 3.4";
 Label_Width = 40;  //[20:1:80]
 Label_Height = 30; //[20:1:80]
 
+// Design Parameters
+Rounded_Lip_Side = "inner"; // [inner:Inner Brace Only,outer:Outer Brace Only,both:Both Braces,none:None]
+
+
+
+
+/* [Hidden] */
 // Clip Dimensions
 Clip_Height = 20;               // Height of clip portions outside label area (mm)
 Clip_Front_Thickness = 3.4;  //[0.5:0.1:10] 
 
-// Inner Brace (extends into spool interior)
+
 Inner_Brace_Thickness = 2;      // Thickness of inner brace (mm)
 Inner_Brace_Length = 8;         // How far into spool interior (mm)
 
-// Outer Brace (extends along spool exterior)
 Outer_Brace_Thickness = 2; //[0:0.1:5]
-Outer_Brace_Length = 10; //[0:0.5:20]
+Outer_Brace_Length = 8; //[0:0.5:20]
 
-// Design Parameters
-Rounded_Lip_Radius = 1;   //[0:0.1:3]
-Tolerance = 0.2;  //[0:0.1:1]
 
-Back_Text_Size = 6;             // Size of the text on the back of the clip (mm)
+Back_Text_Size = 6;
 Back_Text_Height = 0.6;
 
 H1Size = 6;
 H2Size = 4;
 
-Filament_Hole_Diameter = 2.2; //[1:0.1:3]
-
-
-/* [Hidden Parameters] */
 H3Size = H2Size;
 H4Size = H3Size;
 H5Size = H4Size;
 H6Size = H5Size;
 Use_Front_Label = Front_Label_Type == "engraved" ? true : false;
 
+Rounded_Lip_Radius = 1;   //[0:0.1:3]
+
 
 
     
-// ============================================
-// CALCULATED VALUES
-// ============================================
 
 // Total clip width spans the spool opening plus braces
 Outer_Spool_Width = Inner_Spool_Width + Spool_Wall_Thickness_Left + Spool_Wall_Thickness_Right;
@@ -126,7 +131,7 @@ module main_clip_body() {
                     front_label_face();
                 }
             }
-            if(Filament_Clip == "internal"){
+            if(Filament_Channel == "internal"){
                 assert(Filament_Hole_Diameter > 0, "Filament hole diameter must be greater than 0");
                 assert(Filament_Hole_Diameter < Clip_Front_Thickness, "Filament hole diameter must be less than the Clip_Front_Thickness");
                 rotate([90, 0, 0])
@@ -134,7 +139,7 @@ module main_clip_body() {
                         cylinder(h = Label_Height*2, d = Filament_Hole_Diameter, center=true, $fn=6);
             }
         }
-        if(Filament_Clip == "under"){
+        if(Filament_Channel == "under"){
             assert(Filament_Hole_Diameter > 0, "Filament hole diameter must be greater than 0");
             difference(){
                 rotate([0, 0, 0])
@@ -192,16 +197,10 @@ module clip_front(){
 }
 
 module inner_brace(side = "left") {
-    //xOffset = side=="left" ? Inner_Brace_X_Offset : -Inner_Brace_X_Offset;
-
     spoolWallThicknessCombined = Spool_Wall_Thickness_Left + Spool_Wall_Thickness_Right;
     spoolWallThicknessPercentLeft = Spool_Wall_Thickness_Left / spoolWallThicknessCombined;
     spoolWallThicknessPercentRight = Spool_Wall_Thickness_Right / spoolWallThicknessCombined;
-    // leftXOffset = Outer_Brace_Thickness + Inner_Brace_Thickness- Spool_Wall_Thickness_Left - Inner_Spool_Width/2;
-    //leftXOffset = - Inner_Spool_Width/2 - Inner_Brace_Thickness/2 + Spool_Wall_Thickness_Left/2;
     leftXOffset = -Total_Clip_Width/2 + Outer_Brace_Thickness + Spool_Wall_Thickness_Left + Inner_Brace_Thickness/2;
-    //rightXOffset = Inner_Spool_Width/2 + Spool_Wall_Thickness_Right;
-    // rightXOffset = Inner_Spool_Width/2 + Inner_Brace_Thickness/2 - Spool_Wall_Thickness_Right/2;
     rightXOffset = Total_Clip_Width/2 - Outer_Brace_Thickness - Spool_Wall_Thickness_Right - Inner_Brace_Thickness/2;
     xOffset = side=="left" ? leftXOffset : rightXOffset;
 
@@ -209,20 +208,33 @@ module inner_brace(side = "left") {
     translate([xOffset, 0, Inner_Brace_Z_Offset]) {
         cuboid([Inner_Brace_Thickness, Clip_Height, Inner_Brace_Length], rounding=0.5, edges=[TOP,FRONT,BACK], except=BOTTOM);
     }   
-    //xOffsetRoundedLip = side=="left" ? Inner_Brace_X_Offset - Inner_Brace_Thickness/2 : -Inner_Brace_X_Offset + Inner_Brace_Thickness/2;
-    xOffsetRoundedLip = side=="left" ? leftXOffset - Inner_Brace_Thickness/2 : rightXOffset + Inner_Brace_Thickness/2;
-    translate([xOffsetRoundedLip, 0, Inner_Brace_Length]) {
-        rotate([90,90,0]){
-            cylinder(h=Clip_Height, r=Rounded_Lip_Radius/2, center=true);
+
+    if(Rounded_Lip_Side == "inner" || Rounded_Lip_Side == "both"){
+        xOffsetRoundedLip = side=="left" ? leftXOffset - Inner_Brace_Thickness/2 : rightXOffset + Inner_Brace_Thickness/2;
+        translate([xOffsetRoundedLip, 0, Inner_Brace_Length]) {
+            rotate([90,90,0]){
+                cylinder(h=Clip_Height, r=Rounded_Lip_Radius/2, center=true, $fn=20);
+            }
         }
     }
-    
 }
 
 module outer_brace(side = "left") {
+    leftXOffset = -Total_Clip_Width/2 + Outer_Brace_Thickness*3/2;
+    rightXOffset = Total_Clip_Width/2 - Outer_Brace_Thickness*3/2;
+    
     xOffset = side=="left" ? Outer_Brace_X_Offset : -Outer_Brace_X_Offset;
     translate([xOffset, 0, Outer_Brace_Z_Offset]) {
         cuboid([Outer_Brace_Thickness, Clip_Height, Outer_Brace_Length], rounding=0.5, edges=[TOP,FRONT,BACK], except=BOTTOM);
+    }
+
+    if(Rounded_Lip_Side == "outer" || Rounded_Lip_Side == "both"){
+        xOffsetRoundedLip = side=="left" ? leftXOffset - Outer_Brace_Thickness/2 : rightXOffset + Outer_Brace_Thickness/2;
+        translate([xOffsetRoundedLip, 0, Inner_Brace_Length]) {
+            rotate([90,90,0]){
+                color("purple") cylinder(h=Clip_Height, r=Rounded_Lip_Radius/2, center=true, $fn=20);
+            }
+        }
     }
 }
 

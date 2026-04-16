@@ -44,6 +44,17 @@
             "Number_Of_Hooks": "1",
             "Total_Height": "100",
             "Width": "30"
+        },
+        "Sample 2 Hook": {
+            "Door_Hanger_Back_Length": "30",
+            "Door_Hanger_Depth": "20",
+            "Door_Hanger_Thickness": "4",
+            "Hook_Inner_Depth": "30",
+            "Hook_Lip_Height": "15",
+            "Hook_Wall_Thickness": "5",
+            "Number_Of_Hooks": "2",
+            "Total_Height": "105",
+            "Width": "20"
         }
     }
 }

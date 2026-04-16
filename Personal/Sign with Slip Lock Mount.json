@@ -71,6 +71,16 @@
             "Slot_Rotation": "[90, 136, 0]",
             "Slot_Tolerance": "1.2000000000000002",
             "Stl": "\/Users\/john.andersen\/Downloads\/Birdhouse2x.stl"
+        },
+        "Soldier Medallion": {
+            "Show_Components": "both",
+            "Slot_Entry_Height": "36",
+            "Slot_Height": "50",
+            "Slot_Offset": "[0, -25, 0.9]",
+            "Slot_Rotation": "[0, 0, 0]",
+            "Slot_Tolerance": "0.60000000000000009",
+            "Stl": "\/Users\/john.andersen\/Downloads\/Soldier Saluting Flag Round Plaque - solid - female.stl",
+            "Stl_Scale": "[0.6, 0.6, 0.6]"
         }
     }
 }
