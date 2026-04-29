@@ -97,7 +97,7 @@ module spineText(){
         rotate([0, 180, 90]){
             bookText(
                 text=Spine_Text,
-                height=Spine_Text_Height,
+                height=Spine_Text_Height+0.01,
                 font=Spine_Text_Font,
                 fontSize = Spine_Text_Size,
                 fontColor = Spine_Text_Color,

@@ -1,0 +1,36 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "base_padding": "5",
+            "base_thickness": "3",
+            "font_name": "LilitaOne-Regular",
+            "font_size": "20",
+            "letter_spacing": "10",
+            "word_1": "MOM",
+            "word_2": "DAD"
+        },
+        "New set 2": {
+            "base_padding": "8",
+            "base_thickness": "3",
+            "corner_radius": "10",
+            "font_name": "ROBOTO:Bold",
+            "font_size": "20",
+            "letter_rotation": "10",
+            "letter_spacing": "20",
+            "word_1": "JESUS",
+            "word_2": "LIVES"
+        },
+        "New set 3": {
+            "base_padding": "10",
+            "base_thickness": "3",
+            "corner_radius": "10",
+            "font_name": "Archivo Black",
+            "font_size": "20",
+            "letter_rotation": "45",
+            "letter_spacing": "20",
+            "word_1": "MOM",
+            "word_2": "DAD"
+        }
+    }
+}

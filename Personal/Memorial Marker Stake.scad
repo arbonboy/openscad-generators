@@ -13,10 +13,10 @@ Stake_Inset_Thickness = 4;
 Stake_Inset_Depth = 30;
 Stake_Inset_Scale = 1.01;
 
-Slot_Channel_Width_Large_End = 20;
-Slot_Channel_Width_Small_End = 15;
+Slot_Channel_Width_Large_End = 20.5;
+Slot_Channel_Width_Small_End = 15.5;
 Slot_Entry_Diameter = Slot_Channel_Width_Large_End + 0;
-Slot_Depth = 4;
+Slot_Depth = 4.2;
 
 
 

@@ -1,8 +1,8 @@
 include <BOSL2/std.scad>
 
 /* [Card Parameters] */
-Card_Width = 63; //[20:1:120]
-Card_Height = 88; //[20:1:120]
+Card_Width = 63; //[20:1:200]
+Card_Height = 88; //[20:1:200]
 
 /* [Frame Parameters] */
 Inner_Frame_Depth = 50; //[20:1:180]

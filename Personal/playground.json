@@ -1,0 +1,93 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Base_Diameter": "25",
+            "Height": "50",
+            "Scale_Factor": "0.75",
+            "Twist_Factor": "155",
+            "Wall_Thickness": "1",
+            "components": "4"
+        },
+        "New set 2": {
+            "Base_Diameter": "18",
+            "Height": "160",
+            "Num_Edges": "8",
+            "Scale_Factor": "0.75",
+            "Twist_Factor": "-40",
+            "Wall_Thickness": "1",
+            "components": "4"
+        },
+        "Works Well but doesnt extend fully": {
+            "Base_Diameter": "18",
+            "Height": "160",
+            "Num_Edges": "8",
+            "Scale_Factor": "0.75",
+            "Twist_Factor": "-40",
+            "Wall_Thickness": "1",
+            "components": "4"
+        },
+        "New set 3": {
+            "Base_Diameter": "18",
+            "Height": "180",
+            "Num_Edges": "8",
+            "Scale_Factor": "0.80000000000000004",
+            "Twist_Factor": "-50",
+            "Wall_Thickness": "1",
+            "components": "4"
+        },
+        "Wand 6": {
+            "Base_Diameter": "18",
+            "Guard_Extend_X": "9",
+            "Guard_Outer_Height": "4",
+            "Guard_Total_Height": "10",
+            "Handle_Height_Padding": "20",
+            "Handle_Max_Diameter": "38",
+            "Height": "110",
+            "Num_Edges": "8",
+            "Pommel_Extend_X": "5",
+            "Pommel_Outer_Height": "4",
+            "Pommel_Total_Height": "10",
+            "Scale_Factor": "0.80000000000000004",
+            "Twist_Factor": "60",
+            "Wall_Thickness": "1.3999999999999999",
+            "components": "4"
+        },
+        "New set 4": {
+            "Base_Diameter": "18",
+            "Guard_Extend_X": "8",
+            "Guard_Outer_Height": "8",
+            "Guard_Total_Height": "20",
+            "Handle_Height_Padding": "20",
+            "Handle_Max_Diameter": "40",
+            "Handle_Stl": "\/Users\/john.andersen\/Downloads\/ElegantJewelledHandle.stl",
+            "Height": "160",
+            "Num_Edges": "8",
+            "Pommel_Extend_X": "3",
+            "Pommel_Outer_Height": "10",
+            "Pommel_Total_Height": "20",
+            "Scale_Factor": "0.80000000000000004",
+            "Twist_Factor": "-50",
+            "Wall_Thickness": "1",
+            "components": "4"
+        },
+        "Wand16": {
+            "Base_Diameter": "18",
+            "Guard_Extend_X": "8",
+            "Guard_Outer_Height": "8",
+            "Guard_Total_Height": "20",
+            "Handle_Height_Padding": "20",
+            "Handle_Max_Diameter": "25",
+            "Handle_Stl": "\/Users\/john.andersen\/Downloads\/wandHiltWooden1_fixed.stl",
+            "Height": "80",
+            "Num_Edges": "5",
+            "Pommel_Extend_X": "3",
+            "Pommel_Outer_Height": "10",
+            "Pommel_Total_Height": "20",
+            "Scale_Factor": "0.85000000000000009",
+            "Twist_Factor": "-50",
+            "Wall_Thickness": "1",
+            "components": "4"
+        }
+    }
+}

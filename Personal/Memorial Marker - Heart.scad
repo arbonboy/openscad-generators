@@ -1,86 +1,78 @@
 include <BOSL2/std.scad>
-include <lib/qr.scad> 
 
-Show_Components = "both"; //[both:Both, sign:Sign only, slot:Slot only, placement:Transparent object with solid slot]
-Base_Shape = "rectangle"; //[circle:Circle,rectangle:Rectangle,heart:Heart]
 
 /* [Base Parameters] */
-Base_Diameter = 130;
-Base_X_Size = 180;
-Base_Y_Size = 90;
-Base_Corner_Rounding = 3; //[0: 0.5: 15]
-Base_Height = 5;
-Base_Color = "white";
+Base_X_Size = 180; //[160:5:300]
+Base_Y_Size = 120; //[80:5:300]
+Base_Height = 5; //[5:1:10]
+Base_Color = "white"; //[aqua,black,blue,brown,burlywood,chocolate,cyan,darkgray,gray,green,lightgray,lime,magenta,orange,purple,red,silver,white,yellow,navy,violet]
 
 /*[Border Parameters] */
-Border_Width = 8;
-Border_Height = 9; //[0:0.1:20]
-Border_Color = "black";
+Border_Width = 8; //[0:1:20]
+Border_Height = 9; //[5:1:20]
+Border_Color = "black";  //[aqua,black,blue,brown,burlywood,chocolate,cyan,darkgray,gray,green,lightgray,lime,magenta,orange,purple,red,silver,white,yellow,navy,violet]
 
-/* [SVG 1] */
-Svg1 = ""; 
-Svg1_Scale_X = .05; //[0.01:0.01:4]
-Svg1_Scale_Y = .05; //[0.01:0.01:4]
-Svg1_Offset_X = -70; //[-300:0.1:300]
-Svg1_Offset_Y = 30; //[-300:0.1:300]
-Svg1_Height = 7; //[0:0.1:20]
-Svg1_Color = "yellow";
+/* [Left Image] */
+Svg1 = "tractor.svg"; //["":None,"tractor.svg":Tractor,"pingpong.svg":Ping Pong, "basketball.svg":Basketball, "football.svg":Football, "soccer.svg":Soccer Ball, "star1.svg":Star 1, "tennis.svg":Tennis]
+Svg1_Height = 8; //[5:1:20]
+Svg1_Color = "black"; //[aqua,black,blue,brown,burlywood,chocolate,cyan,darkgray,gray,green,lightgray,lime,magenta,orange,purple,red,silver,white,yellow,navy,violet]
 
-/* [SVG 2] */
-Svg2 = ""; 
-Svg2_Scale_X = 0.1; //[0.01:0.01:4]
-Svg2_Scale_Y = 0.1; //[0.01:0.01:4]
-Svg2_Offset_X = -40; //[-300:0.1:300]
-Svg2_Offset_Y = 30; //[-300:0.1:300]
-Svg2_Height = 6; //[0:0.1:20]
-Svg2_Color = "brown";
+/* [Right Image] */
+Svg2 = "pingpong.svg"; //["":None,"tractor.svg":Tractor,"pingpong.svg":Ping Pong, "basketball.svg":Basketball, "football.svg":Football, "soccer.svg":Soccer Ball, "star1.svg":Star 1, "tennis.svg":Tennis]
+Svg2_Height = 8; //[5:1:20]
+Svg2_Color = "black"; //[aqua,black,blue,brown,burlywood,chocolate,cyan,darkgray,gray,green,lightgray,lime,magenta,orange,purple,red,silver,white,yellow,navy,violet]
 
-/* [SVG 3] */
-Svg3 = ""; 
-Svg3_Scale_X = 1; //[0.01:0.01:4]
-Svg3_Scale_Y = 1; //[0.01:0.01:4]
-Svg3_Offset_X = 0; //[-300:0.1:300]
-Svg3_Offset_Y = 0; //[-300:0.1:300]
-Svg3_Height = 1.5; //[0:0.1:20]
-Svg3_Color = "burlywood";
 
 /* [Text 1] */
-Text1 = ""; 
-Text1_Size = 14; //[1:1:100]
-Text1_Font = "Charter"; 
-Text1_Height = 10; //[1:1:100]
-Text1_Offset_X = 0; //[-300:0.1:300]
-Text1_Offset_Y = 75; //[-300:0.1:300]
-Text1_Color = "chocolate";
+Text1 = "Dad"; 
+Text1_Size = 24; //[10:1:50]
+Text1_Font = "Charm"; //[Allura,Beau Rivage,Charm, Charter, Cookie,Ephesis,Euphoria Script,Felipa,Gwendolyn,Imperial Script,Island Moments,Italianno,Lavishly Yours,Lugrasimo,Luxurious Script,Manufacturing Consent,Meie Script,Monsieur La Doulaise,Parisienne,Pinyon Script,Romanesco,Rouge Script,Tangerine,Updock]
+Text1_Height = 10; //[5:1:20]
+// Text1_Offset_X = 0; //[-300:0.1:300]
+// Text1_Offset_Y = -10; //[-300:0.1:300]
+Text1_Color = "chocolate"; //[aqua,black,blue,brown,burlywood,chocolate,cyan,darkgray,gray,green,lightgray,lime,magenta,orange,purple,red,silver,white,yellow,navy,violet]
 
 /* [Text 2] */
-Text2 = ""; 
-Text2_Size = 14; //[1:1:100]
-Text2_Font = "Charter"; 
-Text2_Height = 10; //[1:1:100]
-Text2_Offset_X = 0; //[-300:0.1:300]
-Text2_Offset_Y = -75; //[-300:0.1:300]
-Text2_Color = "chocolate";
+Text2 = "We love you"; 
+Text2_Size = 10; //[10:1:50]
+Text2_Font = "Charter"; //[Allura,Beau Rivage,Charm, Charter, Cookie,Ephesis,Euphoria Script,Felipa,Gwendolyn,Imperial Script,Island Moments,Italianno,Lavishly Yours,Lugrasimo,Luxurious Script,Manufacturing Consent,Meie Script,Monsieur La Doulaise,Parisienne,Pinyon Script,Romanesco,Rouge Script,Tangerine,Updock]
+Text2_Height = 6; //[5:1:20]
+// Text2_Offset_X = 0; //[-300:0.1:300]
+// Text2_Offset_Y = -20; //[-300:0.1:300]
+Text2_Color = "chocolate"; //[aqua,black,blue,brown,burlywood,chocolate,cyan,darkgray,gray,green,lightgray,lime,magenta,orange,purple,red,silver,white,yellow,navy,violet]
 
 /* [Text 3] */
-Text3 = ""; 
-Text3_Size = 12; //[1:1:100]
-Text3_Font = "Charter"; 
-Text3_Height = 1.5; //[1:1:100]
-Text3_Offset_X = 0; //[-300:0.1:300]
-Text3_Offset_Y = 0; //[-300:0.1:300]
-Text3_Color = "chocolate";
+Text3 = "and miss you!"; 
+Text3_Size = 10; //[10:1:50]
+Text3_Font = "Charter"; //[Allura,Beau Rivage,Charm, Charter, Cookie,Ephesis,Euphoria Script,Felipa,Gwendolyn,Imperial Script,Island Moments,Italianno,Lavishly Yours,Lugrasimo,Luxurious Script,Manufacturing Consent,Meie Script,Monsieur La Doulaise,Parisienne,Pinyon Script,Romanesco,Rouge Script,Tangerine,Updock]
+Text3_Height = 6; //[5:1:20]
+// Text3_Offset_X = 0; //[-300:0.1:300]
+// Text3_Offset_Y = -35; //[-300:0.1:300]
+Text3_Color = "chocolate"; //[aqua,black,blue,brown,burlywood,chocolate,cyan,darkgray,gray,green,lightgray,lime,magenta,orange,purple,red,silver,white,yellow,navy,violet]
 
 /* [Text 4] */
-Text4 = ""; 
-Text4_Size = 12; //[1:1:100]
-Text4_Font = "Charter"; 
-Text4_Height = 1.5; //[1:1:100]
-Text4_Offset_X = 0; //[-300:0.1:300]
-Text4_Offset_Y = -18; //[-300:0.1:300]
-Text4_Color = "chocolate";
+Text4 = "test"; 
+Text4_Size = 10; //[10:1:50]
+Text4_Font = "Charter"; //[Allura,Beau Rivage,Charm, Charter, Cookie,Ephesis,Euphoria Script,Felipa,Gwendolyn,Imperial Script,Island Moments,Italianno,Lavishly Yours,Lugrasimo,Luxurious Script,Manufacturing Consent,Meie Script,Monsieur La Doulaise,Parisienne,Pinyon Script,Romanesco,Rouge Script,Tangerine,Updock]
+Text4_Height = 6; //[5:1:20]
+// Text4_Offset_X = 0; //[-300:0.1:300]
+// Text4_Offset_Y = -18; //[-300:0.1:300]
+Text4_Color = "chocolate"; //[aqua,black,blue,brown,burlywood,chocolate,cyan,darkgray,gray,green,lightgray,lime,magenta,orange,purple,red,silver,white,yellow,navy,violet]
 
-/* [QR Code Parameters] */
+
+
+
+
+
+
+
+/* [Hidden] */
+$fn = 80;
+svgBasePath = "svg/";
+Show_Components = "both"; //[both:Both, sign:Sign only, slot:Slot only, placement:Transparent object with solid slot]
+Base_Shape = "heart"; //[circle:Circle,rectangle:Rectangle,heart:Heart]
+Base_Diameter = 130; 
+Base_Corner_Rounding = 3; //[0: 0.5: 15]
 QR_Message = ""; 
 QR_Error_Correction = "M"; //[L, M, Q, H]
 QR_Size = 60; //[10:1:200]
@@ -89,65 +81,64 @@ QR_Extrusion = 0; //[0:0.1:10]
 QR_Center = true;
 QR_Y_Offset = 0; //[-500:1:500]
 QR_X_Offset = 0; //[-500:1:500]
+Text1_Offset_X = 0; //[-300:0.1:300]
+Text1_Offset_Y = -Text1_Size/2; //[-300:0.1:300]
+Text2_Offset_X = 0; //[-300:0.1:300]
+Text2_Offset_Y = Text1_Offset_Y-Text2_Size*2; //[-300:0.1:300]
+Text3_Offset_X = 0; //[-300:0.1:300]
+Text3_Offset_Y = Text2_Offset_Y-Text3_Size*3/2; //[-300:0.1:300]
+Text4_Offset_X = 0; //[-300:0.1:300]
+Text4_Offset_Y = Text3_Offset_Y-Text4_Size*3/2; //[-300:0.1:300]
+Svg1_Scale_X = 1; //[0.01:0.01:4]
+Svg1_Scale_Y = 1; //[0.01:0.01:4]
+Svg1_Size_X = Base_X_Size/4; //[10:1:300]
+Svg1_Size_Y = Base_Y_Size/4; //[10:1:300]
+Svg1_Offset_X = -Base_X_Size/2+Svg1_Size_X*2/3; //[-300:0.1:300]
+Svg1_Offset_Y = Base_Y_Size/2-Svg1_Size_Y*3/2; //[-300:0.1:300]
+Svg2_Scale_X = 1; //[0.01:0.01:4]
+Svg2_Scale_Y = 1; //[0.01:0.01:4]
+Svg2_Size_X = Base_X_Size/4; //[10:1:300]
+Svg2_Size_Y = Base_Y_Size/4; //[10:1:300]
+Svg2_Offset_X = Base_X_Size/2-Svg2_Size_X*2/3; //[-300:0.1:300]
+Svg2_Offset_Y = Base_Y_Size/2-Svg2_Size_Y*3/2; //[-300:0.1:300]
+Svg3 = ""; 
+Svg3_Scale_X = 1; //[0.01:0.01:4]
+Svg3_Scale_Y = 1; //[0.01:0.01:4]
+Svg3_Offset_X = 0; //[-300:0.1:300]
+Svg3_Offset_Y = 0; //[-300:0.1:300]
+Svg3_Height = 1.5; //[5:1:20]
+Svg3_Color = "burlywood"; //[aqua,black,blue,brown,burlywood,chocolate,cyan,darkgray,gray,green,lightgray,lime,magenta,orange,purple,red,silver,white,yellow,navy,violet]
 
 
-/* [Slot Parameters] */
-Slot_Height = 50; //[10:1:100]
-Slot_Tolerance = 0.2; //[0:0.1:5]
-Slot_Entry_Height = 35; //[10:1:100]
-
-Slot_Offset = [0,-30,0];  //[-100:0.1:100] 
-Slot_Rotation = [0,0,0];
 
 
 
-/* [Hidden] */
-$fn = 80;
-
-
-
-// Slot_Offset_X = 0;
-// Slot_Offset_Y = 0;
-// Slot_Offset_Z = 0;
-echo(string_split("Hello World I am John", " "));
 Show_Slot_For_Reference = true;
 Slot_Channel_Width_Large_End = 20;
 Slot_Channel_Width_Small_End = 15;
 Slot_Entry_Diameter = Slot_Channel_Width_Large_End + 0;
 Slot_Depth = 4;
+Slot_Height = 50; //[10:1:100]
+Slot_Tolerance = 0.2; //[0:0.1:5]
+Slot_Entry_Height = 35; //[10:1:100]
+Slot_Offset = [0,-Base_Y_Size/2+Slot_Height/2,Slot_Depth/2];  //[-100:0.1:100] 
+Slot_Rotation = [0,0,0];
+
 
 plaque();
 
-module delme(){
-    if(Show_Components == "both" || Show_Components == "sign" || Show_Components == "placement"){
-        if(Show_Components == "both"){
-            difference(){
-                plaque();
-                slot();
-            }
-        } else if(Show_Components == "placement"){
-            difference(){
-                # plaque();
-                color("yellow") slot();
-            }
-        }
-    }
-    if(Show_Components == "slot"){
-        slot();
-    } else if(Show_Components == "placement"){
-        % color("red") slot();
-    }
-}
 
 module sign(){
     if(Svg1 != ""){
         color(Svg1_Color){
-            translate([Svg1_Offset_X, Svg1_Offset_Y, 0]){
+            translate([Svg1_Offset_X, Svg1_Offset_Y, Svg1_Height/2]){
                 rotate([0, 0, 0]){
                     scale([Svg1_Scale_X, Svg1_Scale_Y, 1]){
-                        linear_extrude(height = Svg1_Height){
-                            import(file=Svg1, convexity=10, center=true);
-                        } 
+                        resize([30, 30, 0]){
+                            linear_extrude(height = Svg1_Height){
+                                import(file=str(svgBasePath,Svg1), convexity=10, center=true);
+                            }
+                        }
                     }
                 }
             }
@@ -155,12 +146,15 @@ module sign(){
     } 
     if(Svg2 != ""){
         color(Svg2_Color){
-            translate([Svg2_Offset_X, Svg2_Offset_Y, 0]){
+            translate([Svg2_Offset_X, Svg2_Offset_Y, Svg2_Height/2]){
                 rotate([0, 0, 0]){
                     scale([Svg2_Scale_X, Svg2_Scale_Y, 1]){
-                        linear_extrude(height = Svg2_Height){
-                            import(file=Svg2, convexity=10, center=true);
-                        } 
+                        resize([30, 30, 0]){
+                            linear_extrude(height = Svg2_Height){
+                                import(file=str(svgBasePath,Svg2), convexity=10, center=true);
+                            }
+                        }
+                         
                     }
                 }
             }
@@ -172,7 +166,7 @@ module sign(){
                 rotate([0, 0, 0]){
                     scale([Svg3_Scale_X, Svg3_Scale_Y, 1]){
                         linear_extrude(height = Svg3_Height){
-                            import(file=Svg3, convexity=10, center=true);
+                            import(file=str(svgBasePath,Svg3), convexity=10, center=true);
                         } 
                     }
                 }
@@ -181,7 +175,7 @@ module sign(){
     }
     if(Text1 != ""){
         color(Text1_Color){
-            translate([Text1_Offset_X, Text1_Offset_Y, 0]){
+            translate([Text1_Offset_X, Text1_Offset_Y, Text1_Height/2]){
                 rotate([0, 0, 0]){
                     linear_extrude(height = Text1_Height){
                         multiline_text(text_value=Text1, font=Text1_Font, size=Text1_Size, halign="center");
@@ -192,7 +186,7 @@ module sign(){
     }
     if(Text2 != ""){
         color(Text2_Color){
-            translate([Text2_Offset_X, Text2_Offset_Y, 0]){
+            translate([Text2_Offset_X, Text2_Offset_Y, Text2_Height/2]){
                 rotate([0, 0, 0]){
                     linear_extrude(height = Text2_Height){
                         multiline_text(text_value=Text2, font=Text2_Font, size=Text2_Size, halign="center");
@@ -203,7 +197,7 @@ module sign(){
     }
     if(Text3 != ""){
         color(Text3_Color){
-            translate([Text3_Offset_X, Text3_Offset_Y, 0]){
+            translate([Text3_Offset_X, Text3_Offset_Y, Text3_Height/2]){
                 rotate([0, 0, 0]){
                     linear_extrude(height = Text3_Height){
                         multiline_text(text_value=Text3, font=Text3_Font, size=Text3_Size, halign="center");
@@ -214,7 +208,7 @@ module sign(){
     }
     if(Text4 != ""){
         color(Text4_Color){
-            translate([Text4_Offset_X, Text4_Offset_Y, 0]){
+            translate([Text4_Offset_X, Text4_Offset_Y, Text4_Height/2]){
                 rotate([0, 0, 0]){
                     linear_extrude(height = Text4_Height){
                         multiline_text(text_value=Text4, font=Text4_Font, size=Text4_Size, halign="center");
@@ -250,16 +244,7 @@ module slot(){
 module slideLockSlot(slotWidthLarge=Slot_Channel_Width_Large_End, slotWidthSmall=Slot_Channel_Width_Small_End, slotDepth=Slot_Depth, slotHeight=Slot_Height, entryHeight=Slot_Entry_Height){
     slotWidthLarge = slotWidthLarge + Slot_Tolerance*1.5;
     slotWidthSmall = slotWidthSmall + Slot_Tolerance;
-    // slotDepth = slotDepth + Slot_Tolerance;
-
-    // pointArray=[
-    //     [slotDepth/tan(45),0],
-    //     [0, slotDepth],
-    //     [slotWidthLarge, slotDepth],
-    //     [slotWidthLarge-slotDepth/tan(45),0],
-    //     [0,0]
-    // ];
-
+    
     pointArrayMultiConnectCompatible=[
         [(slotWidthLarge-slotWidthSmall)/2,0],
         [1, slotDepth-1],
@@ -269,8 +254,7 @@ module slideLockSlot(slotWidthLarge=Slot_Channel_Width_Large_End, slotWidthSmall
         [(slotWidthLarge-slotWidthSmall)/2+slotWidthSmall,0],
         [0,0]
     ];
-    echo ("slotWidthLarge: ", slotWidthLarge);
-
+    
     rotate([90,0,0]){
         translate([-slotWidthLarge/2, 0, 0]){
             rotate([90,0,0]){
@@ -309,7 +293,9 @@ module plaque(){
             }
         }
         if(Show_Components == "both" || Show_Components == "slot"){
-            slot();
+            color(Base_Color){
+                slot();
+            }
         }
     }
 }
