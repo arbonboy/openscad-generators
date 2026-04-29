@@ -1,12 +1,9 @@
-// Min_Diameter = 4; //[1:0.1:100]
+include <BOSL2/std.scad>
+include <BOSL2/threading.scad>
 
-
-Min_Outer_Diameter = 8; //[1:0.1:10]
-Min_Inner_Diameter = 3; //[0.5:0.1:20]
 Height = 80; //[1:1:300]
 Wall_Thickness = 1; //[1:0.1:10]
 Twist_Factor = 0; //[0:1:360]
-Scale_Factor = 0.8; //[0.1:0.05:1]
 Num_Edges = 8; //[3:1:200]
 Num_Sections = 4; //[1:1:10]
 Section_Spacing = 3; //[2:0.5:6]
@@ -19,6 +16,13 @@ Flip_Handle = false;
 
 /* [STL Handle] */
 Handle_Stl = "none"; //["none":"None", "/Users/john.andersen/Downloads/wandHiltWooden1_fixed.stl":"Wooden 1", "/Users/john.andersen/Downloads/ElegantJewelledHandle.stl":"Jewelled"]
+
+/* [Threading] */
+Add_Threading = true;
+Thread_Diameter = 25; //[5:0.1:60]
+Thread_Pitch = 2; //[1:0.1:5]
+Thread_Length = 20; //[5:1:20]
+Thread_Tolerance = 0.4; //[0:0.1:3]
 
 
 /* [Rotated Polygon Handle] */
@@ -36,9 +40,12 @@ Transparent_Shell = true; // Set to true to make the shell transparent for bette
 
 /* [Hidden] */
 Base_Padding = 2;
+Min_Outer_Diameter = 8; //[1:0.1:10]
+Min_Inner_Diameter = 3; //[0.5:0.1:20]
 
 Handle_Hollow_Diameter = sectionOuterBaseDiameter(Num_Sections) + 2*Wall_Thickness;
 Extended_Wand = false;
+
 
 
 for(i=[0:Num_Sections-1]){
@@ -73,39 +80,6 @@ module wand(){
     }
 }
 
-// function sectionBaseDiameterV2(index) = index == 0 ? sectionEndDiameter(index) / Scale_Factor * 1.1 : sectionEndDiameter(index) / Scale_Factor; 
-// function sectionEndDiameterV2(index) =  Min_Diameter + Section_Spacing*index*Wall_Thickness;
-
-// function sectionBaseDiameter(index, outer=true) = 
-//     index == 0 ? 
-//         outer ? 
-//             sectionEndDiameter(index) / Scale_Factor * 1.0 
-//         : 
-//             (sectionEndDiameter(index) - 2*Wall_Thickness) / Scale_Factor
-//     : outer ?
-//         sectionEndDiameter(index+1)
-//     :
-//         sectionEndDiameter(index+1) - 2*Wall_Thickness;
-
-// function sectionBaseDiameter(index, outer=true) = 
-//     index == 0 ? 
-//         outer ? 
-//             sectionEndDiameter(index+1)
-//         : 
-//             (sectionEndDiameter(index) - 2*Wall_Thickness) / Scale_Factor
-//     : outer ?
-//         sectionEndDiameter(index+1)
-//     :
-//         sectionEndDiameter(index+1) - 2*Wall_Thickness;
-
-
-// function sectionEndDiameter(index, outer=true) =  
-//     outer ? 
-//         Min_Diameter + index*Section_Spacing*Wall_Thickness
-//     :
-//         Min_Diameter + index*Section_Spacing*Wall_Thickness - 2*Wall_Thickness;
-
-
 function sectionOuterBaseDiameter(index) = Min_Outer_Diameter + index*Section_Spacing*Wall_Thickness;
 function sectionInnerBaseDiameter(index) = sectionOuterBaseDiameter(index) - 2*Wall_Thickness;
 function sectionInnerEndDiameter(index) = Min_Inner_Diameter + index*Section_Spacing*Wall_Thickness;
@@ -125,16 +99,6 @@ module section(index=0, solid=false, color=0){
             linear_extrude(height = height, v = [0, 0, 1], center = true, convexity = 10, twist = Twist_Factor, slices = 20, scale = calculatedScaleFactor, $fn = 16) {
                     circle(d=sectionOuterBaseDiameter(index), $fn=Num_Edges);  
             }
-            // if(!solid){
-            //     prct = (sectionOuterBaseDiameter(index)-2*Wall_Thickness)/sectionOuterBaseDiameter(index);
-            //     echo(str("Section ", index, ": Outer Base Diameter = ", sectionOuterBaseDiameter(index), ", Inner Base Diameter = ", sectionOuterBaseDiameter(index)-2*Wall_Thickness, ", Percentage = ", prct));
-            //     // resize([sectionOuterBaseDiameter(index)-2*Wall_Thickness, sectionOuterBaseDiameter(index)-2*Wall_Thickness, height]){
-            //     linear_extrude(height = height, v = [0, 0, 1], center = true, convexity = 10, twist = Twist_Factor, slices = 20, scale = calculatedScaleFactor, $fn = 16) {
-            //         scale([(sectionOuterBaseDiameter(index)-2*Wall_Thickness)/sectionOuterBaseDiameter(index), (sectionOuterBaseDiameter(index)-2*Wall_Thickness)/sectionOuterBaseDiameter(index),1]){
-            //             circle(d=sectionInnerBaseDiameter(index), $fn=Num_Edges);  
-            //         }
-            //     }
-            // }
             if(!solid){
                 linear_extrude(height = height, v = [0, 0, 1], center = true, convexity = 10, twist = Twist_Factor, slices = 20, scale = calculatedScaleFactor, $fn = 16) {
                     circle(d=sectionInnerBaseDiameter(index), $fn=Num_Edges);  
@@ -155,6 +119,34 @@ module handleStl(stl){
         }
     }
 
+}
+
+module upper_handle(rotateX, split_z) {
+    difference(){
+        intersection(){
+            rotate([rotateX, 0, 0]) {
+                handleStl(stl=Handle_Stl);
+            }
+            translate([0,0, split_z + 100]) {
+                cube([400,400,200], center=true);
+            }
+        }
+        scale([0.9, 0.9, 1]) section(index=Num_Sections, solid=true, color="white");
+        translate([0, 0, -(Height/2 + Base_Padding/2)]){
+            cylinder(d=sectionOuterBaseDiameter(Num_Sections), h=Base_Padding, center=true, $fn=92);
+        }
+    }
+}
+
+module lower_handle(rotateX, split_z) {
+    intersection(){
+        rotate([rotateX, 0, 0]) {
+            handleStl(stl=Handle_Stl);
+        }
+        translate([0,0, split_z - 100]) {
+            cube([400,400,200], center=true);
+        }
+    }
 }
 
 
@@ -203,24 +195,41 @@ module handleRotateExtrude(){
 }
 
 module handle(){
-    difference(){
-        if(Handle_Type == "stl"){
-            rotateX = Flip_Handle ? 180 : 0;
-            rotate([rotateX, 0, 0]) {
-                handleStl(stl=Handle_Stl);
+    if(Handle_Type == "stl"){
+        split_z = -Height/2 - Handle_Height_Padding/2;
+        rotateX = Flip_Handle ? 180 : 0;
+        union(){
+            difference(){
+                upper_handle(rotateX, split_z);
+                translate([0, 0, split_z]){
+                    cylinder(d=sectionOuterBaseDiameter(Num_Sections)-10, h=Handle_Height_Padding, center=true, $fn=92);
+                }
+                translate([0,0,split_z+Thread_Length/2-5]) threaded_rod(d=Thread_Diameter+Thread_Tolerance, l=Thread_Length+10, pitch=Thread_Pitch, $fn=32);
             }
-        } else {
-            handleRotateExtrude();
+            
+            rotate([180, 0, 0]){
+                translate([Handle_Max_Diameter*2, 0, 0]) {
+                    union(){
+                        lower_handle(rotateX, split_z);
+                        translate([0,0,split_z + Thread_Length/2]){
+                            threaded_rod(d=Thread_Diameter, l=Thread_Length, pitch=Thread_Pitch, $fn=32);    
+                        } 
+                    }
+                    
+                }
+            }
+            
+            
         }
-        // component(baseDiameter=sectionBaseDiameter(Num_Sections), endDiameter=sectionEndDiameter(Num_Sections), height=Height+2*Base_Padding, solidBase=true, roundedEnd=true, solid=true);
-        section(index=Num_Sections, solid=true, color="white");
-        translate([0, 0, -(Height/2 + Base_Padding/2)]){
-            cylinder(d=sectionBaseDiameter(Num_Sections), h=Base_Padding, center=true, $fn=92);
+    } else {
+        difference(){
+            handleRotateExtrude();
+            section(index=Num_Sections, solid=true, color="white");
+            translate([0, 0, -(Height/2 + Base_Padding/2)]){
+                cylinder(d=sectionOuterBaseDiameter(Num_Sections), h=Base_Padding, center=true, $fn=92);
+            }
         }
     }
-    
-    
-
 }
 
 
