@@ -7,7 +7,8 @@ Card_Height = 88; //[20:1:200]
 /* [Frame Parameters] */
 Inner_Frame_Depth = 50; //[20:1:180]
 Wall_Thickness = 3; //[1:0.5:10]
-Number_of_Holders = 2; //[1:1:4]
+Number_of_Holders_X = 2; //[1:1:20]
+Number_of_Holders_Y = 1; //[1:1:20]
 Additional_Floor_Thickness = 5; //[1:1:10]
 
 /* [Cutout Parameters] */
@@ -27,8 +28,8 @@ Outer_Single_Frame_Height = Card_Height + 2 * Wall_Thickness;
 Outer_Frame_Depth = Inner_Frame_Depth + Wall_Thickness;
 
 // Calculate final object dimensions
-Final_Object_Width = Number_of_Holders * (Outer_Single_Frame_Width - Wall_Thickness) + Wall_Thickness;
-Final_Object_Height = Outer_Single_Frame_Height;
+Final_Object_Width = Number_of_Holders_X * (Outer_Single_Frame_Width - Wall_Thickness) + Wall_Thickness;
+Final_Object_Height = Outer_Single_Frame_Height * Number_of_Holders_Y - Wall_Thickness * (Number_of_Holders_Y - 1);
 Final_Object_Depth = Outer_Frame_Depth;
 
 // Output dimensions
@@ -37,8 +38,8 @@ echo(str("Width: ", Final_Object_Width, "mm"));
 echo(str("Height: ", Final_Object_Height, "mm"));
 echo(str("Depth: ", Final_Object_Depth, "mm"));
 
-for(i = [0 : Number_of_Holders - 1]){
-    translate([i * (Outer_Single_Frame_Width - Wall_Thickness), 0, 0])
+for(i = [0 : Number_of_Holders_X * Number_of_Holders_Y - 1]){
+    translate([i % Number_of_Holders_X * (Outer_Single_Frame_Width - Wall_Thickness), floor(i / Number_of_Holders_X) * (Outer_Single_Frame_Height - Wall_Thickness), 0])
         rounded_box_with_cutouts();
 }
 
