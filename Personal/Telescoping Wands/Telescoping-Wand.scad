@@ -15,11 +15,13 @@ Section_Spacing = 3; //[2:0.5:6]
 /* [Common Handle Params] */
 Handle_Type = "none"; //["none":"None", "section":"Additional Section","poly":"Rotated Polygon", "stl":"STL File"]
 Handle_Max_Diameter = 20; //[15:1:60]
-Handle_Height_Padding = 20; //[0:1:60]
+Handle_Height_Padding = 20; //[0:1:120]
 Flip_Handle = false;
 
 /* [STL Handle] */
-Handle_Stl = "none"; //["none":"None", "/Users/john.andersen/Downloads/wandHiltWooden1_fixed.stl":"Wooden 1", "/Users/john.andersen/Downloads/ElegantJewelledHandle.stl":"Jewelled"]
+// Handle_Stl = "none"; //["none":"None", "Handles/wandHiltWooden1_fixed.stl":"Wooden 1", "Handles/ElegantJewelledHandle.stl":"Jewelled", "Handles/Industrial.stl":"Industrial","Handles/Serpent1.stl":"Serpent","Handles/SimpleSteel.stl":"Simple Steel","Handles/Bone1.stl":"Bone 1"]
+
+Handle_Stl = "Handles/DragonScale1.stl";
 
 /* [Threading] */
 Add_Threading = true;
@@ -221,40 +223,53 @@ module handleRotateExtrude(){
 
 module handle(){
     if(Handle_Type == "stl"){
-        split_z = handleSplitZ();
-        rotateX = Flip_Handle ? 180 : 0;
-        // grounded(-Height/2) {
-        grounded(handleSplitZ()+Handle_Height_Padding/2+0.4) {
-            upperHandle(rotateX, split_z);
-        }
+        if(Add_Threading){
+            split_z = handleSplitZ();
+            rotateX = Flip_Handle ? 180 : 0;
+            grounded(handleSplitZ()+Handle_Height_Padding/2+0.4) {
+                upperHandle(rotateX, split_z);
+            }
 
-        //function handleSplitZ() = -Height/2 - Handle_Height_Padding/2;
-        rotate([180, 0, 0]){    
-            grounded(-handleSplitZ()+Handle_Height_Padding/2+Base_Padding){
-                    lowerHandle(rotateX, split_z);
+            //function handleSplitZ() = -Height/2 - Handle_Height_Padding/2;
+            rotate([180, 0, 0]){    
+                grounded(-handleSplitZ()+Handle_Height_Padding/2+Base_Padding){
+                        lowerHandle(rotateX, split_z);
+                }
+            }
+        } else {
+            grounded(-Height/2){
+                difference(){
+                    handleStl(stl=Handle_Stl);
+                    section(index=Num_Sections, solid=true, color="white");
+                    translate([0, 0, -(Height/2 + Base_Padding/2)]){
+                        cylinder(d=sectionOuterBaseDiameter(Num_Sections), h=Base_Padding, center=true, $fn=92);
+                    }
+                }
             }
         }
-            // rotate([180, 0, 0]){
-            //     translate([Handle_Max_Diameter*2, 0, 0]) {
-            //         union(){
-            //             lower_handle(rotateX, split_z);
-            //             translate([0,0,split_z + Thread_Length/2]){
-            //                 threaded_rod(d=Thread_Diameter, l=Thread_Length, pitch=Thread_Pitch, $fn=32);    
-            //             } 
-            //         }
-                    
-            //     }
-            // }
             
-            
-        // }
     } else if(Handle_Type == "poly"){
-        grounded(-Height/2){
-            difference(){
-                handleRotateExtrude();
-                section(index=Num_Sections, solid=true, color="white");
-                translate([0, 0, -(Height/2 + Base_Padding/2)]){
-                    cylinder(d=sectionOuterBaseDiameter(Num_Sections), h=Base_Padding, center=true, $fn=92);
+        if(Add_Threading){
+            split_z = handleSplitZ();
+            rotateX = Flip_Handle ? 180 : 0;
+            grounded(handleSplitZ()+Handle_Height_Padding/2+0.4) {
+                upperPolygonHandle(rotateX, split_z);
+            }
+
+            //function handleSplitZ() = -Height/2 - Handle_Height_Padding/2;
+            rotate([180, 0, 0]){    
+                grounded(-handleSplitZ()+Handle_Height_Padding/2+Base_Padding){
+                        lowerPolygonHandle(rotateX, split_z);
+                }
+            }
+        } else {
+            grounded(-Height/2){
+                difference(){
+                    handleRotateExtrude();
+                    section(index=Num_Sections, solid=true, color="white");
+                    translate([0, 0, -(Height/2 + Base_Padding/2)]){
+                        cylinder(d=sectionOuterBaseDiameter(Num_Sections), h=Base_Padding, center=true, $fn=92);
+                    }
                 }
             }
         }
@@ -267,6 +282,66 @@ module handle(){
                 }
             }
         }
+    }
+}
+
+module polygonHandle(){
+    difference(){
+        handleRotateExtrude();
+        scale([0.9, 0.9, 1]) section(index=Num_Sections, solid=true, color="white");
+        translate([0, 0, -(Height/2 + Base_Padding/2)]){
+            cylinder(d=sectionOuterBaseDiameter(Num_Sections), h=Base_Padding, center=true, $fn=92);
+        }
+    }
+}
+
+module upper_polygon_handle(rotateX, split_z) {
+    difference(){
+        intersection(){
+            rotate([rotateX, 0, 0]) {
+                polygonHandle();
+            }
+            translate([0,0, split_z + 100]) {
+                cube([400,400,200], center=true);
+            }
+        }
+        scale([0.9, 0.9, 1]) section(index=Num_Sections, solid=true, color="white");
+        translate([0, 0, -(Height/2 + Base_Padding/2)]){
+            cylinder(d=sectionOuterBaseDiameter(Num_Sections), h=Base_Padding, center=true, $fn=92);
+        }
+    }
+}
+
+module lower_polygon_handle(rotateX, split_z) {
+    intersection(){
+        rotate([rotateX, 0, 0]) {
+            polygonHandle();
+        }
+        translate([0,0, split_z - 100]) {
+            cube([400,400,200], center=true);
+        }
+    }
+}
+
+module lowerPolygonHandle(rotateX, split_z){
+    translate([Handle_Max_Diameter*2, 0, 0]) {
+        union(){
+            lower_polygon_handle(rotateX, split_z);
+            translate([0,0,split_z + Thread_Length/2]){
+                threaded_rod(d=Thread_Diameter, l=Thread_Length, pitch=Thread_Pitch, $fn=32);    
+            } 
+        }
+        
+    }
+}
+
+module upperPolygonHandle(rotateX, split_z){
+    difference(){
+        upper_polygon_handle(rotateX, split_z);
+        translate([0, 0, split_z]){
+            cylinder(d=sectionOuterBaseDiameter(Num_Sections), h=Handle_Height_Padding, center=true, $fn=92);
+        }
+        translate([0,0,split_z+Thread_Length/2-5]) threaded_rod(d=Thread_Diameter+Thread_Tolerance, l=Thread_Length+10, pitch=Thread_Pitch, $fn=32);
     }
 }
 
