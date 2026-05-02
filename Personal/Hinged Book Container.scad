@@ -13,6 +13,7 @@ Box_Right_Depth = 20; //[1:1:200]
 Box_Corner_Rounding = 3; //[0:1:10]
 Box_Wall_Thickness = 3; //[1:1:20]
 
+
 /* [Book Cover Parameters] */
 Book_Cover_Margin = 2; //[0:1:8]
 Book_Cover_Thickness = 3; //[1:1:10]
@@ -55,6 +56,12 @@ Hinge_Pin_Diameter = 2.3; //[2:0.1:10]
 Hinge_Knuckle_Diameter = 5; //[2:1:30]
 Hinge_Section_Length = 5; //[2:1:30]
 
+/* [Page Texture] */
+Page_Texture_Enabled = true; //[true,false]
+Page_Texture_Ridge_Height = 0.4; //[0.1:0.1:2]
+Page_Texture_Ridge_Spacing = 0.9; //[0.5:0.1:10]
+Page_Texture_Ridge_Depth = 0.4; //[0.1:0.1:5]
+
 /* [Hidden] */
 Spine_Text_Height = 1; 
 FC_Title_Text_Height = 1;
@@ -64,8 +71,26 @@ Hinge_Clearance = 0.15;
 Hinge_Rotation_Angle = 0;
 
 Magnet_Housing_Width = 2*Magnet_Housing_Wall_Thickness + Magnet_Diameter;
-Box_Width = Magnet_Housing_Type == "sidewall" ? Inner_Box_Width + max(Box_Wall_Thickness, Magnet_Housing_Width) + Box_Wall_Thickness*2 : Inner_Box_Width+Box_Wall_Thickness*2;
-Box_Height = Magnet_Housing_Type == "sidewall" ? Inner_Box_Height + 2*max(Box_Wall_Thickness, Magnet_Housing_Width) : Inner_Box_Height+Box_Wall_Thickness*2;
+
+Box_Width = Magnet_Housing_Type == "sidewall" 
+    ? 
+        // Number_Of_Vertical_Magnets == 3 
+        //     ? 
+                Inner_Box_Width + max(Box_Wall_Thickness, Magnet_Housing_Width) + Box_Wall_Thickness*2 
+            // :   
+            //     Inner_Box_Width+Box_Wall_Thickness*2 
+    : 
+        Inner_Box_Width+Box_Wall_Thickness*2;
+
+Box_Height = Magnet_Housing_Type == "sidewall" 
+    ? 
+        Number_Of_Horizontal_Magnets == 2 
+            ? 
+                Inner_Box_Height + 2*max(Box_Wall_Thickness, Magnet_Housing_Width) 
+            : 
+                Inner_Box_Height+Box_Wall_Thickness*2 
+    : 
+        Inner_Box_Height+Box_Wall_Thickness*2;
 
 Book_Cover_Height = Box_Height + 2*Book_Cover_Margin;
 Book_Cover_Width = Box_Width + Book_Cover_Margin;
@@ -329,7 +354,12 @@ module box(side="left"){
     difference(){
         union(){
             difference(){
-                color(Primary_Color) cuboid([Box_Width, Box_Height, box_depth], rounding=Box_Corner_Rounding, edges=[FRONT+LEFT, FRONT+RIGHT, BACK+LEFT, BACK+RIGHT]);
+                color(Primary_Color) {
+                    union(){
+                        cuboid([Box_Width, Box_Height, box_depth], rounding=Box_Corner_Rounding, edges=[FRONT+LEFT, FRONT+RIGHT, BACK+LEFT, BACK+RIGHT]);
+                        if(Page_Texture_Enabled) pageTextureForBox(box_depth);
+                    }
+                }
                 translate([xTranslate, 0, 0]){
                     //color(Primary_Color) cuboid([Box_Width-2*Box_Wall_Thickness, Box_Height-2*Box_Wall_Thickness, box_depth], rounding=Box_Corner_Rounding, edges=[FRONT+LEFT, FRONT+RIGHT, BACK+LEFT, BACK+RIGHT]);
                     color(Primary_Color) cuboid([Inner_Box_Width, Inner_Box_Height, box_depth], rounding=Box_Corner_Rounding, edges=[FRONT+LEFT, FRONT+RIGHT, BACK+LEFT, BACK+RIGHT]);
@@ -345,6 +375,21 @@ module box(side="left"){
             }
     }
 }
+
+
+module pageTextureForBox(box_depth){
+    translate([0, 0, 0]){
+        rows = ceil((box_depth) / Page_Texture_Ridge_Spacing);
+        for(i=[0:rows-1]){
+            y = -box_depth/2 + i*Page_Texture_Ridge_Spacing;
+            translate([0, 0, y]){
+                cuboid([Box_Width + Page_Texture_Ridge_Depth, Box_Height + Page_Texture_Ridge_Depth,  Page_Texture_Ridge_Height], rounding=Box_Corner_Rounding, edges=[FRONT+LEFT, FRONT+RIGHT, BACK+LEFT, BACK+RIGHT]);
+            }
+        } 
+    }
+}
+
+
 
 module bookCover(side="left"){
     cover_width = Book_Cover_Width;
