@@ -489,6 +489,34 @@
             "Twist_Factor": "30",
             "Wall_Thickness": "1.2",
             "Wand_Cutout": "false"
+        },
+        "Testing Threading Lock Options": {
+            "Add_Threading": "true",
+            "Flip_Handle": "false",
+            "Guard_Extend_X": "7.5",
+            "Guard_Outer_Height": "2",
+            "Guard_Total_Height": "11",
+            "Handle_Height_Padding": "60",
+            "Handle_Max_Diameter": "35",
+            "Handle_Stl": "Handles\/Bone1.stl",
+            "Handle_Type": "stl",
+            "Height": "100",
+            "Hide_Handle": "false",
+            "Num_Edges": "6",
+            "Num_Sections": "3",
+            "Object_To_Build": "both",
+            "Pommel_Extend_X": "3.7000000000000002",
+            "Pommel_Outer_Height": "5",
+            "Pommel_Total_Height": "12",
+            "Section_Spacing": "3.5",
+            "Thread_Diameter": "21.900000000000002",
+            "Thread_Length": "11",
+            "Thread_Pitch": "3.5",
+            "Thread_Tolerance": "1.2000000000000002",
+            "Transparent_Shell": "false",
+            "Twist_Factor": "40",
+            "Wall_Thickness": "1",
+            "Wand_Cutout": "false"
         }
     }
 }

@@ -9,15 +9,15 @@ Inner_Frame_Depth = 50; //[20:1:180]
 Wall_Thickness = 3; //[1:0.5:10]
 Number_of_Holders_X = 2; //[1:1:20]
 Number_of_Holders_Y = 1; //[1:1:20]
-Additional_Floor_Thickness = 5; //[1:1:10]
+Additional_Floor_Thickness = 5; //[1:1:30]
 
 /* [Cutout Parameters] */
-Cutout_Bottom_Width_Percentage = 50; //[1:1:100]
-Cutout_Bottom_Height_Percentage = 50; //[1:1:100]
+Cutout_Bottom_Width_Percentage = 50; //[0:1:100]
+Cutout_Bottom_Height_Percentage = 50; //[0:1:100]
 
-Cutout_Side_Upper_Width_Percentage = 70; //[1:1:100]
-Cutout_Side_Lower_Width_Percentage = 40; //[1:1:100]
-Cutout_Side_Depth_Percentage = 100; //[1:1:100]
+Cutout_Side_Upper_Width_Percentage = 70; //[0:1:100]
+Cutout_Side_Lower_Width_Percentage = 40; //[0:1:100]
+Cutout_Side_Depth_Percentage = 100; //[0:1:100]
 
 Cutout_Corner_Radius = 6; //[1:1:20]
 
@@ -25,7 +25,7 @@ Cutout_Corner_Radius = 6; //[1:1:20]
 Rounding_Radius = 3; //[1:1:20]
 Outer_Single_Frame_Width = Card_Width + 2 * Wall_Thickness;
 Outer_Single_Frame_Height = Card_Height + 2 * Wall_Thickness;
-Outer_Frame_Depth = Inner_Frame_Depth + Wall_Thickness;
+Outer_Frame_Depth = Inner_Frame_Depth + Wall_Thickness + Additional_Floor_Thickness;
 
 // Calculate final object dimensions
 Final_Object_Width = Number_of_Holders_X * (Outer_Single_Frame_Width - Wall_Thickness) + Wall_Thickness;
@@ -40,14 +40,14 @@ echo(str("Depth: ", Final_Object_Depth, "mm"));
 
 for(i = [0 : Number_of_Holders_X * Number_of_Holders_Y - 1]){
     translate([i % Number_of_Holders_X * (Outer_Single_Frame_Width - Wall_Thickness), floor(i / Number_of_Holders_X) * (Outer_Single_Frame_Height - Wall_Thickness), 0])
-        rounded_box_with_cutouts();
+        rounded_box_with_cutouts(size=[Outer_Single_Frame_Width, Outer_Single_Frame_Height, Outer_Frame_Depth-Additional_Floor_Thickness], radius=Rounding_Radius, thickness=Wall_Thickness);
 }
 
 module rounded_box(size=[Outer_Single_Frame_Width, Outer_Single_Frame_Height, Outer_Frame_Depth], radius=Rounding_Radius, edges="Z", thickness=Wall_Thickness) {
     difference(){
         hull(){
             cuboid(size=size, rounding=radius, edges=edges);
-            translate([0, 0, -Outer_Frame_Depth/2-Additional_Floor_Thickness]){
+            translate([0, 0, -Outer_Frame_Depth/2]){
                 cuboid(size=[size[0]-Wall_Thickness, size[1]-Wall_Thickness, Additional_Floor_Thickness], rounding=radius-2, edges=edges);
             }
         }
@@ -60,8 +60,10 @@ module rounded_box(size=[Outer_Single_Frame_Width, Outer_Single_Frame_Height, Ou
 module rounded_box_with_cutouts(size=[Outer_Single_Frame_Width, Outer_Single_Frame_Height, Outer_Frame_Depth], radius=Rounding_Radius, thickness=Wall_Thickness) {
     difference(){
         rounded_box(size=size, radius=radius, thickness=thickness);
-        translate([0, 0, -Outer_Frame_Depth/2]){
-            cuboid(size=[size[0]*Cutout_Bottom_Width_Percentage/100, size[1]*Cutout_Bottom_Height_Percentage/100, size[2]], rounding=radius);
+        if( Cutout_Bottom_Width_Percentage > 0 && Cutout_Bottom_Height_Percentage > 0){
+            translate([0, 0, -Outer_Frame_Depth/2]){
+                cuboid(size=[size[0]*Cutout_Bottom_Width_Percentage/100, size[1]*Cutout_Bottom_Height_Percentage/100, size[2]*2], rounding=radius);
+            }
         }
         translate([0, Wall_Thickness, -size[2]*Cutout_Side_Depth_Percentage/100+size[2]/2+Wall_Thickness/2]){
             trapezoid_3d(

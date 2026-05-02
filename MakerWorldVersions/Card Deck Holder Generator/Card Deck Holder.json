@@ -12,7 +12,6 @@
             "Cutout_Side_Lower_Width_Percentage": "40",
             "Cutout_Side_Upper_Width_Percentage": "70",
             "Inner_Frame_Depth": "23",
-            "Number_of_Holders": "3",
             "Wall_Thickness": "2"
         },
         "Carcassonne Grid Holder": {
@@ -26,7 +25,36 @@
             "Cutout_Side_Lower_Width_Percentage": "10",
             "Cutout_Side_Upper_Width_Percentage": "40",
             "Inner_Frame_Depth": "60",
-            "Number_of_Holders": "1",
+            "Wall_Thickness": "2"
+        },
+        "New set 1": {
+            "Additional_Floor_Thickness": "15",
+            "Card_Height": "90",
+            "Card_Width": "65",
+            "Cutout_Bottom_Height_Percentage": "50",
+            "Cutout_Bottom_Width_Percentage": "50",
+            "Cutout_Corner_Radius": "6",
+            "Cutout_Side_Depth_Percentage": "100",
+            "Cutout_Side_Lower_Width_Percentage": "29",
+            "Cutout_Side_Upper_Width_Percentage": "48",
+            "Inner_Frame_Depth": "25",
+            "Number_of_Holders_X": "1",
+            "Number_of_Holders_Y": "2",
+            "Wall_Thickness": "2"
+        },
+        "Guillotine": {
+            "Additional_Floor_Thickness": "10",
+            "Card_Height": "90",
+            "Card_Width": "65",
+            "Cutout_Bottom_Height_Percentage": "80",
+            "Cutout_Bottom_Width_Percentage": "0",
+            "Cutout_Corner_Radius": "6",
+            "Cutout_Side_Depth_Percentage": "100",
+            "Cutout_Side_Lower_Width_Percentage": "20",
+            "Cutout_Side_Upper_Width_Percentage": "47",
+            "Inner_Frame_Depth": "25",
+            "Number_of_Holders_X": "1",
+            "Number_of_Holders_Y": "2",
             "Wall_Thickness": "2"
         }
     }
