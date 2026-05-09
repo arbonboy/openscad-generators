@@ -24,7 +24,7 @@ Handle_Stl = "/Users/john.andersen/Library/CloudStorage/GoogleDrive-arbonboy@gma
 /* [Threading] */
 Add_Threading = true;
 Handle_Cut_Z_Percentage = 10; //[1:0.1:100]
-Thread_Diameter = 25; //[5:0.1:60]
+//Thread_Diameter = 25; //[5:0.1:60]
 Thread_Pitch = 2; //[1:0.1:5]
 Thread_Length = 20; //[5:1:20]
 Thread_Tolerance = 0.4; //[0:0.1:3]
@@ -48,11 +48,22 @@ Threaded_Pommel_Height = Total_Handle_Height*Handle_Cut_Z_Percentage/100+Thread_
 Handle_Hollow_Diameter = sectionOuterBaseDiameter(Num_Sections) + 2*Wall_Thickness;
 Extended_Saber = false;
 
+function sectionOuterBaseDiameter(index) = Min_Outer_Diameter + index*Section_Spacing*Wall_Thickness;
+function sectionInnerBaseDiameter(index) = sectionOuterBaseDiameter(index) - 2*Wall_Thickness;
+function sectionInnerEndDiameter(index) = Min_Inner_Diameter + index*Section_Spacing*Wall_Thickness;
+function sectionOuterEndDiameter(index) = sectionInnerEndDiameter(index) + 2*Wall_Thickness;
+// function handleSplitZ() = -Height/2 - Handle_Height_Padding/2;
+function handleSplitZ() = -Height*Handle_Cut_Z_Percentage/100;
+
+Thread_Diameter = sectionOuterBaseDiameter(Num_Sections);
+function sleeveThreshold() = sectionOuterBaseDiameter(Num_Sections-1) - 0.9*sectionOuterEndDiameter(Num_Sections);
 
 
 for(i=[0:Num_Sections-1]){
     echo(str("Section ", i, ": Outer Base Diameter (", sectionOuterBaseDiameter(i), ") -> Section ", i+1, " Inner End Diameter = (", sectionInnerEndDiameter(i+1), ") => Difference of ", sectionOuterBaseDiameter(i) - sectionInnerEndDiameter(i+1)));
 }
+
+assert(sleeveThreshold() >= 0 && sleeveThreshold() <= 2, str("Sleeve Threshold ", sleeveThreshold(), " exceeds expected range of 0 - 1"));
 
 // outer diameter of base of outermost section - outer diameter of tip of sleeve section = between 0.8 to 1.6
 
@@ -102,12 +113,6 @@ module sections(c) {
     }
 }
 
-function sectionOuterBaseDiameter(index) = Min_Outer_Diameter + index*Section_Spacing*Wall_Thickness;
-function sectionInnerBaseDiameter(index) = sectionOuterBaseDiameter(index) - 2*Wall_Thickness;
-function sectionInnerEndDiameter(index) = Min_Inner_Diameter + index*Section_Spacing*Wall_Thickness;
-function sectionOuterEndDiameter(index) = sectionInnerEndDiameter(index) + 2*Wall_Thickness;
-// function handleSplitZ() = -Height/2 - Handle_Height_Padding/2;
-function handleSplitZ() = -Height*Handle_Cut_Z_Percentage/100;
 
 
 module section(index=0, solid=false, color=0){
