@@ -16,6 +16,7 @@ Section_Spacing = 3; //[2:0.5:6]
 Handle_Type = "none"; //["none":"None", "section":"Additional Section","poly":"Rotated Polygon", "stl":"STL File"]
 Handle_Max_Diameter = 20; //[15:1:60]
 Handle_Height_Padding = 20; //[0:1:120]
+Additional_Handle_Height = 0; //[0:1:100]
 Flip_Handle = false;
 
 /* [STL Handle] */
@@ -139,9 +140,13 @@ module section(index=0, solid=false, color=0){
 
 
 module handleStl(stl){
-
+    sizeX = Handle_Max_Diameter;
+    sizeY = Handle_Max_Diameter;
+    // sizeZ = Height+2*Wall_Thickness+Handle_Height_Padding+Additional_Handle_Height+(Add_Threading ? Thread_Length : 0);
+    sizeZ = Height+2*Wall_Thickness+Handle_Height_Padding;
+    echo(str("Handle STL: ", stl, " -> Scaled to fit within ", sizeX, "x", sizeY, "x", sizeZ, "mm box"));
     translate([0, 0, -Wall_Thickness-Handle_Height_Padding/2]){
-        resize([Handle_Max_Diameter, Handle_Max_Diameter, Height+2*Wall_Thickness+Handle_Height_Padding]){
+        resize([sizeX, sizeY, sizeZ]){
             import(stl, center=true);   
         }
     }

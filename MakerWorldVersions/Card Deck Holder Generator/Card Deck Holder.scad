@@ -5,7 +5,7 @@ Card_Width = 63; //[20:1:200]
 Card_Height = 88; //[20:1:200]
 
 /* [Frame Parameters] */
-Inner_Frame_Depth = 50; //[20:1:180]
+Inner_Frame_Depth = 50; //[10:1:180]
 Wall_Thickness = 3; //[1:0.5:10]
 Number_of_Holders_X = 2; //[1:1:20]
 Number_of_Holders_Y = 1; //[1:1:20]
