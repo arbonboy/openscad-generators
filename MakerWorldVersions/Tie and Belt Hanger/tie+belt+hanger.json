@@ -1,0 +1,13 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "2x10": {
+            "Arm_Length": "60",
+            "Arm_Thickness": "6",
+            "Inner_Hanger_Hook_Diameter": "40",
+            "Num_Slots_Tall": "10",
+            "Num_Slots_Wide": "2",
+            "Slot_Height": "15"
+        }
+    }
+}

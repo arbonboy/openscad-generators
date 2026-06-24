@@ -2,7 +2,7 @@ include <BOSL2/std.scad>;
 
 Inner_Width = 100; //[20:1:400]
 Inner_Height = 100; //[0:1:400]
-Inner_Depth = 50; //[20:1:400]
+Inner_Depth = 50; //[10:1:400]
 Wall_Thickness = 3; //[1:1:5]
 Back_Wall_Thickness = 8; //[1:0.5:20]
 Floor_Wall_Thickness = 3; //[0:1:20]

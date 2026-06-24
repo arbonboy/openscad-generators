@@ -350,7 +350,13 @@ module book(){
 module box(side="left"){
     box_depth = (side == "right") ? Box_Right_Depth : Box_Left_Depth;
     magnetFullDiameter = Magnet_Diameter+Magnet_Housing_Wall_Thickness*2;
-    xTranslate = Magnet_Housing_Type == "sidewall" ? side=="left" ? max(Box_Wall_Thickness, Magnet_Housing_Width)/2 - Box_Wall_Thickness*0  : -max(Box_Wall_Thickness, Magnet_Housing_Width)/2 + Box_Wall_Thickness*0 : 0;
+    xTranslate = Magnet_Housing_Type == "sidewall" ? 
+        side=="left" ? 
+            max(Box_Wall_Thickness, Magnet_Housing_Width)/2 - Box_Wall_Thickness  
+        : 
+            -max(Box_Wall_Thickness, Magnet_Housing_Width)/2 + Box_Wall_Thickness 
+    : 
+        0;
     difference(){
         union(){
             difference(){

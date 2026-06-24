@@ -1,0 +1,31 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "Test 1": {
+            "Brace_Cutoff_Y": "175",
+            "Brace_Thickness": "10",
+            "Braces": "3",
+            "Rack_Bar_Back_Y_Position": "-55",
+            "Rack_Bar_Height": "60",
+            "Rack_Bar_Width": "10",
+            "Spool_Diameter": "200",
+            "Spool_Margin": "5",
+            "TB_Backing_Thickness": "4",
+            "TB_Columns": "10",
+            "TB_Rows": "5"
+        },
+        "Office Filament Rack": {
+            "Brace_Cutoff_Y": "175",
+            "Brace_Thickness": "10",
+            "Braces": "3",
+            "Rack_Bar_Back_Y_Position": "-38",
+            "Rack_Bar_Height": "60",
+            "Rack_Bar_Width": "10",
+            "Spool_Diameter": "200",
+            "Spool_Margin": "5",
+            "TB_Backing_Thickness": "4",
+            "TB_Columns": "10",
+            "TB_Rows": "5"
+        }
+    }
+}

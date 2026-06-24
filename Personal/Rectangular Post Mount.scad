@@ -304,7 +304,7 @@ module boxSidePostClip(mountingWallThickness=2, generateFastener=true, generateS
         generateFastenerClip = true, 
         generateHole = false, 
         connectorClipTolerance = Post_Clip_Connecter_Tolerance, 
-        connectorClipThreadboardHole=true
+        connectorClipThreadboardHole=Post_Clip_Connector_TB_Hole
     );
     // mnts_postClip(wallThickness=wallThickness, width=width, height=Mount_Height, baseThickness=Base_Thickness, generateFastener=generateFastener, generateSideClip=generateSideClip);
     

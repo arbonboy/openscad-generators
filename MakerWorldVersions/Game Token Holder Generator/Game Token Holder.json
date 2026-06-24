@@ -1,0 +1,47 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Cutout_Width_Bottom": "20",
+            "Cutout_Width_Top": "30",
+            "Finger_Slot_Thickness": "0",
+            "Floor_Thickness": "3",
+            "Holes": "1",
+            "Token_Diameter": "44",
+            "Token_Thickness": "3",
+            "Tokens_Per_Hole": "7",
+            "Width_Between_Holes": "10",
+            "Z_Rounding": "2"
+        },
+        "Splendor": {
+            "Cutout_Width_Bottom": "20",
+            "Cutout_Width_Top": "30",
+            "Finger_Slot_Thickness": "0",
+            "Floor_Thickness": "4",
+            "Holes": "4",
+            "Lid_Text_Enabled": "false",
+            "Token_Diameter": "44",
+            "Token_Thickness": "3.5",
+            "Tokens_Per_Hole": "7",
+            "Width_Between_Holes": "3",
+            "Z_Rounding": "2"
+        },
+        "New set 2": {
+            "Cutout_Width_Bottom": "20",
+            "Cutout_Width_Top": "30",
+            "Finger_Slot_Thickness": "0",
+            "Floor_Thickness": "5",
+            "Holes": "2",
+            "Lid_Font": "Black Ops One",
+            "Lid_Text_Enabled": "true",
+            "Lid_Text_Size": "14.5",
+            "Lid_Text_Style": "engraved",
+            "Part": "Both",
+            "Token_Diameter": "44",
+            "Token_Thickness": "3",
+            "Tokens_Per_Hole": "5",
+            "Width_Between_Holes": "3",
+            "Z_Rounding": "2"
+        }
+    }
+}

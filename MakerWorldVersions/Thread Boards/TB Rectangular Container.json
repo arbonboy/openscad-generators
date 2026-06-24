@@ -1,0 +1,31 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Back_Wall_Thickness": "8",
+            "Board_Cols": "3",
+            "Board_Rows": "1",
+            "Center_Cutout_Width": "0",
+            "Floor_Wall_Thickness": "0",
+            "Front_Scoop": "false",
+            "Inner_Depth": "10",
+            "Inner_Height": "20",
+            "Inner_Width": "68",
+            "Mounting_Board_Thickness": "4",
+            "Wall_Thickness": "2"
+        },
+        "New set 2": {
+            "Back_Wall_Thickness": "10",
+            "Board_Cols": "5",
+            "Board_Rows": "1",
+            "Center_Cutout_Width": "0",
+            "Floor_Wall_Thickness": "2",
+            "Front_Scoop": "false",
+            "Inner_Depth": "36",
+            "Inner_Height": "40",
+            "Inner_Width": "112",
+            "Mounting_Board_Thickness": "3",
+            "Wall_Thickness": "3"
+        }
+    }
+}

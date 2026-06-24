@@ -201,7 +201,7 @@ module lowerHandle(rotateX, split_z){
     translate([Handle_Max_Diameter*2, Handle_Max_Diameter*2, 0]) {
         union(){
             translate([0, 0, Total_Handle_Height/2 + 3*split_z]) lower_handle(rotateX, split_z);
-            translate([0,0,split_z + Thread_Length/2]){
+            translate([0,0,split_z + Thread_Length/2-0.2]){
                 threaded_rod(d=Thread_Diameter, l=Thread_Length, pitch=Thread_Pitch, $fn=32);    
             } 
         }

@@ -1,0 +1,15 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Back_Wall_Thickness": "8",
+            "Board_Cols": "2",
+            "Board_Margin": "2",
+            "Bottom_Thickness": "0",
+            "Inner_Diameter": "40",
+            "Mounting_Board_Thickness": "4",
+            "Outer_Height": "20",
+            "Wall_Thickness": "4"
+        }
+    }
+}

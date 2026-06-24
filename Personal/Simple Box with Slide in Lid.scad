@@ -16,36 +16,48 @@ Cutout_Diameter_Y = 40; //[0:1:100]
 
 Lid_Height_Percentage = 0.8; //[0:0.05:2]
 Lid_Outer_Tolerance = 0.4; //[0:0.1:3]
-Lid_Text = "My Box";
+
+/* [Lid Text] */
+Lid_Text_1 = "My Box";
+Lid_Text_1_YPos = 0;
+Lid_Text_2 = "";
+Lid_Text_2_YPos = 20;
 Lid_Text_Size = 20; //[1:1:100]
-Lid_Text_Font = "Herculanum:style=Bold"; //["Arial:style=Bold","Arial:style=Italic","Times:style=Bold","Times:style=Italic","Courier:style=Bold","Courier:style=Italic","Herculanum:style=Bold"]
+// Lid_Text_Font = "Herculanum:style=Bold"; //["Arial:style=Bold","Arial:style=Italic","Times:style=Bold","Times:style=Italic","Courier:style=Bold","Courier:style=Italic","Herculanum:style=Bold"]
+Lid_Text_Font = "Kelly Slab:style=Bold";
 Lid_Text_Rotation = [0, 0, 0]; 
+
+/* [Lid Image] */
+Lid_SVG = "";
+Lid_SVG_YPos = 0;
+Lid_SVG_Scale = [1, 0, 0]; //[0:0.01:1]
+Lid_SVG_Rotation = [0, 0, 0];
 
 /* [Hidden Parameters] */
 Lid_Width = Box_Width + 2*Lid_Outer_Tolerance + 2*Wall_Thickness;
 Lid_Length = Box_Length + 2*Lid_Outer_Tolerance + 2*Wall_Thickness;
-Lid_Height = Box_Height * Lid_Height_Percentage;
+Lid_Height = Box_Height * Lid_Height_Percentage + Wall_Thickness;
 
 if(Show == "bottom" || Show == "both" || Show == "printing"){
-    color("blue") bottom();
+    bottom();
 }
 
 if(Show == "both"){
     translate([0, 0, Box_Height/2 - Lid_Height/2 + Wall_Thickness/2]){
-        color("gray") lid();
+        lid();
     }
 } 
 
 if(Show == "lid"){
     rotate([180, 0, 0]){
-        color("gray") lid();
+        lid();
     }
 }
 
 if(Show == "printing"){
     translate([Box_Width + 2 * Wall_Thickness + 2 * Lid_Outer_Tolerance + 20, 0, -Box_Height/2 + Lid_Height/2 - Wall_Thickness/2]){
         rotate([180, 0, 0]){
-            color("gray") lid();
+            lid();
         }
     }
 }
@@ -70,16 +82,41 @@ module lid(){
                 }
             }   
         }
-        if(Lid_Text!=""){
-            rotate(Lid_Text_Rotation){
-                translate([0, 0, Lid_Height/2 + 0.1]){
+        
+
+    }
+    if(Lid_Text_1!=""){
+        rotate(Lid_Text_Rotation){
+            translate([0, Lid_Text_1_YPos, Lid_Height/2-Wall_Thickness/2+0.01]){
+                color("white") 
                     linear_extrude(height=Wall_Thickness, center=true, $fn=16){
-                        text(Lid_Text, size=Lid_Text_Size, font=Lid_Text_Font, halign="center", valign="center");
+                        text(Lid_Text_1, size=Lid_Text_Size, font=Lid_Text_Font, halign="center", valign="center");
                     }
-                }
             }
         }
+    }
+    if(Lid_Text_2!=""){
+        rotate(Lid_Text_Rotation){
+            translate([0, Lid_Text_2_YPos, Lid_Height/2-Wall_Thickness/2+0.01]){
+                color("white") 
+                    linear_extrude(height=Wall_Thickness, center=true, $fn=16){
+                        text(Lid_Text_2, size=Lid_Text_Size, font=Lid_Text_Font, halign="center", valign="center");
+                    }
+            }
+        }
+    }
+    if(Lid_SVG != ""){
+        rotate(Lid_SVG_Rotation){
+            translate([0, Lid_SVG_YPos, Lid_Height/2-Wall_Thickness/2+0.01]){
+                color("white")
+                    scale(Lid_SVG_Scale){
+                        linear_extrude(height=Wall_Thickness, center=true, $fn=16){
+                            import(Lid_SVG, center=true);
+                        }
+                    }
 
+            }
+        }
     }
 }
 
