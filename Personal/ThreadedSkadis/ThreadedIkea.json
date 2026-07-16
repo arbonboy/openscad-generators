@@ -1,0 +1,33 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Board_Corner_Radius": "10",
+            "Board_Thickness": "5",
+            "Chamfer_Skadis_Slots": "true",
+            "Corner_Screw_Holes": "false",
+            "Corner_Screw_Holes_Chamfer": "true",
+            "Corner_Screw_Holes_Chamfer_Diameter": "8",
+            "Corner_Screw_Holes_Diameter": "3",
+            "Corner_Screw_Holes_Inset": "10",
+            "Number_Of_Columns": "10",
+            "Number_Of_Rows": "10",
+            "Skadis_Slot_Height": "15",
+            "Skadis_Slot_Width": "5"
+        },
+        "New set 2": {
+            "Board_Corner_Radius": "2",
+            "Board_Thickness": "4",
+            "Chamfer_Skadis_Slots": "false",
+            "Corner_Screw_Holes": "false",
+            "Corner_Screw_Holes_Chamfer": "true",
+            "Corner_Screw_Holes_Chamfer_Diameter": "8",
+            "Corner_Screw_Holes_Diameter": "3",
+            "Corner_Screw_Holes_Inset": "10",
+            "Number_Of_Columns": "6",
+            "Number_Of_Rows": "10",
+            "Skadis_Slot_Height": "15",
+            "Skadis_Slot_Width": "5"
+        }
+    }
+}

@@ -1,0 +1,57 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "6x11 - Layers2": {
+            "Board_Corner_Radius": "2",
+            "Board_Frame_Type": "solid",
+            "Board_Spacer_Type": "multimaterial",
+            "Enable_Lite_Frame": "true",
+            "Include_Skadis_Slots": "true",
+            "Lite_Frame_Type": "ultralite",
+            "Minimum_Lite_Frame_Border_Width": "1.5",
+            "Number_Of_Columns": "6",
+            "Number_Of_Rows": "11",
+            "Number_of_Boards": "1",
+            "Spacer_Thickness": "0.28000000000000003"
+        },
+        "6x11 - Layers1": {
+            "Board_Corner_Radius": "2",
+            "Board_Frame_Type": "solid",
+            "Board_Spacer_Type": "multimaterial",
+            "Enable_Lite_Frame": "false",
+            "Include_Skadis_Slots": "true",
+            "Lite_Frame_Type": "ultralite",
+            "Minimum_Lite_Frame_Border_Width": "2",
+            "Number_Of_Columns": "6",
+            "Number_Of_Rows": "11",
+            "Number_of_Boards": "1",
+            "Spacer_Thickness": "0.28000000000000003"
+        },
+        "New set 1": {
+            "Board_Corner_Radius": "2",
+            "Board_Frame_Type": "solid",
+            "Board_Spacer_Type": "gap",
+            "Enable_Lite_Frame": "false",
+            "Include_Skadis_Slots": "true",
+            "Lite_Frame_Type": "ultralite",
+            "Minimum_Lite_Frame_Border_Width": "1.5",
+            "Number_Of_Columns": "6",
+            "Number_Of_Rows": "12",
+            "Number_of_Boards": "3",
+            "Spacer_Thickness": "0.22"
+        },
+        "6x11 - 3 layers - gap": {
+            "Board_Corner_Radius": "2",
+            "Board_Frame_Type": "solid",
+            "Board_Spacer_Type": "gap",
+            "Enable_Lite_Frame": "false",
+            "Include_Skadis_Slots": "true",
+            "Lite_Frame_Type": "ultralite",
+            "Minimum_Lite_Frame_Border_Width": "1.5",
+            "Number_Of_Columns": "6",
+            "Number_Of_Rows": "11",
+            "Number_of_Boards": "3",
+            "Spacer_Thickness": "0.22"
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "Add_Wing_Supports": "true",
+            "Back_Wall_Thickness": "8.5",
+            "Board_Cols": "3",
+            "Board_Margin": "0",
+            "Bottom_Thickness": "5",
+            "Inner_Diameter": "125",
+            "Mounting_Board_Thickness": "2",
+            "Outer_Height": "18",
+            "Wall_Thickness": "3.5"
+        }
+    }
+}

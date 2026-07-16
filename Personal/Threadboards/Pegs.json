@@ -18,6 +18,13 @@
             "Peg_Radius": "4",
             "Peg_Terminator_Height": "2",
             "Peg_Terminator_Radius": "8.5"
+        },
+        "New set 3": {
+            "Peg_Length": "25",
+            "Peg_Radius": "2",
+            "Peg_Terminator_Height": "3",
+            "Peg_Terminator_Radius": "2.5",
+            "Thread_Height": "8"
         }
     }
 }

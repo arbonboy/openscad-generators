@@ -14,6 +14,13 @@
             "Rows": "9",
             "Space_Between_Boards_MM": "0.28000000000000003",
             "Thickness": "6"
+        },
+        "New set 3": {
+            "Cols": "9",
+            "Number_of_Boards": "1",
+            "Rows": "9",
+            "Space_Between_Boards_MM": "0.29999999999999999",
+            "Thickness": "4"
         }
     }
 }
