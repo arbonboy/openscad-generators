@@ -1,4 +1,4 @@
-include <lib/ts_board_nonthreaded.scad>;
+include <lib/ts_board_threaded.scad>;
 
 Inner_Diameter = 72; //[20:1:200]
 Outer_Height = 25; //[10:1:100]
@@ -21,10 +21,12 @@ module completeObject(){
         base();
         translate([0, Outer_Diameter/2+Back_Wall_Thickness-Mounting_Board_Thickness/2, Outer_Height+Board_Margin/2])
             cube([Outer_Diameter, Mounting_Board_Thickness, Board_Margin], center=true);
-        translate([-TS_Board_Cell_Size_X*Board_Cols/2 + TS_Board_Cell_Size_X/4, Outer_Diameter/2+Back_Wall_Thickness-Mounting_Board_Thickness/2*0, Outer_Height+Board_Margin])
+        //translate([-TS_Board_Cell_Size_X*Board_Cols/2 + TS_Board_Cell_Size_X/4, Outer_Diameter/2+Back_Wall_Thickness-Mounting_Board_Thickness/2*0, Outer_Height+Board_Margin])
+        translate([-Board_Cols*TS_Board_Cell_Size_X/4, Outer_Diameter/2+Back_Wall_Thickness-Mounting_Board_Thickness/2*0, Outer_Height+Board_Margin])
             rotate([90, 0, 0])
                 // tb_ntb_board(cols=Board_Cols, rows=Board_Rows, thickness=Mounting_Board_Thickness, cell_size=Cell_Size, hole_radius=Hole_Radius, roundedCorners=true, cornerRadius=.5, center=true);
-                ts_board_nonthreaded_board(cols=Board_Cols, rows=Board_Rows, thickness=Mounting_Board_Thickness,include_skadis=false, tolerance=0.1, rounding=0);
+                // ts_board_nonthreaded_board(cols=Board_Cols, rows=Board_Rows, thickness=Mounting_Board_Thickness,  tolerance=0.1, rounding=0);
+                ts_board_threaded_board(cols=Board_Cols, rows=Board_Rows, tb_hole_type="nonthreaded", thickness=Mounting_Board_Thickness, skadis_elements="ntb", board_border_type="solid", frame_type="solid", tolerance=0.1, rounding=0);
         if (Add_Wing_Supports) wingSupports();
     }
 }
@@ -34,7 +36,7 @@ module completeObject(){
 // side of the neck: it rises from the back-bottom of the neck (the bed) up to the board's outer
 // edge, with a vertical inner face bonded to the neck side and a self-supporting sloped underside.
 module wingSupports() {
-    board_half = (TS_Board_Cell_Size_X*Board_Cols - TS_Board_Cell_Size_X/2) / 2; // board spans +/- this in x
+    board_half = (TS_Board_Cell_Size_X*Board_Cols/2) / 2; // board spans +/- this in x
     neck_half  = Outer_Diameter / 2;                                             // neck spans +/- this in x
 
     if (board_half > neck_half) {

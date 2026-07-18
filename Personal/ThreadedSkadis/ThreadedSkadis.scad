@@ -11,7 +11,11 @@ Number_Of_Columns = 2;
 Number_Of_Rows = 3;       
 // (mm)
 Board_Corner_Radius = 2;  
-Include_Skadis_Slots = true;
+
+//Standard Skadis Boards are 5mm thick
+Board_Thickness = 5; //[0.5:0.1:10]
+TB_Hole_Type = "threaded";    // [threaded:Threaded, nonthreaded:Non-threaded, none:None]
+Skadis_Elements = "hole"; //[none:None, hole:Hole, peg:Peg, tb:Threaded TB hole, ntb:Non-threaded TB hole]
 
 /* [Lite Frame Settings] */
 // Remove material between holes to save filament, keeping only a connected border frame around each hole.
@@ -36,7 +40,9 @@ for(board_index = [0:Number_of_Boards-1]){
             ts_board_threaded_board(
                 rows = Number_Of_Rows, 
                 cols = Number_Of_Columns,
-                include_skadis = Include_Skadis_Slots,
+                thickness = Board_Thickness,
+                tb_hole_type = TB_Hole_Type,
+                skadis_elements = Skadis_Elements,
                 tolerance=0.1, 
                 rounding=Board_Corner_Radius,
                 board_border_type=Board_Frame_Type,
@@ -56,7 +62,7 @@ for(board_index = [0:Number_of_Boards-1]){
                                 ts_board_threaded_board(
                                     rows = Number_Of_Rows, 
                                     cols = Number_Of_Columns,
-                                    include_skadis = Include_Skadis_Slots,
+                                    skadis_elements = Skadis_Elements,
                                     tolerance=0.1, 
                                     rounding=Board_Corner_Radius,
                                     board_border_type=Board_Frame_Type,
