@@ -11,6 +11,8 @@ Number_Of_Columns = 2;
 Number_Of_Rows = 3;       
 // (mm)
 Board_Corner_Radius = 2;  
+// Starting interface in the top-left corner
+Initial_Interface = "Threaded";   // [Threaded, Skadis]
 
 //Standard Skadis Boards are 5mm thick
 Board_Thickness = 5; //[0.5:0.1:10]
@@ -43,7 +45,8 @@ for(board_index = [0:Number_of_Boards-1]){
                 thickness = Board_Thickness,
                 tb_hole_type = TB_Hole_Type,
                 skadis_elements = Skadis_Elements,
-                tolerance=0.1, 
+                tolerance=0.2, 
+                initial_interface = Initial_Interface,
                 rounding=Board_Corner_Radius,
                 board_border_type=Board_Frame_Type,
                 frame_type=frame_type,

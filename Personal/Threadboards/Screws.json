@@ -81,6 +81,15 @@
             "Mounting_Hole_Radius": "2",
             "Mounting_Hole_Type": "chamfered",
             "Thread_Height": "18"
+        },
+        "Threaded Skadis Mounting Screw": {
+            "For_Horizontal_Printing": "false",
+            "Head_Height": "8",
+            "Head_Type": "Minimal",
+            "Include_Mounting_Hole": "true",
+            "Mounting_Hole_Radius": "2",
+            "Mounting_Hole_Type": "hexphillips",
+            "Thread_Height": "15"
         }
     }
 }

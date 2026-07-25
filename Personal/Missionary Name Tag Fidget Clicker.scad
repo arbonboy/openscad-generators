@@ -14,8 +14,16 @@
 //     everything below (plus the base) is WHITE.
 //
 // Each part is modelled in its own print orientation, sitting on the bed (z = 0).
+//
+// The reusable geometry lives in two libraries:
+//   * lib/missionary_tag.scad     - the name-tag body, text layout, two-colour
+//                                    split, and base border.
+//   * lib/mx_keyboard_switch.scad - the MX switch clicker mechanism (stem
+//                                    sockets on the tag, pockets on the base).
 
 include <BOSL2/std.scad>
+include <lib/missionary_tag.scad>
+include <lib/mx_keyboard_switch.scad>
 
 /* [Name Tag Size] */
 // Width (X) of the tag and base
@@ -115,26 +123,29 @@ Part_Gap = 8;            // [0:1:40]
 
 /* [Hidden] */
 $fn = 64;
-eps = 0.02;
 
 // ---- Derived geometry ------------------------------------------------------
 raised        = Text_Depth > 0;
-td_abs        = abs(Text_Depth);
-socket_len    = Stem_Cross_Length    + Stem_Socket_Tolerance;
-socket_thick  = Stem_Cross_Thickness + Stem_Socket_Tolerance;
-pocket_total  = Switch_Pocket_Outer_Depth + Switch_Pocket_Inner_Depth;  // total base hole depth
-tag_feature_depth = max(Tag_Recess_Depth, Stem_Socket_Depth);          // deepest cut into the tag
-z_top         = Tag_Depth;   // top (text) surface of the tag
+socket_len    = mx_socket_len(Stem_Cross_Length, Stem_Socket_Tolerance);
+socket_thick  = mx_socket_thick(Stem_Cross_Thickness, Stem_Socket_Tolerance);
+pocket_total  = mx_pocket_total_depth(Switch_Pocket_Outer_Depth, Switch_Pocket_Inner_Depth);
+tag_feature_depth = max(Tag_Recess_Depth, Stem_Socket_Depth);  // deepest cut into the tag
+xs            = mx_switch_xs(Width, Number_Of_Switches);        // switch X positions
 
-// Border: inner opening clears the tag by Border_Tolerance; outer adds the wall thickness.
-border_open_w = Width  + 2 * Border_Tolerance;                          // tag-clearance opening
-border_open_h = Height + 2 * Border_Tolerance;
-border_open_r = Corner_Radius + Border_Tolerance;
-border_out_w  = border_open_w + 2 * Border_Wall_Thickness;              // outer footprint
-border_out_h  = border_open_h + 2 * Border_Wall_Thickness;
-border_out_r  = border_open_r + Border_Wall_Thickness;
 // Footprint width of each part (for the side-by-side "both" layout).
-base_footprint_w = Add_Base_Border ? border_out_w : Width;
+base_footprint_w = Add_Base_Border
+    ? mtag_border_outer_w(Width, Border_Tolerance, Border_Wall_Thickness)
+    : Width;
+
+// The five customizer text lines, as [text, size, font, y_adjust, gap_below].
+// Blank lines are dropped by mtag_text_block and reclaim their space.
+text_lines = [
+    [Name_Text,           Name_Font_Size,           Name_Font_Family,           Name_Y_Adjustment,           Name_Bottom_Gap],
+    [Church_Label_1_Text, Church_Label_1_Font_Size, Church_Label_1_Font_Family, Church_Label_1_Y_Adjustment, Church_Line_Gap],
+    [Church_Label_2_Text, Church_Label_2_Font_Size, Church_Label_2_Font_Family, Church_Label_2_Y_Adjustment, Church_Line_Gap],
+    [Church_Label_3_Text, Church_Label_3_Font_Size, Church_Label_3_Font_Family, Church_Label_3_Y_Adjustment, Church_Line_Gap],
+    [Church_Label_4_Text, Church_Label_4_Font_Size, Church_Label_4_Font_Family, Church_Label_4_Y_Adjustment, 0],
+];
 
 // ---- Validation ------------------------------------------------------------
 Min_Top_Skin = 1.0;
@@ -149,181 +160,45 @@ assert(Width / Number_Of_Switches >= Switch_Pocket_Outer_Size + 1,
 assert(Height >= Switch_Pocket_Outer_Size + 2,
        "Height is too small to hold the switch pocket.");
 
-// Switch X positions: evenly spaced, centred on X, single row at y = 0.
-function switch_xs() =
-    let (n = Number_Of_Switches, pitch = Width / n)
-    [ for (i = [0 : n - 1]) (i + 0.5) * pitch - Width / 2 ];
-
-// ---- Text line Y positions (block centred on the tag, y = 0) ---------------
-name_h = Name_Font_Size;
-c1_h   = Church_Label_1_Font_Size;
-c2_h   = Church_Label_2_Font_Size;
-c3_h   = Church_Label_3_Font_Size;
-c4_h   = Church_Label_4_Font_Size;
-has_c4 = Church_Label_4_Text != "";   // optional 4th church line
-
-block_h = name_h + Name_Bottom_Gap + c1_h + Church_Line_Gap
-          + c2_h + Church_Line_Gap + c3_h
-          + (has_c4 ? Church_Line_Gap + c4_h : 0);
-
-y_name = block_h / 2 - name_h / 2;
-y_c1   = y_name - name_h / 2 - Name_Bottom_Gap  - c1_h / 2;
-y_c2   = y_c1   - c1_h / 2   - Church_Line_Gap  - c2_h / 2;
-y_c3   = y_c2   - c2_h / 2   - Church_Line_Gap  - c3_h / 2;
-y_c4   = y_c3   - c3_h / 2   - Church_Line_Gap  - c4_h / 2;
-
 // ===========================================================================
-//  Text
+//  Parts
 // ===========================================================================
 
-// One text line, centred horizontally and vertically at the given Y.
-module text_line(txt, size, font, y) {
-    translate([0, y, 0])
-        text(txt, size = size, font = font, halign = "center", valign = "center");
+// Uncoloured tag geometry: the name-tag body with the MX gripper cut into its
+// underside (clearance recesses, stem housings, and "+" sockets).
+module tag_solid() {
+    mx_tag_grip(xs,
+                Tag_Recess_Size, Tag_Recess_Rounding, Tag_Recess_Depth,
+                Tag_Housing_Diameter, socket_len, socket_thick, Stem_Socket_Depth)
+        mtag_body(Width, Height, Tag_Depth, Corner_Radius);
 }
 
-// All text lines as a single 2D shape, centred on the tag. The 4th church line is optional.
-module all_text_2d() {
-    text_line(Name_Text,           Name_Font_Size,           Name_Font_Family,           y_name + Name_Y_Adjustment);
-    text_line(Church_Label_1_Text, Church_Label_1_Font_Size, Church_Label_1_Font_Family, y_c1   + Church_Label_1_Y_Adjustment);
-    text_line(Church_Label_2_Text, Church_Label_2_Font_Size, Church_Label_2_Font_Family, y_c2   + Church_Label_2_Y_Adjustment);
-    text_line(Church_Label_3_Text, Church_Label_3_Font_Size, Church_Label_3_Font_Family, y_c3   + Church_Label_3_Y_Adjustment);
-    if (has_c4)
-        text_line(Church_Label_4_Text, Church_Label_4_Font_Size, Church_Label_4_Font_Family, y_c4 + Church_Label_4_Y_Adjustment);
-}
-
-// ===========================================================================
-//  Tag (upper part)
-// ===========================================================================
-
-// MX cross ("+") stem socket profile.
-module stem_cross_2d(len, thick) {
-    square([len, thick], center = true);
-    square([thick, len], center = true);
-}
-
-// Rounded-square clearance recesses cut into the tag underside (z = 0 upward). Each clears
-// the top housing of an MX switch and surrounds the circular stem housing.
-module tag_recesses() {
-    for (x = switch_xs())
-        translate([x, 0, -eps])
-            linear_extrude(height = Tag_Recess_Depth + eps)
-                rect([Tag_Recess_Size, Tag_Recess_Size], rounding = Tag_Recess_Rounding);
-}
-
-// Circular housings that sit inside the recesses (flush with the underside), giving the "+"
-// socket its gripping walls. They join the tag body at the top of the recess.
-module tag_housings() {
-    for (x = switch_xs())
-        translate([x, 0, 0])
-            cylinder(d = Tag_Housing_Diameter, h = Tag_Recess_Depth + eps);
-}
-
-// The "+" stem sockets, cut up from the underside through the housings into the body.
-module stem_sockets() {
-    for (x = switch_xs())
-        translate([x, 0, -eps])
-            linear_extrude(height = Stem_Socket_Depth + eps)
-                stem_cross_2d(socket_len, socket_thick);
-}
-
-// Uncoloured tag geometry: body, minus the clearance recesses, plus the circular housings,
-// minus the "+" sockets.
-module tag_geo() {
-    difference() {
-        union() {
-            difference() {
-                cuboid([Width, Height, Tag_Depth], rounding = Corner_Radius, edges = "Z", anchor = BOTTOM);
-                tag_recesses();
-            }
-            tag_housings();
-        }
-        stem_sockets();
-    }
-}
-
-// A large slab spanning the whole XY footprint between z0 and z1 (for colour splits).
-module z_slab(z0, z1) {
-    translate([-Width, -Height, z0])
-        cube([2 * Width, 2 * Height, z1 - z0]);
-}
-
-// The text glyphs extruded between z0 and z0 + h.
-module text_prism(z0, h) {
-    translate([0, 0, z0])
-        linear_extrude(height = h)
-            all_text_2d();
-}
-
-// The full, coloured tag part.
+// The full, coloured tag part (raised or engraved two-colour text).
 module tag_part() {
-    if (raised) {
-        // Black tag, white raised text.
-        color("dimgrey") tag_geo();
-        color("white") text_prism(z_top - eps, Text_Depth + eps);
-    } else {
-        // Engraved: the top td_abs layers are black (with the text cut out, revealing the
-        // white below); everything below - and the base - is white. The two colours meet on a
-        // single plane at z_split, which is exactly one filament colour-change for the printer.
-        // The white block is drawn first and the black cap last so the fast preview (F5)
-        // composites the (physically topmost) black layers over the white instead of z-fighting.
-        z_split = z_top - td_abs;
-        color("white")
-            intersection() { tag_geo(); z_slab(-eps, z_split); }
-        color("dimgrey")
-            difference() {
-                intersection() { tag_geo(); z_slab(z_split, z_top + eps); }
-                text_prism(z_split, td_abs + eps);
-            }
+    mtag_two_color_tag(Width, Height, Tag_Depth, Text_Depth, "dimgrey", "white") {
+        tag_solid();
+        mtag_text_block(text_lines);
     }
 }
 
-// ===========================================================================
-//  Base (lower part)
-// ===========================================================================
-
-// The stepped switch pockets, cut from the base top face (z = Base_Depth) downward.
-module base_pockets() {
-    for (x = switch_xs()) {
-        // Outer mouth: Switch_Pocket_Outer_Size square, Switch_Pocket_Outer_Depth deep.
-        translate([x, 0, Base_Depth - Switch_Pocket_Outer_Depth / 2 + eps])
-            cube([Switch_Pocket_Outer_Size, Switch_Pocket_Outer_Size, Switch_Pocket_Outer_Depth + 2 * eps], center = true);
-        // Inner bore: Switch_Pocket_Inner_Size square, continues Switch_Pocket_Inner_Depth deeper.
-        translate([x, 0, Base_Depth - Switch_Pocket_Outer_Depth - Switch_Pocket_Inner_Depth / 2])
-            cube([Switch_Pocket_Inner_Size, Switch_Pocket_Inner_Size, Switch_Pocket_Inner_Depth + eps], center = true);
-    }
-}
-
-// Base with a raised border/shell: a single solid outer block (base + border height) with a
-// rounded-rectangular tray cavity milled into the top, leaving Border_Tolerance of clearance
-// around the tag and walls of Border_Wall_Thickness. Built as one solid minus cavities (rather
-// than unioned/stacked prisms) so there are no coincident faces -> a clean, slicer-safe mesh.
-module base_bordered_geo() {
-    difference() {
-        // Full outer block, base + border height.
-        linear_extrude(height = Base_Depth + Border_Extension)
-            rect([border_out_w, border_out_h], rounding = border_out_r);
-        // Tray cavity: the tag-clearance opening, from the top down to the base top face.
-        translate([0, 0, Base_Depth])
-            linear_extrude(height = Border_Extension + eps)
-                rect([border_open_w, border_open_h], rounding = border_open_r);
-    }
-}
-
-// Base body with a stepped switch pocket at each switch position, plus optional border.
-module base_geo() {
+// Uncoloured base geometry: the name-tag body (optionally bordered) with a
+// stepped MX switch pocket at each switch position.
+module base_solid() {
     difference() {
         if (Add_Base_Border)
-            base_bordered_geo();
+            mtag_base_border(Width, Height, Corner_Radius, Base_Depth,
+                             Border_Extension, Border_Wall_Thickness, Border_Tolerance);
         else
-            cuboid([Width, Height, Base_Depth], rounding = Corner_Radius, edges = "Z", anchor = BOTTOM);
-        base_pockets();
+            mtag_body(Width, Height, Base_Depth, Corner_Radius);
+        mx_base_pockets(xs, Base_Depth,
+                        Switch_Pocket_Outer_Size, Switch_Pocket_Outer_Depth,
+                        Switch_Pocket_Inner_Size, Switch_Pocket_Inner_Depth);
     }
 }
 
-// The full, coloured base part (white when text is engraved, black when raised).
+// The full, coloured base part (matches the tag's colour split).
 module base_part() {
-    color(raised ? "dimgrey" : "white") base_geo();
+    color(mtag_body_color(Text_Depth, "dimgrey", "white")) base_solid();
 }
 
 // ===========================================================================

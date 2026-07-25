@@ -37,24 +37,25 @@
             "Number_of_Boards": "3",
             "Spacer_Thickness": "0.22"
         },
-        "10x10 - 3 layers - gap": {
+        "10x10 - 5 layers - gap": {
             "Board_Corner_Radius": "2",
-            "Board_Frame_Type": "solid",
+            "Board_Frame_Type": "cutout",
             "Board_Spacer_Type": "gap",
-            "Enable_Lite_Frame": "false",
+            "Enable_Lite_Frame": "true",
             "Lite_Frame_Type": "ultralite",
             "Minimum_Lite_Frame_Border_Width": "1.5",
             "Number_Of_Columns": "10",
             "Number_Of_Rows": "10",
             "Number_of_Boards": "3",
-            "Spacer_Thickness": "0.20000000000000001"
+            "Spacer_Thickness": "0.28000000000000003"
         },
-        "2x2 Connector - Orientation 1": {
+        "2x2 Connector - Orientation 2": {
             "Board_Corner_Radius": "2",
             "Board_Frame_Type": "solid",
             "Board_Spacer_Type": "multimaterial",
             "Board_Thickness": "2",
             "Enable_Lite_Frame": "false",
+            "Initial_Interface": "Skadis",
             "Lite_Frame_Type": "ultralite",
             "Minimum_Lite_Frame_Border_Width": "1.5",
             "Number_Of_Columns": "2",
@@ -77,6 +78,67 @@
             "Number_of_Boards": "3",
             "Skadis_Elements": "hole",
             "Spacer_Thickness": "0.20000000000000001",
+            "TB_Hole_Type": "threaded"
+        },
+        "10x11 - MultiLayers - CutoutBorder": {
+            "Board_Corner_Radius": "2",
+            "Board_Frame_Type": "cutout",
+            "Board_Spacer_Type": "gap",
+            "Board_Thickness": "5",
+            "Enable_Lite_Frame": "true",
+            "Lite_Frame_Type": "ultralite",
+            "Minimum_Lite_Frame_Border_Width": "1.5",
+            "Number_Of_Columns": "10",
+            "Number_Of_Rows": "11",
+            "Number_of_Boards": "1",
+            "Skadis_Elements": "hole",
+            "Spacer_Thickness": "0.28000000000000003",
+            "TB_Hole_Type": "threaded"
+        },
+        "1x2 Vertical": {
+            "Board_Corner_Radius": "2",
+            "Board_Frame_Type": "solid",
+            "Board_Spacer_Type": "multimaterial",
+            "Board_Thickness": "2",
+            "Enable_Lite_Frame": "false",
+            "Lite_Frame_Type": "ultralite",
+            "Minimum_Lite_Frame_Border_Width": "1.5",
+            "Number_Of_Columns": "1",
+            "Number_Of_Rows": "2",
+            "Number_of_Boards": "1",
+            "Skadis_Elements": "peg",
+            "Spacer_Thickness": "0.28000000000000003",
+            "TB_Hole_Type": "threaded"
+        },
+        "2x1 Horizontal": {
+            "Board_Corner_Radius": "2",
+            "Board_Frame_Type": "solid",
+            "Board_Spacer_Type": "multimaterial",
+            "Board_Thickness": "2",
+            "Enable_Lite_Frame": "false",
+            "Lite_Frame_Type": "ultralite",
+            "Minimum_Lite_Frame_Border_Width": "1.5",
+            "Number_Of_Columns": "2",
+            "Number_Of_Rows": "1",
+            "Number_of_Boards": "1",
+            "Skadis_Elements": "peg",
+            "Spacer_Thickness": "0.28000000000000003",
+            "TB_Hole_Type": "threaded"
+        },
+        "2x2 Connector - Orientation 1": {
+            "Board_Corner_Radius": "2",
+            "Board_Frame_Type": "solid",
+            "Board_Spacer_Type": "multimaterial",
+            "Board_Thickness": "2",
+            "Enable_Lite_Frame": "false",
+            "Initial_Interface": "Threaded",
+            "Lite_Frame_Type": "ultralite",
+            "Minimum_Lite_Frame_Border_Width": "1.5",
+            "Number_Of_Columns": "2",
+            "Number_Of_Rows": "2",
+            "Number_of_Boards": "1",
+            "Skadis_Elements": "peg",
+            "Spacer_Thickness": "0.28000000000000003",
             "TB_Hole_Type": "threaded"
         }
     }

@@ -36,24 +36,33 @@ function ts_board_height(rows, cy) = rows * cy;
 
 
 // All grid nodes as [x, y, is_skadis].
-function ts_board_nodes(rows, cols, cx, cy, solid) =
+// `initial` fixes the interface at the TOP-LEFT node (k = 0, r = rmax): a
+// threaded rod hole when "Threaded", a Skadis slot/peg when "Skadis". The rest
+// of the board alternates from there.
+function ts_board_nodes(rows, cols, cx, cy, solid, initial = "Threaded") =
     let(
         px   = ts_board_px(cx),
         py   = ts_board_py(cy),
-        kmax = solid ? cols : 2 * cols,   // Solid drops the far column
-        rmax = solid ? rows - 2 + 1      : rows,       // Solid drops the far REVIEW - 
-        // kmax = solid ? cols : cols - 1,   // Solid drops the far column
-        // rmax = solid ? rows - 1 : rows,       // Solid drops the far row
+        // Cutout runs nodes to both edges (cols+1 / rows+1 node lines); Solid
+        // drops the far column + row and insets by half a pitch. The k loop is
+        // [0 : kmax-1] (count = kmax) while the r loop is [0 : rmax], so the
+        // cutout column count is cols+1 and the row count is rows+1 to match.
+        kmax = solid ? cols : cols + 1,   // Solid drops the far column
+        rmax = solid ? rows - 1 : rows,   // Solid drops the far row
         sx   = solid ? px / 2 : 0,                     // ...and insets by half a pitch
-        sy   = solid ? py / 2 : 0
+        sy   = solid ? py / 2 : 0,
+        // Phase so the top-left node (k = 0, r = rmax) is a rod when "Threaded"
+        // and a Skadis node when "Skadis"; adding rmax keeps that anchor fixed
+        // regardless of how many rows the board has.
+        start = (initial == "Skadis") ? 1 : 0
     )
     [ for (r = [0 : rmax]) for (k = [0 : kmax-1])
-        [ k * px + sx, r * py + sy, (k + r) % 2 == 1 ] ];
+        [ k * px + sx, r * py + sy, (k + r + rmax + start) % 2 == 1 ] ];
 
-function ts_board_skadis_nodes(rows, cols, cx, cy, solid) =
-    [ for (n = ts_board_nodes(rows, cols, cx, cy, solid)) if (n[2])  [n[0], n[1]] ];
-function ts_board_rod_nodes(rows, cols, cx, cy, solid) =
-    [ for (n = ts_board_nodes(rows, cols, cx, cy, solid)) if (!n[2]) [n[0], n[1]] ];
+function ts_board_skadis_nodes(rows, cols, cx, cy, solid, initial = "Threaded") =
+    [ for (n = ts_board_nodes(rows, cols, cx, cy, solid, initial)) if (n[2])  [n[0], n[1]] ];
+function ts_board_rod_nodes(rows, cols, cx, cy, solid, initial = "Threaded") =
+    [ for (n = ts_board_nodes(rows, cols, cx, cy, solid, initial)) if (!n[2]) [n[0], n[1]] ];
 
 // Outer radius of a drilled rod hole (matches threadedRodForHole's tolerance scaling).
 function ts_rod_hole_radius(hole_radius, tolerance) =
@@ -89,13 +98,13 @@ module ts_strut(p, q, w) {
 // horizontal/vertical struts; "lite" also adds the diagonals. The holes are drilled later, turning
 // each filled patch into a ring/wall. On the regular grid every node reaches its axis neighbours,
 // so even ultralite stays fully connected.
-module ts_lite_frame_2d(rows, cols, cx, cy, solid, lite_border, frame_type, hole_radius, tolerance, rounding, skadis_elements = "hole") {
+module ts_lite_frame_2d(rows, cols, cx, cy, solid, lite_border, frame_type, hole_radius, tolerance, rounding, skadis_elements = "hole", initial = "Threaded") {
     px       = ts_board_px(cx);
     py       = ts_board_py(cy);
     W        = ts_board_width(cols, cx);
     H        = ts_board_height(rows, cy);
-    skadis   = ts_board_skadis_nodes(rows, cols, cx, cy, solid);
-    rods     = ts_board_rod_nodes(rows, cols, cx, cy, solid);
+    skadis   = ts_board_skadis_nodes(rows, cols, cx, cy, solid, initial);
+    rods     = ts_board_rod_nodes(rows, cols, cx, cy, solid, initial);
     nodes    = concat(skadis, rods);
     rod_disk = ts_rod_hole_radius(hole_radius, tolerance) + lite_border;   // >= lite_border wall
     conn_w   = 2 * lite_border;
@@ -164,32 +173,37 @@ module ts_board_threaded_board(
     rounding=2,
     board_border_type="solid",
     frame_type="ultralite",
-    minimum_lite_frame_border_width=2
+    minimum_lite_frame_border_width=2,
+    initial_interface="Threaded"   // [Threaded, Skadis] - interface in the top-left corner
 
     ) {
 
 
 
 
-    solid  = (board_border_type == "solid");                       // "solid" | "cutout"
+    // Both border types share the SAME (inset) node grid - same columns and
+    // rows. "cutout" is simply the "solid" board with the perimeter frame
+    // border removed, so the hole positions line up between the two.
+    grid_solid = true;                                             // always the inset grid
+    add_border = (board_border_type == "solid");                   // "solid" | "cutout"
     lite   = (frame_type == "lite") || (frame_type == "ultralite"); // else "solid" = full board
     W      = ts_board_width(cols, cell_size_x/2);
     H      = ts_board_height(rows, cell_size_y);
-    skadis = ts_board_skadis_nodes(rows, cols, cell_size_x, cell_size_y, solid);
-    rods   = ts_board_rod_nodes(rows, cols, cell_size_x, cell_size_y, solid);
+    skadis = ts_board_skadis_nodes(rows, cols, cell_size_x, cell_size_y, grid_solid, initial_interface);
+    rods   = ts_board_rod_nodes(rows, cols, cell_size_x, cell_size_y, grid_solid, initial_interface);
 
 
     difference(){
         union(){
-            if(board_border_type == "solid") {
-            difference(){
-                translate([W/2, H/2, thickness/2]) {
-                    cuboid([W, H, thickness], rounding=rounding, edges="Z");
+            if(add_border) {
+                difference(){
+                    translate([W/2, H/2, thickness/2]) {
+                        cuboid([W, H, thickness], rounding=rounding, edges="Z");
+                    }
+                    translate([W/2+minimum_lite_frame_border_width/4, H/2+minimum_lite_frame_border_width/4, thickness/2]) {
+                        cuboid([W-minimum_lite_frame_border_width*2, H-minimum_lite_frame_border_width*2, thickness+2], rounding=rounding, edges="Z");
+                    }
                 }
-                translate([W/2+minimum_lite_frame_border_width/4, H/2+minimum_lite_frame_border_width/4, thickness/2]) {
-                    cuboid([W-minimum_lite_frame_border_width*2, H-minimum_lite_frame_border_width*2, thickness+2], rounding=rounding, edges="Z");
-                }
-            }
             }
         
         
@@ -197,9 +211,9 @@ module ts_board_threaded_board(
                 // Base board: full rounded slab, or the material-saving lite frame.
                 if (lite) {
                     linear_extrude(height = thickness)
-                        ts_lite_frame_2d(rows, cols, cell_size_x, cell_size_y, solid,
+                        ts_lite_frame_2d(rows, cols, cell_size_x, cell_size_y, grid_solid,
                                         minimum_lite_frame_border_width, frame_type, hole_radius, tolerance, rounding,
-                                        skadis_elements = skadis_elements);
+                                        skadis_elements = skadis_elements, initial = initial_interface);
                 } else {
                     linear_extrude(height = thickness) ts_rounded_rect_2d(W, H, rounding);
                 }
