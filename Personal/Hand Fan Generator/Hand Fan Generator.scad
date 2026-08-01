@@ -25,22 +25,26 @@ Number_Of_Blades = 16;          // [2:1:60]
 // Total length of a single fan blade (mm)
 Blade_Length = 180;             // [60:1:400]
 // Thickness of the fan blade (mm)
-Blade_Thickness = 1;            // [0.6:0.1:6]
+Blade_Thickness = 1.3;            // [0.6:0.1:6]
 // Width of the top (far) end of the blade (mm)
 Top_Blade_Width = 30;           // [8:0.5:120]
 // Width of the bottom (hand-held) end of the blade (mm)
 Bottom_Blade_Width = 16;        // [8:0.5:120]
+// Corner rounding at the top (far) end of the blade (mm)
+Top_Corner_Rounding = 1.5;      // [0:0.5:40]
+// Corner rounding at the bottom (hand-held) end of the blade (mm)
+Bottom_Corner_Rounding = 3;     // [0:0.5:40]
 
 /* [Blade Cutouts] */
 // Pattern cut through (or etched into) the body of each blade
-Blade_Cutouts = "none";         // [none:None, voronoi:Voronoi, gradient_voronoi:Gradient Voronoi, honeycomb:Honeycomb, variable_honeycomb:Variable Honeycomb, hearts:Hearts, triangular:Triangular, isometric_triangular:Isometric Triangular, delaunay:Delaunay Triangulation, penrose:Penrose Tiling, diamond:Diamond, circular:Circular, staggered_circular:Staggered Circular, rounded_squares:Rounded Squares, slots:Slots, gyroid:Gyroid, wave:Wave, wave_field:Parametric Wave Field, reaction_diffusion:Reaction-Diffusion, leaf_veins:Biomimetic Leaf Veins, islamic:Islamic Geometry, fish_scales:Fish Scales, vertical_text:Vertical Text, horizontal_text:Horizontal Text]
+Blade_Cutouts = "none";         // [none:None, voronoi:Voronoi, gradient_voronoi:Gradient Voronoi, honeycomb:Honeycomb, variable_honeycomb:Variable Honeycomb, hearts:Hearts, triangular:Triangular, isometric_triangular:Isometric Triangular, delaunay:Delaunay Triangulation, penrose:Penrose Tiling, diamond:Diamond, circular:Circular, staggered_circular:Staggered Circular, rounded_squares:Rounded Squares, slots:Slots, gyroid:Gyroid, wave:Wave, wave_field:Parametric Wave Field, reaction_diffusion:Reaction-Diffusion, leaf_veins:Biomimetic Leaf Veins, islamic:Islamic Geometry, fish_scales:Fish Scales, vertical_text:Vertical Text, horizontal_text:Horizontal Text, svg:SVG Image]
 // Font used for the Vertical and Horizontal text cutouts
 Blade_Cutout_Text_Font = "Anton";   // [Anton, Bangers, Bebas Neue, Archivo Black, Black Ops One, Fredoka One, Lilita One, Luckiest Guy, Passion One, Bowlby One, Titan One, Alfa Slab One, Ultra, Chango, Paytone One, Russo One, Carter One, Sigmar One, Concert One, Patua One, Staatliches, Righteous, Squada One, Permanent Marker, Bungee, Changa One, Oswald, Montserrat, Arial, Avenir Next Condensed, Georgia, Liberation Sans]
 // Font size / cap height for the Vertical and Horizontal text cutouts (mm)
 Blade_Cutout_Text_Size = 10;    // [3:0.5:60]
-// How deep the Vertical / Horizontal text is etched into the blade face (mm)
+// How deep text and SVG artwork are etched into the blade face (mm)
 Blade_Cutout_Text_Depth = 0.4;  // [0.1:0.1:5]
-// Colour of the etched text (shown in preview and used for colour-change prints)
+// Colour of the etched text / artwork (shown in preview, for colour-change prints)
 Blade_Cutout_Text_Color = "red"; // [white, black, red, orange, yellow, green, blue, purple, pink, gray, silver, gold, brown, cyan, magenta, navy, teal, maroon]
 // Text used by the Vertical Text cutout
 Blade_Cutout_Vertical_Text = "";
@@ -48,20 +52,31 @@ Blade_Cutout_Vertical_Text = "";
 Blade_Cutout_Horizontal_Text_Line_1 = "";
 // Optional second line for the Horizontal Text cutout (leave blank for a single line)
 Blade_Cutout_Horizontal_Text_Line_2 = "";
+// Etched into the underside of the first blade - the face left showing when the
+// closed fan is turned over.  Leave blank for none.  Uses the font, size, depth and
+// colour set above.
+Personalized_Name = "";
+// Path to the drawing used by the SVG cutout, e.g. /Users/me/art/crest.svg
+// (surrounding ' quotes, as a terminal adds to paths with spaces, are ignored)
+Blade_Cutout_SVG_File = "";
+// Height of the SVG artwork on the spread fan, measured along the blades (mm)
+Blade_Cutout_SVG_Height = 60;   // [5:1:250]
+// Width across the spread fan; leave at 0 to take it from the artwork's proportions (mm)
+Blade_Cutout_SVG_Width = 0;     // [0:1:400]
+// Scales the artwork after it has been fitted to the size above (%)
+Blade_Cutout_SVG_Scale = 100;   // [5:1:500]
 
-
-
-/* [Top Connection] */
-// Vertical gap between the top of the blade and the underside of the peg's flared head (mm)
-Connection_Slot_Peg_Tolerance = 0.3;            // [0:0.05:2]
 
 /* [Rendering] */
 // Which part(s) to generate, and in what orientation
-Rendering_Mode = "printing";    // [printing:All Blades for Printing, section_a:Blade Section A, section_b:Blade Section B, assembly:Assembly View]
+Rendering_Mode = "printing";    // [printing:All Blades for Printing, assembly:Assembly View, section_a:Blade Section A, section_b:Blade Section B, hardware:Connector Peg and Cap only]
 
 /* [Hidden] */
+//----/* [Top Connection] */
+// Vertical gap between the top of the blade and the underside of the peg's flared head (mm)
+Connection_Slot_Peg_Tolerance = 0.4;            // [0:0.05:2]
 
-/* [Bottom Connection] */
+//----/* [Bottom Connection] */
 // Diameter of the pivot hole near the bottom of the blade (mm)
 Blade_Bottom_Connection_Hole_Diameter = 4;      // [1:0.1:15]
 // Distance from the bottom of the blade to the bottom of the pivot hole (mm)
@@ -69,7 +84,7 @@ Blade_Bottom_Connection_Hole_Bottom_Margin = 10; // [2:0.5:120]
 // Radial gap between the peg shaft and the pivot hole (mm)
 Blade_Bottom_Connection_Peg_Tolerance = 0.2;    // [0:0.05:1]
 // Gap between the bottom of the peg cap and the top of the blade stack (mm)
-Blade_Bottom_Connection_Peg_Cap_Tolerance = 0.4;  // [0:0.1:5]
+Blade_Bottom_Connection_Peg_Cap_Tolerance = 2.5;  // [0:0.1:5]
 // Diameter of the peg base disc (mm)
 Blade_Bottom_Connection_Peg_Base_Diameter = 8;  // [4:0.5:30]
 // Thickness of the peg base disc, below the shaft (mm)
@@ -80,6 +95,19 @@ Blade_Bottom_Connection_Peg_Cap_Diameter = 8;   // [4:0.5:30]
 Blade_Bottom_Connection_Peg_Cap_Thickness = 3;  // [1:0.1:12]
 // Tolerance between the peg shaft and the socket in the peg cap (mm)
 Peg_Cap_Shaft_Tolerance = 0.2;                 // [0:0.05:1]
+
+// A spare peg and cap are printed alongside the fitted pair, in case the first pair
+// seats too loosely or too tightly.  The spare peg is this much longer, the spare
+// cap's shaft bore this much tighter, and both are drawn in this colour so they are
+// easy to tell apart on the plate.
+Spare_Peg_Extra_Length = 1;
+Spare_Cap_Tolerance_Reduction = 0.1;
+Spare_Hardware_Color = "blue";
+
+// How much of the peg cap's thickness is bored out for the shaft (%).  100 runs the
+// shaft clean through, leaving its end flush with the top of the cap; 30 sinks it
+// only a third of the way in and leaves the rest of the cap solid.  Clamped to 30-100.
+Peg_Cap_Socket_Percent = 80;
 
 // ---- Cutout pattern placement (hidden per spec) ----------------------------
 // How far from the top end of the blade the cutout pattern stops
@@ -97,76 +125,74 @@ Blade_Connection_Slot_Side_Margin = 2;
 // Margin between the top end of the blade and the top edge of the top slot
 Blade_Connection_Slot_Top_Margin = 6;
 // Margin between the bottom of the top slot and the top of the bottom slot
-Blade_Connection_Slot_Inner_Margin = 8;
+Blade_Connection_Slot_Inner_Margin = 4;
 // Total height of an individual connection slot
 Blade_Connection_Slot_Height = 6;
 // How far the retaining lip reaches into the slot from the top and bottom edges
 Blade_Connection_Slot_Lip_Width = 1.6;
 // Gap between the slot peg neck and the lip edges it slides between
-Blade_Connection_Slot_Peg_Tolerance = 0.3;
+Blade_Connection_Slot_Peg_Tolerance = 0.5;
 // Width of the slot peg itself, measured along the X axis
 Blade_Connection_Slot_Peg_Width = 3;
 
 // ---- Shape / pattern tuning ------------------------------------------------
-// Corner rounding at the bottom (hand-held) and top (far) ends of the blade
-Blade_Bottom_Corner_Radius = 3;
-Blade_Top_Corner_Radius = 1.5;
 // Thickness (in Z) of the retaining lip, measured up from the blade's bottom face
-Blade_Connection_Slot_Lip_Thickness = min(Blade_Thickness * 0.4, Blade_Thickness - 0.2);
+//Blade_Connection_Slot_Lip_Thickness = min(Blade_Thickness * 0.4, Blade_Thickness - 0.2);
+Blade_Connection_Slot_Lip_Thickness = 0.3;
 // Height of the slot peg's flared head
 Connection_Slot_Peg_Head_Height = Blade_Thickness - Blade_Connection_Slot_Lip_Thickness - Connection_Slot_Peg_Tolerance;
 // Nominal cell sizes for the generated patterns
-Voronoi_Cell_Size = 11;
+Voronoi_Cell_Size = 6;
 Voronoi_Seed = 12;
-Honeycomb_Cell_Size = 10;
-Hearts_Base_Size = 5;
+Honeycomb_Cell_Size = 6;
+Hearts_Base_Size = 6;
 Hearts_Seed = 7;
 // ---- Geometric pattern sizing ----------------------------------------------
 // Side length of one triangle in the Triangular grid
-Triangular_Cell_Size = 11;
+Triangular_Cell_Size = 8;
 // Rhombus side (= hexagon circumradius) of one isometric cube motif
-Isometric_Cell_Size = 11;
+Isometric_Cell_Size = 8;
 // Width of one Diamond cell, and its height as a multiple of that width
-Diamond_Cell_Width = 9;
+Diamond_Cell_Width = 6;
 Diamond_Aspect = 1.5;
 // Hole diameter for the Circular and Staggered Circular grids
-Circular_Hole_Diameter = 7;
-Staggered_Circular_Hole_Diameter = 7;
+Circular_Hole_Diameter = 4;
+Staggered_Circular_Hole_Diameter = 4;
 // Side and corner rounding of the Rounded Squares holes
-Rounded_Square_Size = 8;
-Rounded_Square_Rounding = 2;
+Rounded_Square_Size = 4;
+Rounded_Square_Rounding = 0.5;
 // Width and length of one Slots hole
-Slot_Hole_Width = 5;
-Slot_Hole_Length = 16;
+Slot_Hole_Width = 3;
+Slot_Hole_Length = 8;
 // Gyroid unit cell, extra web thickness beyond the minimum wall (0 gives a web of
 // exactly one wall thickness), and the width of the slices used to trace contours
-Gyroid_Cell_Size = 16;
+Gyroid_Cell_Size = 8;
 Gyroid_Threshold = 0;
 Gyroid_Strip_Width = 1.2;
 // Spacing, height and wavelength of the Wave bands
-Wave_Pitch = 8;
+Wave_Pitch = 4;
 Wave_Amplitude = 2.5;
 Wave_Wavelength = 26;
 // Point radius of the eight-pointed star in the Islamic Geometry lattice
 Islamic_Star_Radius = 5;
 // Radius of one scale in the Fish Scales pattern
-Fish_Scale_Radius = 5;
+Fish_Scale_Radius = 3;
 
 // ---- Generative pattern sizing ---------------------------------------------
 // Delaunay: spacing of the point cloud that gets triangulated, and its seed
-Delaunay_Cell_Size = 11;
+Delaunay_Cell_Size = 8;
 Delaunay_Seed = 5;
 // Gradient Voronoi: cell size at the bottom and top of the band, and its seed
-Gradient_Voronoi_Cell_Bottom = 7;
-Gradient_Voronoi_Cell_Top = 15;
+Gradient_Voronoi_Cell_Bottom = 3;
+Gradient_Voronoi_Cell_Top = 8;
 Gradient_Voronoi_Seed = 3;
 // Variable honeycomb: hexagon width at the bottom and top of the band
-Variable_Honeycomb_Cell_Bottom = 7;
-Variable_Honeycomb_Cell_Top = 14;
+Variable_Honeycomb_Cell_Bottom = 3;
+Variable_Honeycomb_Cell_Top = 8;
 // Parametric wave field: band pitch along the blade, the two waves that displace
 // every band's centreline, and the slower wave that modulates band thickness
 // (as a fraction of the widest the wall thickness allows)
-Wave_Field_Pitch = 8;
+Wave_Field_Pitch = 6;
 Wave_Field_Amplitude_1 = 3;
 Wave_Field_Lambda_1 = 27;
 Wave_Field_Amplitude_2 = 1.6;
@@ -187,10 +213,10 @@ Field_Smoothing = 0.5;
 // Leaf veins: rib widths, spacing up the midrib, and how far each pair reaches up
 Leaf_Midrib_Width = 3;
 Leaf_Vein_Width = 2.2;
-Leaf_Vein_Spacing = 11;
+Leaf_Vein_Spacing = 6;
 Leaf_Vein_Rise = 1.8;
 // Penrose: target edge length of the finished tiling
-Penrose_Cell_Size = 8;
+Penrose_Cell_Size = 4;
 // Clipped patterns can leave hair-thin slivers along the edge of the cutout area;
 // any hole feature narrower than this is opened away before it is cut.
 Cutout_Min_Feature = 1.2;
@@ -200,6 +226,9 @@ Horizontal_Text_Line_Spacing = 1.35;
 Horizontal_Text_Strip_Width = 1.5;
 // How far back from the blade edge horizontal text stops - keep this small
 Horizontal_Text_Edge_Margin = 0.6;
+// Bend the SVG artwork around the fan's arc instead of laying it flat.  Flat keeps
+// the drawing undistorted; wrapping fills the sector but shears it.
+Blade_Cutout_SVG_Wrap = false;
 // ---- Assembly-order numbering ----------------------------------------------
 // How deep the blade number is etched into the top face
 Blade_Number_Etch_Depth = 0.2;
@@ -207,6 +236,12 @@ Blade_Number_Etch_Depth = 0.2;
 Blade_Number_Text_Size = 6;
 // Clear space left between the pivot hole and the top of the number
 Blade_Number_Hole_Gap = 2;
+// Average glyph advance as a fraction of the text size, used to judge whether the
+// personalised name has to shrink to fit.  Measured across upper-case names in a
+// normal-width face this runs 0.84 to 1.01, so 1.0 sizes typical names accurately
+// and errs towards shrinking rather than overflowing.  Drop it towards 0.5 for a
+// condensed face like Anton to get larger lettering out of the same space.
+Personalized_Name_Advance = 1.0;
 
 // Gap left between blades when laid out for printing
 Print_Layout_Gap = 2;
@@ -321,9 +356,57 @@ Blade_Number_Depth = min(Blade_Number_Etch_Depth, Blade_Thickness - 0.2);
 Blade_Number_Y = Hole_Y - Blade_Bottom_Connection_Hole_Diameter / 2
                  - Blade_Number_Hole_Gap - Blade_Number_Text_Size / 2;
 
-Is_Text_Cutout = (Blade_Cutouts == "vertical_text" || Blade_Cutouts == "horizontal_text");
+// SVG artwork is centred on the same band the horizontal text uses - midway between
+// the pivot hole and the lower connection slot - and spans the fan from there.
+SVG_Radius     = Text_Band_Rc;
+SVG_Scale      = Blade_Cutout_SVG_Scale / 100;
+// Half the artwork's finished height.  It has to follow the scale as well as the
+// nominal height, because in wrap mode this is the window each strip is cut from -
+// leave it at the unscaled height and an enlarged drawing gets its top and bottom
+// sliced off.
+SVG_R_Half     = max(2, Blade_Cutout_SVG_Height * SVG_Scale / 2);
+SVG_R_Min      = max(5, SVG_Radius - SVG_R_Half);
+Fan_SVG_Window = atan(half_width_at(Hole_Y + SVG_R_Min) / SVG_R_Min) + 5;
+Fan_Total_Span = blade_angle(0) - blade_angle(Number_Of_Blades - 1);
+SVG_Span_Half  = SVG_Radius * (Fan_Total_Span / 2 + Fan_SVG_Window) * PI / 180;
+
+// Etched, not cut through - the same treatment as the text overlays.
+Is_Text_Cutout = (Blade_Cutouts == "vertical_text" || Blade_Cutouts == "horizontal_text"
+                  || Blade_Cutouts == "svg");
 // Everything that is not text and not "none" is a pattern cut clean through.
 Is_Hole_Cutout = !(Is_Text_Cutout || Blade_Cutouts == "none");
+
+// ---- Personalised name ------------------------------------------------------
+// Etched into the underside of the first blade.  A pattern that cuts clean through
+// would leave the name riddled with holes, so when one is selected the name keeps to
+// the clear handle below it - between the top of the pivot hole and the foot of the
+// pattern.  With nothing cutting through it gets the run of the blade instead.
+//
+// Either way the span starts above the pivot hole and, on a solid blade, stops below
+// the lower connection slot: those are cut clean through as well, so a name taken
+// literally to the blade's ends would be chopped up by them at full length.
+Has_Personalized_Name = len(Personalized_Name) > 0;
+PName_Y0 = Hole_Y + Blade_Bottom_Connection_Hole_Diameter / 2;
+PName_Y1 = Is_Hole_Cutout ? Cut_Y0 : Slot_Bot_Y0;
+PName_Y_Mid   = (PName_Y0 + PName_Y1) / 2;
+PName_Avail_L = max(1, PName_Y1 - PName_Y0);
+// Across the blade the text is limited by how wide the blade is where the name sits,
+// less the usual side margins.
+PName_Avail_W = max(1, 2 * (half_width_at(PName_Y_Mid) / Blade_Taper_Norm
+                            - Blade_Cutout_Side_Margins));
+// OpenSCAD exposes no text metrics, so the run length is estimated from an average
+// advance per character.  The estimate only ever drives shrinking - a name that
+// already fits is left at the size set above - and the region clip catches whatever
+// the estimate gets wrong.
+PName_Est_L = max(0.1, len(Personalized_Name) * Blade_Cutout_Text_Size
+                       * Personalized_Name_Advance);
+PName_Size = min(Blade_Cutout_Text_Size,
+                 Blade_Cutout_Text_Size * PName_Avail_L / PName_Est_L,
+                 PName_Avail_W);
+// The assembly number is recessed into the opposite face of this same blade.  On a
+// thin blade two full-depth recesses would meet in the middle, so the name's depth is
+// held back far enough to always leave material between them.
+PName_Depth = min(Text_Depth, Blade_Thickness - Blade_Number_Depth - 0.2);
 
 // -----------------------------------------------------------------------------
 // Blade outline
@@ -332,8 +415,12 @@ Is_Hole_Cutout = !(Is_Text_Cutout || Blade_Cutouts == "none");
 // Rounded trapezoid.  Each corner circle is placed so it is exactly tangent to
 // both edges it touches, which matters because the sides are not vertical.
 module blade_outline_2d() {
-    rb = min(Blade_Bottom_Corner_Radius, Bottom_Blade_Width / 2 - 0.1, Blade_Length / 4);
-    rt = min(Blade_Top_Corner_Radius, Top_Blade_Width / 2 - 0.1, Blade_Length / 4);
+    // Clamped so an over-large rounding cannot eat past the blade's own half width
+    // or a quarter of its length and invert the outline.  The lower bound matters
+    // too: circle(r = 0) is empty, which would collapse the hull and take the whole
+    // blade with it, so a rounding of zero becomes a corner too small to print.
+    rb = max(0.01, min(Bottom_Corner_Rounding, Bottom_Blade_Width / 2 - 0.1, Blade_Length / 4));
+    rt = max(0.01, min(Top_Corner_Rounding,    Top_Blade_Width / 2 - 0.1,    Blade_Length / 4));
     bx = rb * (Blade_Taper_Norm - Blade_Taper) - Bottom_Blade_Width / 2;
     tx = rt * (Blade_Taper_Norm + Blade_Taper) - Top_Blade_Width / 2;
     hull() {
@@ -1163,6 +1250,33 @@ module vertical_text_2d() {
                  halign = "center", valign = "center", $fn = 24);
 }
 
+// ---- Personalised name ------------------------------------------------------
+// Etched into the underside of the first blade, running along it like the vertical
+// text.  Mirrored in X because it is cut into the bottom face: seen from underneath
+// the X axis reads backwards, so the drawing has to be flipped for the name to come
+// out the right way round when the fan is turned over.
+module personalized_name_2d() {
+    mirror([1, 0, 0])
+        translate([0, PName_Y_Mid])
+            rotate(90)
+                text(Personalized_Name,
+                     size = PName_Size,
+                     font = Blade_Cutout_Text_Font,
+                     halign = "center", valign = "center", $fn = 24);
+}
+
+module pname_region_2d() {
+    intersection() {
+        offset(r = -Blade_Cutout_Side_Margins) blade_outline_2d();
+        translate([-Blade_Length, PName_Y0])
+            square([2 * Blade_Length, max(0.1, PName_Y1 - PName_Y0)]);
+    }
+}
+
+module personalized_name_cut_2d() {
+    intersection() { pname_region_2d(); personalized_name_2d(); }
+}
+
 // ---- Horizontal text --------------------------------------------------------
 // The text belongs to the *fan*, not to any one blade: it is laid out once, in
 // the fan's own frame (pivot at the origin, blades radiating upwards), and each
@@ -1173,35 +1287,104 @@ module vertical_text_2d() {
 // The line is bent around an arc concentric with the pivot by slicing the flat
 // text into narrow vertical strips and swinging each strip to its own angle.
 // This needs no font metrics, so it works with any font.
-module arc_line_2d(txt, radius, a_lo, a_hi) {
-    if (len(txt) > 0 && radius > 1) {
-        span = len(txt) * Blade_Cutout_Text_Size;      // generous bound on the line's width
+// Bends whatever it is given around an arc of the given radius, by slicing it into
+// narrow vertical strips and swinging each strip to its own angle.  `span_half`
+// bounds how far out the artwork can reach, `half_height` how tall it is; only the
+// strips falling inside [a_lo, a_hi] are emitted, which is what keeps each blade
+// from having to slice the whole fan's worth of artwork.
+module arc_bend_2d(radius, a_lo, a_hi, span_half, half_height) {
+    if (radius > 1) {
         // A strip at flat x sits at fan angle -x/radius, so the wanted angle
         // window maps back to this range of x.
-        xlo = max(-span / 2, -radius * a_hi * PI / 180);
-        xhi = min( span / 2, -radius * a_lo * PI / 180);
+        xlo = max(-span_half, -radius * a_hi * PI / 180);
+        xhi = min( span_half, -radius * a_lo * PI / 180);
         n   = floor((xhi - xlo) / Horizontal_Text_Strip_Width) + 1;
         if (xhi > xlo) {
             w = (xhi - xlo) / n;
-            // Neighbouring strips splay apart at the outer edge of the glyphs, so
+            // Neighbouring strips splay apart at the outer edge of the artwork, so
             // each strip is widened slightly to keep the seams closed.
-            ww = w * (1 + 3 * Blade_Cutout_Text_Size / radius);
+            ww = w * (1 + 1.5 * half_height / radius);
             for (k = [0 : n - 1]) {
                 xc = xlo + (k + 0.5) * w;
                 rotate(-xc / radius * 180 / PI)
                     translate([0, radius])
                         intersection() {
-                            translate([-xc, 0])
-                                text(txt,
-                                     size = Blade_Cutout_Text_Size,
-                                     font = Blade_Cutout_Text_Font,
-                                     halign = "center", valign = "center", $fn = 24);
-                            translate([-ww / 2, -2 * Blade_Cutout_Text_Size])
-                                square([ww, 4 * Blade_Cutout_Text_Size]);
+                            translate([-xc, 0]) children();
+                            translate([-ww / 2, -half_height])
+                                square([ww, 2 * half_height]);
                         }
             }
         }
     }
+}
+
+module arc_line_2d(txt, radius, a_lo, a_hi) {
+    if (len(txt) > 0)
+        arc_bend_2d(radius, a_lo, a_hi,
+                    len(txt) * Blade_Cutout_Text_Size / 2,   // generous width bound
+                    2 * Blade_Cutout_Text_Size)
+            text(txt,
+                 size = Blade_Cutout_Text_Size,
+                 font = Blade_Cutout_Text_Font,
+                 halign = "center", valign = "center", $fn = 24);
+}
+
+// ---- SVG artwork ------------------------------------------------------------
+// The same trick as the horizontal text, applied to an imported drawing: the art is
+// laid out once in the fan's frame and each blade keeps whatever part of it lands on
+// that blade.  Where blades overlap both carry the same fragment, so whichever ends
+// up on top still shows the right piece and the picture reassembles when the fan is
+// spread.  resize() scales the imported drawing by its own ink bounds, so a zero
+// width or height is filled in from the artwork's aspect ratio.
+// Dragging a file into a terminal, or copying its path on a system where the path
+// contains spaces, hands back something like '/Users/me/My Drive/art.svg' - quotes
+// and all.  Those are part of the shell's quoting, not the filename, so any at
+// either end are stripped before the path is used.
+function svg_first_kept(s, i) = (i < len(s) && s[i] == "'") ? svg_first_kept(s, i + 1) : i;
+function svg_last_kept(s, i)  = (i >= 0    && s[i] == "'") ? svg_last_kept(s, i - 1)  : i;
+
+// Halving rather than walking character by character, so even a long path only
+// recurses a handful of levels deep.
+function svg_substr(s, a, b) =
+      (a > b)  ? ""
+    : (a == b) ? s[a]
+    : let (m = floor((a + b) / 2)) str(svg_substr(s, a, m), svg_substr(s, m + 1, b));
+
+function strip_quotes(s) =
+    let (a = svg_first_kept(s, 0), b = svg_last_kept(s, len(s) - 1))
+    (a > b) ? "" : svg_substr(s, a, b);
+
+SVG_File = strip_quotes(Blade_Cutout_SVG_File);
+
+module svg_art_2d() {
+    if (len(SVG_File) > 0)
+        scale(SVG_Scale)
+            resize([Blade_Cutout_SVG_Width, Blade_Cutout_SVG_Height], auto = true)
+                import(file = SVG_File, center = true);
+}
+
+// The fan-wide artwork, in the fan's own frame with the pivot at the origin.
+//
+// By default the drawing is laid flat, so it reads undistorted once the fan is
+// spread - the blades simply take their share of it.  Wrapping instead bends it
+// around the arc the way the horizontal text is bent, which fills the sector corner
+// to corner but shears the artwork, since the outer edge has to stretch further than
+// the inner one.  Worth it for a border or a repeating motif, not for a logo.
+module svg_fan_2d(i) {
+    a = blade_angle(i);
+    if (Blade_Cutout_SVG_Wrap)
+        arc_bend_2d(SVG_Radius, a - Fan_SVG_Window, a + Fan_SVG_Window,
+                    SVG_Span_Half, SVG_R_Half)
+            svg_art_2d();
+    else
+        translate([0, SVG_Radius]) svg_art_2d();
+}
+
+// That artwork expressed in blade i's own coordinates.
+module svg_blade_2d(i) {
+    translate([0, Hole_Y])
+        rotate(-blade_angle(i))
+            svg_fan_2d(i);
 }
 
 // Horizontal text has to run all the way out to the blade edges.  Once the fan is
@@ -1271,13 +1454,23 @@ module through_cutout_2d() {
             }
 }
 
-// Text is etched, not cut through.  Horizontal text is ignored when a single
-// blade is rendered on its own, because it only means anything across the set.
-module etched_text_2d(i, with_fan_text) {
-    if (Blade_Cutouts == "vertical_text")
+// Etched, not cut through.  The fan-wide overlays - horizontal text and SVG art -
+// are skipped when a single blade is rendered on its own, because they only mean
+// anything across the whole set.  Both run out to the blade edges for the same
+// reason the text does: the edge strip is the only part left showing once the fan
+// is spread.
+module etched_art_2d(i, with_fan_text, is_final = false) {
+    // Vertical text goes on the last blade only.  That is the one that ends up on
+    // top of the closed stack, so it is the only blade whose face is on show -
+    // repeating the text on all of them would just hide it nineteen times over.
+    // A blade rendered on its own still gets it, so the wording and size can be
+    // checked without switching to a whole-fan view.
+    if (Blade_Cutouts == "vertical_text" && (is_final || !with_fan_text))
         intersection() { vtext_region_2d(); vertical_text_2d(); }
     else if (Blade_Cutouts == "horizontal_text" && with_fan_text)
         intersection() { htext_region_2d(); horizontal_text_2d(i); }
+    else if (Blade_Cutouts == "svg" && with_fan_text)
+        intersection() { htext_region_2d(); svg_blade_2d(i); }
 }
 
 // -----------------------------------------------------------------------------
@@ -1318,11 +1511,16 @@ module blade_body(i, with_fan_text = true, is_final = false) {
 
         if (Is_Text_Cutout)
             translate([0, 0, Blade_Thickness - Text_Depth])
-                linear_extrude(height = Text_Depth + Eps) etched_text_2d(i, with_fan_text);
+                linear_extrude(height = Text_Depth + Eps) etched_art_2d(i, with_fan_text, is_final);
 
         if (!is_final)
             translate([0, 0, Blade_Thickness - Blade_Number_Depth])
                 linear_extrude(height = Blade_Number_Depth + Eps) blade_number_2d(i);
+
+        // Cut upward from below, so this one lands on the underside.
+        if (Has_Personalized_Name && i == 0)
+            translate([0, 0, -Eps])
+                linear_extrude(height = PName_Depth + Eps) personalized_name_cut_2d();
     }
 }
 
@@ -1343,7 +1541,11 @@ module blade(i, with_fan_text = true, is_final = false) {
     if (Is_Text_Cutout && $preview)
         color(Blade_Cutout_Text_Color)
             translate([0, 0, Blade_Thickness - Text_Depth])
-                linear_extrude(height = Text_Depth) etched_text_2d(i, with_fan_text);
+                linear_extrude(height = Text_Depth) etched_art_2d(i, with_fan_text, is_final);
+
+    if (Has_Personalized_Name && i == 0 && $preview)
+        color(Blade_Cutout_Text_Color)
+            linear_extrude(height = PName_Depth) personalized_name_cut_2d();
 }
 
 // -----------------------------------------------------------------------------
@@ -1352,9 +1554,10 @@ module blade(i, with_fan_text = true, is_final = false) {
 
 Peg_Shaft_Diameter = max(0.8, Blade_Bottom_Connection_Hole_Diameter
                               - 2 * Blade_Bottom_Connection_Peg_Tolerance);
-// How far the shaft can enter the cap.
-Peg_Cap_Socket_Depth = max(0.4, Blade_Bottom_Connection_Peg_Cap_Thickness
-                                - Blade_Bottom_Connection_Peg_Cap_Tolerance);
+// How far the shaft can enter the cap: a share of the cap's own thickness, so the
+// socket keeps its proportions whatever the cap is sized to.
+Peg_Cap_Socket_Depth = Blade_Bottom_Connection_Peg_Cap_Thickness
+                       * max(30, min(100, Peg_Cap_Socket_Percent)) / 100;
 // The shaft only has to clear the blade stack, cross the tolerance gap the cap
 // floats on, and fill the cap's socket - no more.  Anything longer bottoms out
 // against the end of the socket and holds the cap off the stack.
@@ -1362,21 +1565,58 @@ Peg_Shaft_Length   = Blade_Thickness * Number_Of_Blades
                      + Blade_Bottom_Connection_Peg_Cap_Tolerance
                      + Peg_Cap_Socket_Depth;
 
-module connector_peg() {
+// extra_length lets the spare peg be run longer than the fitted one.
+module connector_peg(extra_length = 0) {
     union() {
         cylinder(d = Blade_Bottom_Connection_Peg_Base_Diameter,
                  h = Blade_Bottom_Connection_Peg_Base_Thickness);
         translate([0, 0, Blade_Bottom_Connection_Peg_Base_Thickness - Eps])
-            cylinder(d = Peg_Shaft_Diameter, h = Peg_Shaft_Length + Eps);
+            cylinder(d = Peg_Shaft_Diameter, h = Peg_Shaft_Length + extra_length + Eps);
     }
 }
 
-module connector_peg_cap() {
+// Modelled as it sits when assembled, socket facing down over the shaft.
+// shaft_tolerance lets the spare cap be bored tighter than the fitted one.
+module connector_peg_cap(shaft_tolerance = Peg_Cap_Shaft_Tolerance) {
     difference() {
         cylinder(d = Blade_Bottom_Connection_Peg_Cap_Diameter,
                  h = Blade_Bottom_Connection_Peg_Cap_Thickness);
         translate([0, 0, -Eps])
-            cylinder(d = Peg_Shaft_Diameter+Peg_Cap_Shaft_Tolerance, h = Peg_Cap_Socket_Depth + Eps);
+            cylinder(d = Peg_Shaft_Diameter + max(0, shaft_tolerance),
+                     h = Peg_Cap_Socket_Depth + Eps);
+    }
+}
+
+// The cap turned over for printing.  Left the way it is assembled, the socket opens
+// downward and its ceiling has to bridge the full shaft bore; inverted, the ceiling
+// becomes the first layer, the bore is an open-topped well needing no support, and
+// the cap's visible outer face is the one laid against the build plate.
+module connector_peg_cap_printed(shaft_tolerance = Peg_Cap_Shaft_Tolerance) {
+    translate([0, 0, Blade_Bottom_Connection_Peg_Cap_Thickness])
+        rotate([180, 0, 0])
+            connector_peg_cap(shaft_tolerance);
+}
+
+// The whole pivot kit on the bed: the fitted peg and cap in the front row, and
+// behind them a spare pair - a longer peg and a tighter-bored cap, in blue - so a
+// slacker or tighter fit is already printed if the first pair does not seat well.
+// The peg stands on its base disc, the caps are inverted, everything sits at z = 0.
+//
+// Laid out two by two rather than in a line so the set still fits inside a single
+// blade slot on the print plate, which is only one blade pitch wide.
+module connector_hardware_view() {
+    d  = max(Blade_Bottom_Connection_Peg_Base_Diameter,
+             Blade_Bottom_Connection_Peg_Cap_Diameter);
+    dx = (d + Print_Layout_Gap) / 2;
+    dy = (d + Print_Layout_Gap) / 2;
+    spare_tol = max(0, Peg_Cap_Shaft_Tolerance - Spare_Cap_Tolerance_Reduction);
+
+    translate([-dx,  dy, 0]) connector_peg();
+    translate([ dx,  dy, 0]) connector_peg_cap_printed();
+
+    color(Spare_Hardware_Color) {
+        translate([-dx, -dy, 0]) connector_peg(Spare_Peg_Extra_Length);
+        translate([ dx, -dy, 0]) connector_peg_cap_printed(spare_tol);
     }
 }
 
@@ -1394,13 +1634,25 @@ Print_Pitch = (Top_Blade_Width + Bottom_Blade_Width) / 2 + Print_Layout_Gap;
 Print_Slots = Number_Of_Blades + 1;
 // A row of n slots is (n-1) pitches across plus one full-width blade at the end.
 Print_Slots_Per_Row_Max = max(1, floor((Print_Bed_Width - Top_Blade_Width) / Print_Pitch) + 1);
-// Wrapping automatically fills each row; a forced row count is spread evenly.
-Print_Slots_Per_Row = (Print_Rows > 0) ? ceil(Print_Slots / Print_Rows)
-                                       : min(Print_Slots, Print_Slots_Per_Row_Max);
-Print_Row_Count = ceil(Print_Slots / Print_Slots_Per_Row);
+// The bed width decides how many rows are needed; the slots are then levelled across
+// them rather than each row being filled to capacity, which would leave a stub of a
+// final row.  Splitting the remainder one slot at a time - the first few rows taking
+// one extra - is what makes 41 slots come out 9/8/8/8/8 rather than 9/9/9/9/5; a
+// single shared row length cannot express that.
+//
+// Levelling never widens the plate: with the row count taken as ceil(slots / max),
+// the longest levelled row, ceil(slots / rows), is always back within that maximum.
+Print_Rows_Wanted = (Print_Rows > 0)
+                    ? max(1, Print_Rows)
+                    : max(1, ceil(Print_Slots / Print_Slots_Per_Row_Max));
+// Never more rows than slots, so no row can come out empty.
+Print_Row_Count = max(1, min(Print_Rows_Wanted, Print_Slots));
+Print_Row_Base  = floor(Print_Slots / Print_Row_Count);
+Print_Row_Extra = Print_Slots - Print_Row_Base * Print_Row_Count;   // rows taking one more
 Print_Row_Pitch = Blade_Length + Print_Layout_Gap;
 
-function print_row_slots(r) = min(Print_Slots_Per_Row, Print_Slots - r * Print_Slots_Per_Row);
+function print_row_slots(r) = Print_Row_Base + ((r < Print_Row_Extra) ? 1 : 0);
+function print_row_start(r) = r * Print_Row_Base + min(r, Print_Row_Extra);
 
 // A row is a whole blade deep, so the bed depth caps how many rows share a plate.
 Print_Rows_Per_Plate = max(1, floor((Print_Bed_Depth + Print_Layout_Gap) / Print_Row_Pitch));
@@ -1420,7 +1672,7 @@ module all_blades_for_printing() {
     for (r = [Print_Row_First : Print_Row_Last]) {
         cnt = print_row_slots(r);
         for (c = [0 : cnt - 1]) {
-            s = r * Print_Slots_Per_Row + c;
+            s = print_row_start(r) + c;
             translate([(c - (cnt - 1) / 2) * Print_Pitch,
                        (r - Print_Row_First) * Print_Row_Pitch, 0])
                 if (s < Number_Of_Blades)
@@ -1428,15 +1680,10 @@ module all_blades_for_printing() {
                         rotate([0, 0, (s % 2 == 0) ? 0 : 180])
                             translate([0, -Blade_Length / 2, 0])
                                 blade(s, is_final = (s == Number_Of_Blades - 1));
-                else {
-                    // Last slot: peg and cap side by side, both standing upright.
-                    translate([-(Blade_Bottom_Connection_Peg_Base_Diameter
-                                 + Print_Layout_Gap) / 2, Blade_Length / 2, 0])
-                        connector_peg();
-                    translate([(Blade_Bottom_Connection_Peg_Cap_Diameter
-                                + Print_Layout_Gap) / 2, Blade_Length / 2, 0])
-                        connector_peg_cap();
-                }
+                else
+                    // Last slot: the pivot kit - fitted peg and cap, plus the blue
+                    // spare pair - two by two so it fits inside one blade pitch.
+                    translate([0, Blade_Length / 2, 0]) connector_hardware_view();
         }
     }
 }
@@ -1451,11 +1698,13 @@ module assembly_view() {
 
     translate([0, Hole_Y, -Blade_Bottom_Connection_Peg_Base_Thickness])
         connector_peg();
+    // connector_peg_cap() is already modelled the way it sits here - socket facing
+    // down over the shaft - so it just gets lifted to float one cap tolerance above
+    // the stack.  Turning it over would point the socket at the sky and bury the
+    // shaft in the solid end of the cap.
     translate([0, Hole_Y,
-               Number_Of_Blades * Blade_Thickness + Blade_Bottom_Connection_Peg_Cap_Tolerance
-               + Blade_Bottom_Connection_Peg_Cap_Thickness])
-        rotate([180, 0, 0])
-            connector_peg_cap();
+               Number_Of_Blades * Blade_Thickness + Blade_Bottom_Connection_Peg_Cap_Tolerance])
+        connector_peg_cap();
 }
 
 if (Rendering_Mode == "printing") {
@@ -1478,3 +1727,4 @@ if (Rendering_Mode == "printing") {
 else if (Rendering_Mode == "section_a")  blade(0, with_fan_text = false);
 else if (Rendering_Mode == "section_b")  blade(1, with_fan_text = false);
 else if (Rendering_Mode == "assembly")   assembly_view();
+else if (Rendering_Mode == "hardware")   connector_hardware_view();
