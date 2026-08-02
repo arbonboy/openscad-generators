@@ -22,8 +22,6 @@
 /* [Blade Parameters] */
 // Total number of blades that make up the whole fan
 Number_Of_Blades = 16;          // [2:1:60]
-// Total length of a single fan blade (mm)
-Blade_Length = 180;             // [60:1:400]
 // Thickness of the fan blade (mm)
 Blade_Thickness = 1.3;            // [0.6:0.1:6]
 // Width of the top (far) end of the blade (mm)
@@ -35,9 +33,37 @@ Top_Corner_Rounding = 1.5;      // [0:0.5:40]
 // Corner rounding at the bottom (hand-held) end of the blade (mm)
 Bottom_Corner_Rounding = 3;     // [0:0.5:40]
 
+/* [Area 1 - End Tip] */
+// Length of the end tip, the far end of the blade holding the connection slots (mm).
+// Must be long enough for both slots and their margins; it is raised if it is not.
+Area_1_Length = 30;             // [10:1:200]
+// Colour of the end tip
+Area_1_Color = "dimgray";       // [white, black, red, orange, yellow, green, blue, purple, pink, gray, dimgray, silver, gold, brown, cyan, magenta, navy, teal, maroon]
+
+/* [Area 2 - Upper Section] */
+// Length of the upper section, between the end tip and the lower section (mm)
+Area_2_Length = 70;             // [10:1:300]
+// Colour of the upper section
+Area_2_Color = "silver";        // [white, black, red, orange, yellow, green, blue, purple, pink, gray, dimgray, silver, gold, brown, cyan, magenta, navy, teal, maroon]
+// Pattern cut through (or etched into) the upper section
+Area_2_Blade_Cutouts = "none";  // [none:None, voronoi:Voronoi, gradient_voronoi:Gradient Voronoi, honeycomb:Honeycomb, variable_honeycomb:Variable Honeycomb, hearts:Hearts, triangular:Triangular, isometric_triangular:Isometric Triangular, delaunay:Delaunay Triangulation, penrose:Penrose Tiling, diamond:Diamond, circular:Circular, staggered_circular:Staggered Circular, rounded_squares:Rounded Squares, slots:Slots, gyroid:Gyroid, wave:Wave, wave_field:Parametric Wave Field, reaction_diffusion:Reaction-Diffusion, leaf_veins:Biomimetic Leaf Veins, islamic:Islamic Geometry, fish_scales:Fish Scales, vertical_text:Vertical Text, horizontal_text:Horizontal Text, svg:SVG Image]
+
+/* [Area 3 - Lower Section] */
+// Length of the lower section, from the upper section down to the handle end (mm).
+// This is the area holding the pivot hole.
+Area_3_Length = 80;             // [20:1:300]
+// Colour of the lower section
+Area_3_Color = "silver";        // [white, black, red, orange, yellow, green, blue, purple, pink, gray, dimgray, silver, gold, brown, cyan, magenta, navy, teal, maroon]
+// Pattern cut through (or etched into) the lower section
+Area_3_Blade_Cutouts = "none";  // [none:None, voronoi:Voronoi, gradient_voronoi:Gradient Voronoi, honeycomb:Honeycomb, variable_honeycomb:Variable Honeycomb, hearts:Hearts, triangular:Triangular, isometric_triangular:Isometric Triangular, delaunay:Delaunay Triangulation, penrose:Penrose Tiling, diamond:Diamond, circular:Circular, staggered_circular:Staggered Circular, rounded_squares:Rounded Squares, slots:Slots, gyroid:Gyroid, wave:Wave, wave_field:Parametric Wave Field, reaction_diffusion:Reaction-Diffusion, leaf_veins:Biomimetic Leaf Veins, islamic:Islamic Geometry, fish_scales:Fish Scales, vertical_text:Vertical Text, horizontal_text:Horizontal Text, svg:SVG Image]
+
 /* [Blade Cutouts] */
-// Pattern cut through (or etched into) the body of each blade
-Blade_Cutouts = "none";         // [none:None, voronoi:Voronoi, gradient_voronoi:Gradient Voronoi, honeycomb:Honeycomb, variable_honeycomb:Variable Honeycomb, hearts:Hearts, triangular:Triangular, isometric_triangular:Isometric Triangular, delaunay:Delaunay Triangulation, penrose:Penrose Tiling, diamond:Diamond, circular:Circular, staggered_circular:Staggered Circular, rounded_squares:Rounded Squares, slots:Slots, gyroid:Gyroid, wave:Wave, wave_field:Parametric Wave Field, reaction_diffusion:Reaction-Diffusion, leaf_veins:Biomimetic Leaf Veins, islamic:Islamic Geometry, fish_scales:Fish Scales, vertical_text:Vertical Text, horizontal_text:Horizontal Text, svg:SVG Image]
+// Clear band left between the upper and lower sections' patterns, so the two do not
+// run into one another across the boundary (mm)
+Cutout_Margin_Between_Areas = 6;   // [0:0.5:60]
+// How far up from the handle end the lower section's pattern may start, keeping it
+// clear of the pivot hole and peg (mm)
+Cutout_Bottom_Margin = 30;         // [0:1:150]
 // Font used for the Vertical and Horizontal text cutouts
 Blade_Cutout_Text_Font = "Anton";   // [Anton, Bangers, Bebas Neue, Archivo Black, Black Ops One, Fredoka One, Lilita One, Luckiest Guy, Passion One, Bowlby One, Titan One, Alfa Slab One, Ultra, Chango, Paytone One, Russo One, Carter One, Sigmar One, Concert One, Patua One, Staatliches, Righteous, Squada One, Permanent Marker, Bungee, Changa One, Oswald, Montserrat, Arial, Avenir Next Condensed, Georgia, Liberation Sans]
 // Font size / cap height for the Vertical and Horizontal text cutouts (mm)
@@ -46,6 +72,12 @@ Blade_Cutout_Text_Size = 10;    // [3:0.5:60]
 Blade_Cutout_Text_Depth = 0.4;  // [0.1:0.1:5]
 // Colour of the etched text / artwork (shown in preview, for colour-change prints)
 Blade_Cutout_Text_Color = "red"; // [white, black, red, orange, yellow, green, blue, purple, pink, gray, silver, gold, brown, cyan, magenta, navy, teal, maroon]
+// Colour every blade carries at the depth the etching reaches, so the lettering
+// shows in this colour once it is cut down to it
+Etch_Layer_Color = "white";     // [white, black, red, orange, yellow, green, blue, purple, pink, gray, dimgray, silver, gold, brown, cyan, magenta, navy, teal, maroon]
+// How far that colour continues down into the blade from the first etched layer.
+// 0 leaves the blade a single colour through its thickness. (mm)
+Etch_Layer_Depth = 0.6;         // [0:0.1:10]
 // Text used by the Vertical Text cutout
 Blade_Cutout_Vertical_Text = "";
 // First line of text used by the Horizontal Text cutout (spread across the blades)
@@ -110,10 +142,9 @@ Spare_Hardware_Color = "blue";
 Peg_Cap_Socket_Percent = 80;
 
 // ---- Cutout pattern placement (hidden per spec) ----------------------------
-// How far from the top end of the blade the cutout pattern stops
-Blade_Cutout_Top_Margin = 25;
-// How far from the bottom end of the blade before the cutout pattern may start
-Blade_Cutout_Bottom_Margin = 80;
+// How far below the end tip the upper section's pattern stops, keeping it off the
+// connection slots
+Blade_Cutout_Top_Margin = 5;
 // How close to the blade edges the cutout pattern may run
 Blade_Cutout_Side_Margins = 5;
 // Minimum material left between neighbouring holes in a cutout pattern
@@ -243,6 +274,15 @@ Blade_Number_Hole_Gap = 2;
 // condensed face like Anton to get larger lettering out of the same space.
 Personalized_Name_Advance = 1.0;
 
+// ---- Area seams -------------------------------------------------------------
+// The boundary between two colour areas is zigzagged rather than cut straight, so
+// the two filaments key into each other instead of meeting on one clean plane.
+// Amplitude is how far the teeth reach either side of the nominal boundary; it is
+// held to a quarter of the shortest area so a tooth can never cross a whole section.
+// 0 gives a straight seam.
+Area_Seam_Amplitude = 1.5;
+Area_Seam_Period = 6;
+
 // Gap left between blades when laid out for printing
 Print_Layout_Gap = 2;
 // Bed the printing layout wraps itself to.  Only the width drives the wrapping;
@@ -262,6 +302,28 @@ Eps = 0.01;
 // -----------------------------------------------------------------------------
 // Derived geometry
 // -----------------------------------------------------------------------------
+
+// ---- The three areas --------------------------------------------------------
+// Measured up from the handle end: area 3 (lower), then area 2 (upper), then area 1
+// (the end tip carrying the connection slots).  The blade's overall length is
+// whatever the three add up to.
+//
+// The end tip has to be deep enough to hold both slots and the margins around them,
+// so it is raised to that minimum if it is set shorter.
+Area_1_Min = Blade_Connection_Slot_Top_Margin + 2 * Blade_Connection_Slot_Height
+             + Blade_Connection_Slot_Inner_Margin;
+A1_Len = max(Area_1_Length, Area_1_Min);
+A2_Len = Area_2_Length;
+A3_Len = Area_3_Length;
+
+Blade_Length = A1_Len + A2_Len + A3_Len;
+
+Area_3_Y0 = 0;                          // handle end
+Area_3_Y1 = A3_Len;                     // lower / upper boundary
+Area_2_Y0 = Area_3_Y1;
+Area_2_Y1 = Area_3_Y1 + A2_Len;         // upper / end-tip boundary
+Area_1_Y0 = Area_2_Y1;
+Area_1_Y1 = Blade_Length;
 
 Blade_Taper = (Top_Blade_Width - Bottom_Blade_Width) / (2 * Blade_Length);
 Blade_Taper_Norm = sqrt(1 + Blade_Taper * Blade_Taper);
@@ -318,11 +380,28 @@ function cum_angle(i) = (i <= 0) ? 0 : cum_angle(i - 1) - step_angle(i - 1);
 Fan_Angle_Offset = (cum_angle(0) + cum_angle(Number_Of_Blades - 1)) / 2;
 function blade_angle(i) = cum_angle(i) - Fan_Angle_Offset;
 
-// Cutout band, in blade Y coordinates.
-Cut_Y0 = Blade_Cutout_Bottom_Margin;
-Cut_Y1 = Blade_Length - Blade_Cutout_Top_Margin;
+// Each area's own cutout band.  The margin between the areas is the clear strip
+// straddling their boundary, so each side keeps back half of it; the bottom margin
+// holds the lower pattern clear of the pivot hole and peg, and is raised if it is
+// set low enough to reach them.
+Area_Gap_Half = Cutout_Margin_Between_Areas / 2;
+A3_Cut_Y0 = max(Cutout_Bottom_Margin,
+                Hole_Y + Blade_Bottom_Connection_Hole_Diameter / 2
+                       + Blade_Cutout_Pattern_Inner_Wall_Thickness);
+A3_Cut_Y1 = Area_3_Y1 - Area_Gap_Half;
+A2_Cut_Y0 = Area_2_Y0 + Area_Gap_Half;
+A2_Cut_Y1 = Area_2_Y1 - Blade_Cutout_Top_Margin;
+
+// The pattern generators tile across the whole patternable span in one go and each
+// area then keeps its own slice, so a pattern never restarts at an area boundary.
+Cut_Y0 = min(A3_Cut_Y0, A2_Cut_Y0);
+Cut_Y1 = max(A3_Cut_Y1, A2_Cut_Y1);
 Cut_Y_Mid = (Cut_Y0 + Cut_Y1) / 2;
 Cut_Half_X_Max = half_width_at(Cut_Y1) - Blade_Cutout_Side_Margins;
+
+// Cutout kinds: the text overlays are etched, everything else is cut clean through.
+function is_text_kind(k) = (k == "vertical_text" || k == "horizontal_text" || k == "svg");
+function is_hole_kind(k) = !(is_text_kind(k) || k == "none");
 
 // Text - vertical or horizontal - is given the clear stretch of blade between the
 // pivot hole and the lower connection slot, and is centred in it.  That is more
@@ -370,11 +449,13 @@ Fan_SVG_Window = atan(half_width_at(Hole_Y + SVG_R_Min) / SVG_R_Min) + 5;
 Fan_Total_Span = blade_angle(0) - blade_angle(Number_Of_Blades - 1);
 SVG_Span_Half  = SVG_Radius * (Fan_Total_Span / 2 + Fan_SVG_Window) * PI / 180;
 
-// Etched, not cut through - the same treatment as the text overlays.
-Is_Text_Cutout = (Blade_Cutouts == "vertical_text" || Blade_Cutouts == "horizontal_text"
-                  || Blade_Cutouts == "svg");
-// Everything that is not text and not "none" is a pattern cut clean through.
-Is_Hole_Cutout = !(Is_Text_Cutout || Blade_Cutouts == "none");
+// Whether either area asks for an etched overlay or a through cut.
+A2_Is_Text = is_text_kind(Area_2_Blade_Cutouts);
+A3_Is_Text = is_text_kind(Area_3_Blade_Cutouts);
+A2_Is_Hole = is_hole_kind(Area_2_Blade_Cutouts);
+A3_Is_Hole = is_hole_kind(Area_3_Blade_Cutouts);
+Any_Text_Cutout = A2_Is_Text || A3_Is_Text;
+Any_Hole_Cutout = A2_Is_Hole || A3_Is_Hole;
 
 // ---- Personalised name ------------------------------------------------------
 // Etched into the underside of the first blade.  A pattern that cuts clean through
@@ -387,7 +468,9 @@ Is_Hole_Cutout = !(Is_Text_Cutout || Blade_Cutouts == "none");
 // literally to the blade's ends would be chopped up by them at full length.
 Has_Personalized_Name = len(Personalized_Name) > 0;
 PName_Y0 = Hole_Y + Blade_Bottom_Connection_Hole_Diameter / 2;
-PName_Y1 = Is_Hole_Cutout ? Cut_Y0 : Slot_Bot_Y0;
+PName_Y1 = A3_Is_Hole ? A3_Cut_Y0            // stop below the lower section's pattern
+         : A2_Is_Hole ? Area_3_Y1            // the whole lower section is clear
+                      : Slot_Bot_Y0;         // nothing cut through anywhere
 PName_Y_Mid   = (PName_Y0 + PName_Y1) / 2;
 PName_Avail_L = max(1, PName_Y1 - PName_Y0);
 // Across the blade the text is limited by how wide the blade is where the name sits,
@@ -407,6 +490,16 @@ PName_Size = min(Blade_Cutout_Text_Size,
 // thin blade two full-depth recesses would meet in the middle, so the name's depth is
 // held back far enough to always leave material between them.
 PName_Depth = min(Text_Depth, Blade_Thickness - Blade_Number_Depth - 0.2);
+
+// ---- Etch colour band -------------------------------------------------------
+// A slab of a second colour buried in the blade, its top face level with the floor
+// of the top-face etching so the lettering reads in that colour, running the given
+// depth further down.  Only worth having when something is actually etched.
+Etch_Band_Z1 = Blade_Thickness - Text_Depth;                  // the etch floor
+Etch_Band_Z0 = max(0, Etch_Band_Z1 - Etch_Layer_Depth);
+Etch_Layer_Active = (Any_Text_Cutout || Has_Personalized_Name)
+                    && Etch_Layer_Depth > 0
+                    && Etch_Band_Z1 > Etch_Band_Z0;
 
 // -----------------------------------------------------------------------------
 // Blade outline
@@ -482,15 +575,16 @@ module slot_peg_3d(y0, y1) {
 
 // Area a pattern is allowed to occupy: the blade inset by the side margins,
 // clipped to the cutout band, with the slots and the pivot hole kept clear.
-module cut_region_2d() {
+// The area of blade one section's pattern is allowed to occupy: the blade inset by
+// the side margins, clipped to that section's own band, with the slots and the pivot
+// hole fenced off in case a band is stretched far enough to reach them.
+module cut_region_band_2d(y0, y1) {
     w = Blade_Cutout_Pattern_Inner_Wall_Thickness;
     difference() {
         intersection() {
             offset(r = -Blade_Cutout_Side_Margins) blade_outline_2d();
-            translate([-Blade_Length, Cut_Y0]) square([2 * Blade_Length, Cut_Y1 - Cut_Y0]);
+            translate([-Blade_Length, y0]) square([2 * Blade_Length, max(0.01, y1 - y0)]);
         }
-        // The default cutout band reaches up into the bottom slot, so both slots
-        // (and the pivot hole) are explicitly fenced off with a wall's clearance.
         translate([-Slot_Half_X - w, Slot_Bot_Y0 - w])
             square([2 * (Slot_Half_X + w), Blade_Connection_Slot_Height + 2 * w]);
         translate([-Slot_Half_X - w, Slot_Top_Y0 - w])
@@ -499,6 +593,10 @@ module cut_region_2d() {
             circle(d = Blade_Bottom_Connection_Hole_Diameter + 2 * w);
     }
 }
+
+// The whole patternable span, used by the generators that need to know how far they
+// have to tile.
+module cut_region_2d() { cut_region_band_2d(Cut_Y0, Cut_Y1); }
 
 // ---- Honeycomb --------------------------------------------------------------
 // Hexagonal cells on a tiling grid; each hole is shrunk from its cell so exactly
@@ -1234,15 +1332,17 @@ module leaf_veins_2d() {
 // ---- Vertical text ----------------------------------------------------------
 // Runs up the text band, held off the blade edges by the usual side margins.
 module vtext_region_2d() {
-    intersection() {
-        offset(r = -Blade_Cutout_Side_Margins) blade_outline_2d();
-        translate([-Blade_Length, Text_Y0])
-            square([2 * Blade_Length, max(0.1, Text_Y1 - Text_Y0)]);
-    }
+    offset(r = -Blade_Cutout_Side_Margins) blade_outline_2d();
 }
 
-module vertical_text_2d() {
-    translate([0, Text_Y_Mid])
+// A full-width horizontal slab, used to clip an overlay to one area's band.
+module band_2d(y0, y1) {
+    translate([-Blade_Length, y0]) square([2 * Blade_Length, max(0.01, y1 - y0)]);
+}
+
+// Centred in the band of the area that asked for it, rather than a fixed spot.
+module vertical_text_2d(y0, y1) {
+    translate([0, (y0 + y1) / 2])
         rotate(90)
             text(Blade_Cutout_Vertical_Text,
                  size = Blade_Cutout_Text_Size,
@@ -1425,32 +1525,40 @@ module horizontal_text_2d(i) {
 
 // Patterns cut clean through the blade.  The opening (erode then dilate) drops
 // any sliver the cutout area's edge has pared down below Cutout_Min_Feature.
-module through_cutout_2d() {
+// The pattern itself, tiled across the whole patternable span.  Kept separate from
+// the region clip so one area can take its slice of a pattern while the other takes
+// its slice of a different one.
+module pattern_by_kind(kind) {
+    if (kind == "voronoi")                 voronoi_2d();
+    else if (kind == "honeycomb")          honeycomb_2d();
+    else if (kind == "hearts")             hearts_2d();
+    else if (kind == "triangular")         triangular_2d();
+    else if (kind == "isometric_triangular") isometric_triangular_2d();
+    else if (kind == "diamond")            diamond_2d();
+    else if (kind == "circular")           circular_2d();
+    else if (kind == "staggered_circular") staggered_circular_2d();
+    else if (kind == "rounded_squares")    rounded_squares_2d();
+    else if (kind == "slots")              slots_2d();
+    else if (kind == "gyroid")             gyroid_2d();
+    else if (kind == "wave")               wave_2d();
+    else if (kind == "islamic")            islamic_2d();
+    else if (kind == "fish_scales")        fish_scales_2d();
+    else if (kind == "delaunay")           delaunay_2d();
+    else if (kind == "gradient_voronoi")   gradient_voronoi_2d();
+    else if (kind == "variable_honeycomb") variable_honeycomb_2d();
+    else if (kind == "penrose")            penrose_2d();
+    else if (kind == "wave_field")         wave_field_2d();
+    else if (kind == "reaction_diffusion") reaction_diffusion_2d();
+    else if (kind == "leaf_veins")         leaf_veins_2d();
+}
+
+// One area's through cut: its pattern, clipped to its own band.
+module through_cutout_2d(kind, y0, y1) {
     offset(r = Cutout_Min_Feature / 2)
         offset(r = -Cutout_Min_Feature / 2)
             intersection() {
-                cut_region_2d();
-                if (Blade_Cutouts == "voronoi")                 voronoi_2d();
-                else if (Blade_Cutouts == "honeycomb")          honeycomb_2d();
-                else if (Blade_Cutouts == "hearts")             hearts_2d();
-                else if (Blade_Cutouts == "triangular")         triangular_2d();
-                else if (Blade_Cutouts == "isometric_triangular") isometric_triangular_2d();
-                else if (Blade_Cutouts == "diamond")            diamond_2d();
-                else if (Blade_Cutouts == "circular")           circular_2d();
-                else if (Blade_Cutouts == "staggered_circular") staggered_circular_2d();
-                else if (Blade_Cutouts == "rounded_squares")    rounded_squares_2d();
-                else if (Blade_Cutouts == "slots")              slots_2d();
-                else if (Blade_Cutouts == "gyroid")             gyroid_2d();
-                else if (Blade_Cutouts == "wave")               wave_2d();
-                else if (Blade_Cutouts == "islamic")            islamic_2d();
-                else if (Blade_Cutouts == "fish_scales")        fish_scales_2d();
-                else if (Blade_Cutouts == "delaunay")           delaunay_2d();
-                else if (Blade_Cutouts == "gradient_voronoi")   gradient_voronoi_2d();
-                else if (Blade_Cutouts == "variable_honeycomb") variable_honeycomb_2d();
-                else if (Blade_Cutouts == "penrose")            penrose_2d();
-                else if (Blade_Cutouts == "wave_field")         wave_field_2d();
-                else if (Blade_Cutouts == "reaction_diffusion") reaction_diffusion_2d();
-                else if (Blade_Cutouts == "leaf_veins")         leaf_veins_2d();
+                cut_region_band_2d(y0, y1);
+                pattern_by_kind(kind);
             }
 }
 
@@ -1459,18 +1567,18 @@ module through_cutout_2d() {
 // anything across the whole set.  Both run out to the blade edges for the same
 // reason the text does: the edge strip is the only part left showing once the fan
 // is spread.
-module etched_art_2d(i, with_fan_text, is_final = false) {
+module etched_art_2d(kind, y0, y1, i, with_fan_text, is_final = false) {
     // Vertical text goes on the last blade only.  That is the one that ends up on
     // top of the closed stack, so it is the only blade whose face is on show -
     // repeating the text on all of them would just hide it nineteen times over.
     // A blade rendered on its own still gets it, so the wording and size can be
     // checked without switching to a whole-fan view.
-    if (Blade_Cutouts == "vertical_text" && (is_final || !with_fan_text))
-        intersection() { vtext_region_2d(); vertical_text_2d(); }
-    else if (Blade_Cutouts == "horizontal_text" && with_fan_text)
-        intersection() { htext_region_2d(); horizontal_text_2d(i); }
-    else if (Blade_Cutouts == "svg" && with_fan_text)
-        intersection() { htext_region_2d(); svg_blade_2d(i); }
+    if (kind == "vertical_text" && (is_final || !with_fan_text))
+        intersection() { vtext_region_2d(); band_2d(y0, y1); vertical_text_2d(y0, y1); }
+    else if (kind == "horizontal_text" && with_fan_text)
+        intersection() { htext_region_2d(); band_2d(y0, y1); horizontal_text_2d(i); }
+    else if (kind == "svg" && with_fan_text)
+        intersection() { htext_region_2d(); band_2d(y0, y1); svg_blade_2d(i); }
 }
 
 // -----------------------------------------------------------------------------
@@ -1502,16 +1610,37 @@ module blade_body(i, with_fan_text = true, is_final = false) {
         translate([0, Hole_Y, -Eps])
             cylinder(d = Blade_Bottom_Connection_Hole_Diameter, h = Blade_Thickness + 2 * Eps);
 
-        slot_cut_3d(Slot_Top_Y0, Slot_Top_Y1);
-        slot_cut_3d(Slot_Bot_Y0, Slot_Bot_Y1);
+        // Only one slot is cut, and it is the one this blade's own peg is NOT in.
+        //
+        // A blade's slot exists to receive the peg of the blade below it, and that
+        // peg is always in the other row - section A carries its peg in the top row,
+        // section B in the bottom.  So the row a blade carries its own peg in never
+        // has anything to receive, and cutting it there would only remove material
+        // the peg is anchored to.  The last blade has no peg of its own but follows
+        // the same rule, which leaves it with exactly the row its neighbour needs.
+        if (i % 2 == 0) slot_cut_3d(Slot_Bot_Y0, Slot_Bot_Y1);
+        else            slot_cut_3d(Slot_Top_Y0, Slot_Top_Y1);
 
-        if (Is_Hole_Cutout)
+        // Each section takes its own pattern, clipped to its own band.
+        if (A2_Is_Hole)
             translate([0, 0, -Eps])
-                linear_extrude(height = Blade_Thickness + 2 * Eps) through_cutout_2d();
+                linear_extrude(height = Blade_Thickness + 2 * Eps)
+                    through_cutout_2d(Area_2_Blade_Cutouts, A2_Cut_Y0, A2_Cut_Y1);
+        if (A3_Is_Hole)
+            translate([0, 0, -Eps])
+                linear_extrude(height = Blade_Thickness + 2 * Eps)
+                    through_cutout_2d(Area_3_Blade_Cutouts, A3_Cut_Y0, A3_Cut_Y1);
 
-        if (Is_Text_Cutout)
+        if (A2_Is_Text)
             translate([0, 0, Blade_Thickness - Text_Depth])
-                linear_extrude(height = Text_Depth + Eps) etched_art_2d(i, with_fan_text, is_final);
+                linear_extrude(height = Text_Depth + Eps)
+                    etched_art_2d(Area_2_Blade_Cutouts, A2_Cut_Y0, A2_Cut_Y1,
+                                  i, with_fan_text, is_final);
+        if (A3_Is_Text)
+            translate([0, 0, Blade_Thickness - Text_Depth])
+                linear_extrude(height = Text_Depth + Eps)
+                    etched_art_2d(Area_3_Blade_Cutouts, A3_Cut_Y0, A3_Cut_Y1,
+                                  i, with_fan_text, is_final);
 
         if (!is_final)
             translate([0, 0, Blade_Thickness - Blade_Number_Depth])
@@ -1524,7 +1653,10 @@ module blade_body(i, with_fan_text = true, is_final = false) {
     }
 }
 
-module blade(i, with_fan_text = true, is_final = false) {
+// The finished blade split into its three areas and coloured.  Emitting them as
+// separate bodies is what lets each area take its own colour, and is also what a
+// slicer wants for a multi-material or colour-change print.
+module blade_solid(i, with_fan_text = true, is_final = false) {
     is_a = (i % 2 == 0);
     union() {
         blade_body(i, with_fan_text, is_final);
@@ -1533,17 +1665,94 @@ module blade(i, with_fan_text = true, is_final = false) {
             else      slot_peg_3d(Slot_Bot_Y0, Slot_Bot_Y1);
         }
     }
-    // The lettering is a real recess, Blade_Cutout_Text_Depth deep, cut into the top
-    // face by blade_body().  In preview only, that recess is filled with a solid in
-    // Blade_Cutout_Text_Color so the text reads on screen and the chosen colour is
-    // visible.  $preview is false for F6 and for every export, so what you render,
-    // slice and print is the engraving itself - never a filled-in inlay.
-    if (Is_Text_Cutout && $preview)
+}
+
+// One block of blade: an area's slice of Y, further limited to a slice of Z.
+// The seam between two areas, as a zigzag rather than a straight cut.  A flat colour
+// boundary is a plane of pure filament-to-filament contact with nothing keying across
+// it, and snaps there readily; a zigzag lengthens the joint and lets the two colours
+// key into one another.
+//
+// Both sides of a boundary evaluate the same function at the same nominal Y, so the
+// teeth of one area are exactly the sockets of its neighbour - no gap, no overlap.
+Seam_Half_Period = max(0.5, Area_Seam_Period / 2);
+Seam_Amplitude   = min(Area_Seam_Amplitude, A1_Len / 4, A2_Len / 4, A3_Len / 4);
+Seam_X           = max(Top_Blade_Width, Bottom_Blade_Width) / 2 + 4;
+Seam_K0          = floor(-Seam_X / Seam_Half_Period) - 1;
+Seam_K1          = ceil(  Seam_X / Seam_Half_Period) + 1;
+
+// Alternating peak and trough at every half period gives a triangular wave whose
+// corners are the only vertices it needs.
+function seam_y(k) = (k % 2 == 0) ? Seam_Amplitude : -Seam_Amplitude;
+
+// The band of blade belonging to one area, jagged on whichever edges are shared with
+// a neighbour and left straight where the edge is the end of the blade.
+module area_band_2d(y0, y1, jag_lo, jag_hi) {
+    lo = jag_lo
+         ? [ for (k = [Seam_K0 : Seam_K1]) [k * Seam_Half_Period, y0 + seam_y(k)] ]
+         : [ [-Seam_X - Seam_Half_Period, y0], [Seam_X + Seam_Half_Period, y0] ];
+    hi = jag_hi
+         ? [ for (k = [Seam_K1 : -1 : Seam_K0]) [k * Seam_Half_Period, y1 + seam_y(k)] ]
+         : [ [Seam_X + Seam_Half_Period, y1], [-Seam_X - Seam_Half_Period, y1] ];
+    polygon(concat(lo, hi));
+}
+
+module blade_slab(i, with_fan_text, is_final, y0, y1, jag_lo, jag_hi, z0, z1, col) {
+    color(col)
+        intersection() {
+            blade_solid(i, with_fan_text, is_final);
+            translate([0, 0, z0])
+                linear_extrude(height = max(0.01, z1 - z0))
+                    area_band_2d(y0, y1, jag_lo, jag_hi);
+        }
+}
+
+// An area, split across the etch colour band where there is one.  The band is a
+// horizontal slab of a different colour buried just under the etch floor: cutting
+// the lettering down to that floor exposes the top of the band, so the etch reads in
+// the band's colour.  On a printer that is one filament change in and one back out,
+// which is why the band spans the whole blade and not merely the lettering.
+module blade_area(i, with_fan_text, is_final, y0, y1, jag_lo, jag_hi, col) {
+    if (Etch_Layer_Active) {
+        blade_slab(i, with_fan_text, is_final, y0, y1, jag_lo, jag_hi,
+                   -Blade_Thickness, Etch_Band_Z0, col);
+        blade_slab(i, with_fan_text, is_final, y0, y1, jag_lo, jag_hi,
+                   Etch_Band_Z0, Etch_Band_Z1, Etch_Layer_Color);
+        blade_slab(i, with_fan_text, is_final, y0, y1, jag_lo, jag_hi,
+                   Etch_Band_Z1, 3 * Blade_Thickness, col);
+    } else {
+        blade_slab(i, with_fan_text, is_final, y0, y1, jag_lo, jag_hi,
+                   -Blade_Thickness, 3 * Blade_Thickness, col);
+    }
+}
+
+module blade(i, with_fan_text = true, is_final = false) {
+    blade_area(i, with_fan_text, is_final, Area_3_Y0, Area_3_Y1, false, true,  Area_3_Color);
+    blade_area(i, with_fan_text, is_final, Area_2_Y0, Area_2_Y1, true,  true,  Area_2_Color);
+    // The end tip runs past the blade's top so the slot peg, which stands above the
+    // face, is kept with it.
+    blade_area(i, with_fan_text, is_final, Area_1_Y0, Area_1_Y1 + 1, true, false, Area_1_Color);
+
+    // The lettering is a real recess cut into the top face by blade_body().  With no
+    // etch colour band there is nothing behind it to see, so in preview only the
+    // recess is filled with a solid in Blade_Cutout_Text_Color just to make the text
+    // legible on screen; $preview is false for F6 and every export, so what gets
+    // sliced is the engraving itself.  With a band there is no need for the stand-in
+    // - the band shows through the recess in preview and in the print alike.
+    if (A2_Is_Text && $preview && !Etch_Layer_Active)
         color(Blade_Cutout_Text_Color)
             translate([0, 0, Blade_Thickness - Text_Depth])
-                linear_extrude(height = Text_Depth) etched_art_2d(i, with_fan_text, is_final);
+                linear_extrude(height = Text_Depth)
+                    etched_art_2d(Area_2_Blade_Cutouts, A2_Cut_Y0, A2_Cut_Y1,
+                                  i, with_fan_text, is_final);
+    if (A3_Is_Text && $preview && !Etch_Layer_Active)
+        color(Blade_Cutout_Text_Color)
+            translate([0, 0, Blade_Thickness - Text_Depth])
+                linear_extrude(height = Text_Depth)
+                    etched_art_2d(Area_3_Blade_Cutouts, A3_Cut_Y0, A3_Cut_Y1,
+                                  i, with_fan_text, is_final);
 
-    if (Has_Personalized_Name && i == 0 && $preview)
+    if (Has_Personalized_Name && i == 0 && $preview && !Etch_Layer_Active)
         color(Blade_Cutout_Text_Color)
             linear_extrude(height = PName_Depth) personalized_name_cut_2d();
 }
