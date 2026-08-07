@@ -1,0 +1,184 @@
+{
+  "_comment": [
+    "Configuration for 'Generate Temple Fans.sh'.",
+    "",
+    "'parameters' is the base customizer parameter set applied to every fan. Each entry",
+    "in 'sizes' is rendered once, with its own 'parameters' merged on top of the base.",
+    "Anything the script computes from its arguments (Blade_Cutout_SVG_File,",
+    "Blade_Cutout_SVG_Scale, Rendering_Mode) overrides both - editing those here has no",
+    "effect. Every other parameter of the .scad falls back to the default in the file.",
+    "",
+    "Values are strings, matching the format OpenSCAD writes into its own",
+    "'Hand Fan Generator v2.json' parameter sets."
+  ],
+
+  "scad_file": "Hand Fan Generator v3.scad",
+  "svg_directory": "fan svg files",
+  "output_directory": "Temple Fans",
+  "folder_name_template": "Hand Fan - {temple} Temple",
+  "file_name_template": "Hand Fan - {temple} Temple - {size}",
+
+  "defaults": {
+    "svg_scale": 140
+  },
+
+  "_outputs_comment": [
+    "default_outputs is what a plain run produces; --resulting-files overrides it.",
+    "Valid entries: stl, 3mf, colored, assembled, png.",
+    "",
+    "colored and assembled are the same fan with the etch layer black, so the artwork",
+    "reads instead of sitting white on a white blade. They differ only in layout:",
+    "colored is the printing layout, the file that gets sliced; assembled is the fan as",
+    "it ends up in the hand, the view the picture shows.",
+    "",
+    "Both go out as 3MF because that is the format that carries colour. An STL would be",
+    "one merged solid with the black thrown away - identical to the plain STL.",
+    "",
+    "Each block takes its own rendering_mode, extension, suffix and parameters, so a",
+    "new variant is a new block plus its name in default_outputs."
+  ],
+  "default_outputs": ["stl", "3mf", "colored", "assembled"],
+
+  "_export_3mf_comment": [
+    "Passed to OpenSCAD as -O export-3mf/<key>=<value> on every 3MF written. The CLI",
+    "does not read the GUI's export preferences, and its own default for material-type",
+    "is basematerial - a form many slicers and viewers ignore, so the file opens as one",
+    "flat colour even though the colours are in it. \"color\" writes a colorgroup, which",
+    "is what they read. Run 'OpenSCAD --help-export' for the full list of keys.",
+    "Values cannot contain spaces."
+  ],
+  "export_3mf": {
+    "material-type": "color",
+    "color-mode": "model"
+  },
+
+  "_colored_comment": [
+    "White everywhere except the etching, which is black and confined to the artwork",
+    "itself - Etch_Layer_Extent=artwork keeps the second colour under the etched shapes",
+    "instead of flooding the whole blade at that depth. The colours are pinned here",
+    "rather than inherited so this file stays white-and-black even if the fan's own",
+    "colours change. Etch_Layer_Extent and Hardware_Color need Hand Fan Generator v3."
+  ],
+  "colored": {
+    "rendering_mode": "printing",
+    "extension": "3mf",
+    "stl_format": "binstl",
+    "suffix": " - Colored",
+    "parameters": {
+      "Etch_Layer_Color": "black",
+      "Etch_Layer_Extent": "artwork",
+      "Area_1_Color": "white",
+      "Area_2_Color": "white",
+      "Area_3_Color": "white",
+      "Hardware_Color": "white",
+      "Blade_Cutout_Text_Color": "white"
+    }
+  },
+
+  "assembled": {
+    "rendering_mode": "assembly",
+    "extension": "3mf",
+    "stl_format": "binstl",
+    "suffix": " - Assembled",
+    "parameters": {
+      "Etch_Layer_Color": "black"
+    }
+  },
+
+  "_models_comment": [
+    "stl_format is passed to OpenSCAD as --export-format. \"binstl\" keeps these files",
+    "manageable - the same fan is about 180 MB as OpenSCAD's default ASCII STL and",
+    "roughly 35 MB as binary. Set it to \"\" to go back to ASCII.",
+    "",
+    "Each format is exported by its own OpenSCAD call, because --export-format applies",
+    "to every -o in an invocation."
+  ],
+  "models": {
+    "rendering_mode": "printing",
+    "stl_format": "binstl"
+  },
+
+  "_image_comment": [
+    "camera is OpenSCAD's gimbal form: translate_x,y,z,rot_x,y,z,distance.",
+    "rot_x = 20 looks down on the spread fan at a slight angle - straight down (0)",
+    "renders the faces flat on and loses the etched artwork, and the standard 55 deg",
+    "3/4 view foreshortens the sector too much to judge the design. distance is left",
+    "at 0 because view_all recomputes it, which is what keeps one camera usable for",
+    "every size.",
+    "",
+    "render:true is worth keeping. An SVG-cut fan is 15 blades of dense geometry, and",
+    "OpenSCAD's default PNG path (OpenCSG preview) spends over 12 minutes on it and",
+    "still speckles where the etch layer meets the blade face. A full geometry pass",
+    "takes about a minute and comes out clean.",
+    "",
+    "image.parameters is merged in last, for the ones that only make sense in a picture.",
+    "The etch layer is white on a white blade on the printed fan, which is the point of",
+    "it, but in a render that reads as a blank fan - black is what makes the artwork show.",
+    "models.parameters does the same for the printed files and is empty by default."
+  ],
+  "image": {
+    "rendering_mode": "assembly",
+    "imgsize": "1600,1200",
+    "camera": "0,0,0,20,0,0,0",
+    "projection": "ortho",
+    "view_all": true,
+    "autocenter": true,
+    "render": true,
+    "colorscheme": "Tomorrow Night",
+    "parameters": {
+      "Etch_Layer_Color": "black"
+    }
+  },
+
+  "parameters": {
+    "Area_1_Color": "white",
+    "Area_1_Length": "25",
+    "Area_2_Blade_Cutouts": "svg",
+    "Area_2_Color": "white",
+    "Area_2_Length": "120",
+    "Area_3_Blade_Cutouts": "none",
+    "Area_3_Color": "white",
+    "Area_3_Length": "20",
+    "Blade_Cutout_Horizontal_Text_Line_1": "",
+    "Blade_Cutout_Horizontal_Text_Line_2": "",
+    "Blade_Cutout_SVG_Height": "60",
+    "Blade_Cutout_SVG_Width": "0",
+    "Blade_Cutout_Text_Color": "white",
+    "Blade_Cutout_Text_Depth": "0.4",
+    "Blade_Cutout_Text_Font": "Anton",
+    "Blade_Cutout_Text_Size": "10",
+    "Blade_Cutout_Vertical_Text": "",
+    "Blade_Thickness": "1.3",
+    "Bottom_Blade_Width": "14.5",
+    "Bottom_Corner_Rounding": "14.5",
+    "Cutout_Bottom_Margin": "30",
+    "Cutout_Margin_Between_Areas": "6",
+    "Etch_Layer_Color": "white",
+    "Etch_Layer_Depth": "0.6",
+    "Number_Of_Blades": "15",
+    "Personalized_Name": "",
+    "Top_Blade_Width": "30",
+    "Top_Corner_Rounding": "9.5"
+  },
+
+  "sizes": [
+    {
+      "name": "Small",
+      "parameters": {
+        "Area_2_Length": "100"
+      }
+    },
+    {
+      "name": "Medium",
+      "parameters": {
+        "Area_2_Length": "120"
+      }
+    },
+    {
+      "name": "Large",
+      "parameters": {
+        "Area_2_Length": "140"
+      }
+    }
+  ]
+}

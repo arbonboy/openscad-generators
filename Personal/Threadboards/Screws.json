@@ -90,6 +90,16 @@
             "Mounting_Hole_Radius": "2",
             "Mounting_Hole_Type": "hexphillips",
             "Thread_Height": "15"
+        },
+        "HexHD6THR16w22": {
+            "For_Horizontal_Printing": "false",
+            "Head_Height": "6",
+            "Head_Type": "Hex",
+            "Include_Mounting_Hole": "false",
+            "Mounting_Hole_Radius": "2",
+            "Mounting_Hole_Type": "chamfered",
+            "Thread_Height": "16",
+            "headWidth": "22"
         }
     }
 }

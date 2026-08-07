@@ -19,7 +19,66 @@ module tbSb_StorageBoxRack(
     ignoreCutoutForRightWall = false,
     ignoreCutoutForBottomWall = false,
     ignoreCutoutForLeftWall = false,
-    backWallCellSize = 24
+    backWallCellSize = 24,
+    backWallHoleRadius = TB_NTB_Hole_Radius,
+    cornerRounding = 0
+){
+    // The rack is a grid of frames, each carrying its own slice of the back board, so
+    // rounding a frame's corners would bite notches out of every seam where two of them
+    // meet. Rounding is applied once, to the assembled rack, which leaves the interior
+    // untouched and softens only the four upright corners that are actually exposed.
+    rackWidth = cols * drawerWidth * backWallCellSize;
+    rackHeight = rows * drawerHeight * backWallCellSize;
+    rounding = min(cornerRounding, rackWidth/2, rackHeight/2);
+
+    intersection(){
+        union() tbSb_StorageBoxRackBody(
+            wallThickness = wallThickness,
+            drawerHeight = drawerHeight,
+            drawerWidth = drawerWidth,
+            drawerDepth = drawerDepth,
+            cols = cols,
+            rows = rows,
+            addDrawerBlockers = addDrawerBlockers,
+            backWallThickness = backWallThickness,
+            cutoutTopWidthPercentage = cutoutTopWidthPercentage,
+            cutoutBottomWidthPercentage = cutoutBottomWidthPercentage,
+            cutoutHeightPercentage = cutoutHeightPercentage,
+            ignoreCutoutForTopWall = ignoreCutoutForTopWall,
+            ignoreCutoutForRightWall = ignoreCutoutForRightWall,
+            ignoreCutoutForBottomWall = ignoreCutoutForBottomWall,
+            ignoreCutoutForLeftWall = ignoreCutoutForLeftWall,
+            backWallCellSize = backWallCellSize,
+            backWallHoleRadius = backWallHoleRadius
+        );
+
+        // A tall prism of the rack's own footprint: it only ever removes material at the
+        // corners, so the depth it is given is irrelevant as long as it clears the rack.
+        translate([rackWidth/2, rackHeight/2, 0])
+            cuboid([rackWidth, rackHeight, (drawerDepth + 2) * backWallCellSize * 4],
+                   rounding = rounding > 0 ? rounding : 0.001, edges = "Z");
+    }
+}
+
+// The rack itself, before the corners are taken off it.
+module tbSb_StorageBoxRackBody(
+    wallThickness = 1.5,
+    drawerHeight = 2,
+    drawerWidth = 2,
+    drawerDepth = 3,
+    cols = 2,
+    rows = 2,
+    addDrawerBlockers = true,
+    backWallThickness = 1,
+    cutoutTopWidthPercentage = 80,
+    cutoutBottomWidthPercentage = 50,
+    cutoutHeightPercentage = 80,
+    ignoreCutoutForTopWall = false,
+    ignoreCutoutForRightWall = false,
+    ignoreCutoutForBottomWall = false,
+    ignoreCutoutForLeftWall = false,
+    backWallCellSize = 24,
+    backWallHoleRadius = TB_NTB_Hole_Radius
 ){
     for( col = [0:cols-1]){
         for( row = [0:rows-1]){
@@ -42,7 +101,8 @@ module tbSb_StorageBoxRack(
                 ignoreCutoutForRightWall = ignoreCutoutForRightWall,
                 ignoreCutoutForBottomWall = ignoreCutoutForBottomWall,
                 ignoreCutoutForLeftWall = ignoreCutoutForLeftWall,
-                backWallCellSize = backWallCellSize
+                backWallCellSize = backWallCellSize,
+                backWallHoleRadius = backWallHoleRadius
             );
         }
     }
@@ -62,7 +122,8 @@ module tbSb_StorageBoxFrame(
     ignoreCutoutForRightWall = false,
     ignoreCutoutForBottomWall = false,
     ignoreCutoutForLeftWall = false,
-    backWallCellSize = 24
+    backWallCellSize = 24,
+    backWallHoleRadius = TB_NTB_Hole_Radius
 ){
     widthMM = drawerWidth * backWallCellSize;
     heightMM = drawerHeight * backWallCellSize;
@@ -82,7 +143,7 @@ module tbSb_StorageBoxFrame(
     cutoutHeightYRight = ignoreCutoutForRightWall ? depthMM : depthMM - depthMM * cutoutHeightPercentage / 100;
     cutoutHeightYLeft = ignoreCutoutForLeftWall ? depthMM :depthMM -  depthMM * cutoutHeightPercentage / 100;
 
-    tb_ntb_board(rows=drawerHeight, cols=drawerWidth, thickness=wallThickness, cell_size=backWallCellSize);
+    tb_ntb_board(rows=drawerHeight, cols=drawerWidth, thickness=wallThickness, cell_size=backWallCellSize, hole_radius=backWallHoleRadius);
 
 
     // Bottom Wall
@@ -168,9 +229,120 @@ module tbSb_StorageBoxFrame(
     }
 }
 
+// Rounds off the sharp tip of a convex corner that sits at the origin with its material
+// filling the -x/-y quadrant. Meant to be subtracted from a 2D profile.
+module tbSb_CornerFillet(radius){
+    difference(){
+        translate([-radius,-radius]) square(radius);
+        translate([-radius,-radius]) circle(r=radius, $fn=64);
+    }
+}
+
+// The finger opening removed from the top edge of a drawer's front wall, drawn with its
+// origin at the middle of the cutout's bottom edge and extending upward past the wall.
+//   "Rectangular" - straight sided slot (the original shape)
+//   "Rounded"     - U shaped scoop, easier on fingers and free of stress risers
+module tbSb_DrawerCutoutProfile(
+    cutoutWidth,
+    cutoutHeight,
+    cutoutStyle = "Rounded"
+){
+    overshoot = cutoutHeight + 1;    // run the opening out through the top edge of the wall
+    if(cutoutStyle == "Rounded"){
+        // A wide, shallow cutout only has room to round its bottom corners; once the cutout
+        // is at least half as deep as it is wide the bottom becomes a full half circle.
+        radius = min(cutoutWidth/2, cutoutHeight);
+        hull(){
+            translate([-cutoutWidth/2 + radius, radius]) circle(r=radius, $fn=96);
+            translate([ cutoutWidth/2 - radius, radius]) circle(r=radius, $fn=96);
+        }
+        translate([-cutoutWidth/2, radius]) square([cutoutWidth, overshoot]);
+    } else {
+        translate([-cutoutWidth/2, 0]) square([cutoutWidth, overshoot]);
+    }
+}
+
+// 2D profile of a drawer's front wall: the full wall rectangle with the finger opening
+// taken out of its top edge.
+module tbSb_DrawerFrontProfile(
+    drawerWidth,
+    drawerHeight,
+    cutoutWidth,
+    cutoutHeight,
+    cutoutStyle = "Rounded",
+    cutoutCornerRadius = 2
+){
+    // Keep the lip fillet inside the material it has to live in: the side walls either
+    // side of the opening, and the wall left below the top edge.
+    filletRadius = max(0, min(cutoutCornerRadius, (drawerWidth - cutoutWidth)/2, cutoutHeight));
+    difference(){
+        square([drawerWidth, drawerHeight]);
+        if(cutoutStyle != "None" && cutoutWidth > 0 && cutoutHeight > 0){
+            translate([drawerWidth/2, drawerHeight - cutoutHeight])
+                tbSb_DrawerCutoutProfile(
+                    cutoutWidth = cutoutWidth,
+                    cutoutHeight = cutoutHeight,
+                    cutoutStyle = cutoutStyle
+                );
+
+            // Break the two sharp horns the opening leaves on the top edge.
+            if(cutoutStyle == "Rounded" && filletRadius > 0){
+                translate([drawerWidth/2 - cutoutWidth/2, drawerHeight])
+                    tbSb_CornerFillet(filletRadius);
+                translate([drawerWidth/2 + cutoutWidth/2, drawerHeight])
+                    mirror([1,0,0]) tbSb_CornerFillet(filletRadius);
+            }
+        }
+    }
+}
+
 module tbSb_StorageBoxDrawer(
     drawerCutoutHeight = 10,
     drawerCutoutWidth = 30,
+    drawerCutoutStyle = "Rounded",
+    drawerCutoutCornerRadius = 2,
+    wallThickness = 1.5,
+    drawerHeight = 100,
+    drawerWidth = 400,
+    drawerDepth = 400,
+    drawerSectionThickness = 2,
+    drawerSectionHeight = 40,
+    drawerSectionsY = 1,
+    drawerSectionsX = 1,
+    cornerRounding = 0
+){
+    // Trim the assembled bin against a prism of its own footprint so the four upright
+    // corners come off round. Doing it here rather than on each panel keeps the walls
+    // full thickness right up to the corner and leaves the dividers alone - they sit
+    // well inside the footprint, so the mask never reaches them.
+    rounding = min(cornerRounding, drawerWidth/2, drawerDepth/2);
+    intersection(){
+        union() tbSb_StorageBoxDrawerBody(
+            drawerCutoutHeight = drawerCutoutHeight,
+            drawerCutoutWidth = drawerCutoutWidth,
+            drawerCutoutStyle = drawerCutoutStyle,
+            drawerCutoutCornerRadius = drawerCutoutCornerRadius,
+            wallThickness = wallThickness,
+            drawerHeight = drawerHeight,
+            drawerWidth = drawerWidth,
+            drawerDepth = drawerDepth,
+            drawerSectionThickness = drawerSectionThickness,
+            drawerSectionHeight = drawerSectionHeight,
+            drawerSectionsY = drawerSectionsY,
+            drawerSectionsX = drawerSectionsX
+        );
+
+        cuboid([drawerWidth, drawerDepth, (drawerHeight + wallThickness) * 4],
+               rounding = rounding > 0 ? rounding : 0.001, edges = "Z");
+    }
+}
+
+// The bin itself, before the corners are taken off it.
+module tbSb_StorageBoxDrawerBody(
+    drawerCutoutHeight = 10,
+    drawerCutoutWidth = 30,
+    drawerCutoutStyle = "Rounded",
+    drawerCutoutCornerRadius = 2,
     wallThickness = 1.5,
     drawerHeight = 100,
     drawerWidth = 400,
@@ -198,18 +370,16 @@ module tbSb_StorageBoxDrawer(
         cuboid([wallThickness, drawerDepth, drawerHeight]);
 
     //Front Wall with Cutout
-    translate([-drawerWidth/2,-drawerDepth/2+wallThickness/2,-wallThickness/2]) rotate([90,0,0]) 
+    translate([-drawerWidth/2,-drawerDepth/2+wallThickness/2,-wallThickness/2]) rotate([90,0,0])
         linear_extrude(wallThickness)
-            polygon(points=[
-                [0,0],
-                [drawerWidth,0],
-                [drawerWidth, drawerHeight],
-                [drawerWidth/2+drawerCutoutWidth/2, drawerHeight],
-                [drawerWidth/2+drawerCutoutWidth/2, drawerHeight- drawerCutoutHeight],
-                [drawerWidth/2-drawerCutoutWidth/2, drawerHeight - drawerCutoutHeight],
-                [drawerWidth/2-drawerCutoutWidth/2, drawerHeight],
-                [0, drawerHeight]
-            ]);
+            tbSb_DrawerFrontProfile(
+                drawerWidth = drawerWidth,
+                drawerHeight = drawerHeight,
+                cutoutWidth = drawerCutoutWidth,
+                cutoutHeight = drawerCutoutHeight,
+                cutoutStyle = drawerCutoutStyle,
+                cutoutCornerRadius = drawerCutoutCornerRadius
+            );
     
     // Sections
     echo(str("drawerSectionsX: ", drawerSectionsX, " drawerSectionsY: ", drawerSectionsY));

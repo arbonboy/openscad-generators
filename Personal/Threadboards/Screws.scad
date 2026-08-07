@@ -1,10 +1,12 @@
 include <lib/tb_screws.scad>;
 
 Head_Type = "Hex"; // [None, Minimal, Flat, Hex, Threaded]
-Head_Height = 8; // [8, 10, 12, 14, 16, 18, 20]
+Head_Height = 8; // [4, 6, 8, 10, 12, 14, 16, 18, 20]
 Thread_Height = 8; // [1:1:200]
 // You can print the screw horizontally for stronger threads, but the head will be flat on the bottom
 For_Horizontal_Printing = false; // [true,false]
+headWidth = 23; // head width
+
 
 /* [Mounting Hole Options] */
 // Mounting Holes NOT recommended for Hex head screws
@@ -14,7 +16,6 @@ Mounting_Hole_Type = "chamfered"; // [chamfered, phillips, hex, hexphillips:Hex 
 
 
 /* [Hidden] */
-headWidth = 23; // head width
 screwThreadDiameter = 8;
 minimalHeadHeight = 0.8; // height of minimal head
 minimalHeadWidth = 22; // width of minimal head

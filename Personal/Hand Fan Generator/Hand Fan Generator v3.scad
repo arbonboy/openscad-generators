@@ -1,4 +1,27 @@
-// Hand Fan Generator
+// Hand Fan Generator v3
+// -----------------------------------------------------------------------------
+// v3 is v2 with the render time taken out of it.  Same fan, same parameters; a
+// 15-blade SVG fan that took 59s and 750k facets now takes 14s and 321k, and its
+// STL is 15 MB instead of 36 MB.  Two changes got that:
+//
+//   Curve resolution is adaptive ($fa/$fs) instead of a flat $fn = 48.  An
+//   imported SVG is a couple of thousand bezier segments, and a flat $fn spent 48
+//   points on each of them - on every blade - for detail far below what a 0.4mm
+//   etch can hold.  Sizing each curve by its own radius also gives the large
+//   corner radii more points than 48 did.  Curve_Max_Angle / Curve_Min_Segment
+//   under [Hidden] set it.  The pivot hole, peg and cap keep a fixed segment
+//   count (Hardware_Segments) because an N-gon bore prints slightly undersized
+//   and that is the one place on this model where fit matters - those parts come
+//   out of v3 identical to v2, same facets, same volume.
+//
+//   The etch colour band is skipped when its colour matches the area around it.
+//   Placing that band splits every blade into three slabs, which is the most
+//   expensive boolean work in the model and half the render on an SVG fan; when
+//   the colours match there is nothing to see for it.  Set Etch_Layer_Color to
+//   something other than the area colours and the band comes back as before.
+//
+// Everything else is unchanged, and the whole fan is within 0.03% of v2 by volume
+// with an identical bounding box.
 // -----------------------------------------------------------------------------
 // Generates the individual blades (plus the pivot peg and its cap) for a folding
 // handheld personal fan.  Blades stack on a pivot peg through the Bottom
@@ -78,6 +101,12 @@ Etch_Layer_Color = "white";     // [white, black, red, orange, yellow, green, bl
 // How far that colour continues down into the blade from the first etched layer.
 // 0 leaves the blade a single colour through its thickness. (mm)
 Etch_Layer_Depth = 0.6;         // [0:0.1:10]
+// How much of the blade that colour covers.  Artwork keeps it to the etched shapes
+// themselves, so the rest of the blade stays its own colour at that depth - a slicer
+// paints those regions, which wants a multi-material setup.  Layer floods the whole
+// blade at that depth instead: nothing else can be seen of it, and it prints as one
+// filament change in and one back out.
+Etch_Layer_Extent = "artwork";  // [artwork:Under the artwork only, layer:Whole blade layer]
 // Text used by the Vertical Text cutout
 Blade_Cutout_Vertical_Text = "";
 // First line of text used by the Horizontal Text cutout (spread across the blades)
@@ -102,8 +131,20 @@ Blade_Cutout_SVG_Scale = 100;   // [5:1:500]
 /* [Rendering] */
 // Which part(s) to generate, and in what orientation
 Rendering_Mode = "printing";    // [printing:All Blades for Printing, assembly:Assembly View, section_a:Blade Section A, section_b:Blade Section B, hardware:Connector Peg and Cap only]
+// Colour of the pivot peg and its cap.  Left unset they take OpenSCAD's own default,
+// which lands in an exported 3MF as a yellow pair among the blades - a colour nobody
+// asked for and a slicer will offer to give its own filament.
+Hardware_Color = "silver";      // [white, black, red, orange, yellow, green, blue, purple, pink, gray, dimgray, silver, gold, brown, cyan, magenta, navy, teal, maroon]
 
 /* [Hidden] */
+// Curve resolution: no segment spans more than Curve_Max_Angle degrees of arc, and
+// none is shorter than Curve_Min_Segment mm.  Raise both to trade detail for speed.
+Curve_Max_Angle = 6;        // [1:1:30]
+Curve_Min_Segment = 0.5;    // [0.1:0.1:5]
+// Segment count for the pivot hardware only.  A bore rendered as an N-gon is slightly
+// undersized, and peg fit is the one place on this model where that shows, so these
+// stay at a fixed count rather than following the curve settings above.
+Hardware_Segments = 48;     // [12:1:120]
 //----/* [Top Connection] */
 // Vertical gap between the top of the blade and the underside of the peg's flared head (mm)
 Connection_Slot_Peg_Tolerance = 0.4;            // [0:0.05:2]
@@ -302,7 +343,15 @@ Print_Rows = 0;
 // the slicer); 1, 2, 3... render just that plate's worth, sized to fit the bed.
 Print_Plate = 0;
 
-$fn = 48;
+// Curve resolution.  A flat $fn applies the same segment count to a 9.5mm corner
+// radius and to every one of the two thousand-odd bezier segments an imported SVG
+// is made of, which is what made an SVG fan take minutes: the artwork alone came out
+// at three quarters of a million facets.  $fa/$fs size each curve by its own radius
+// instead, so the drawing gets what it needs and the large radii get more than a
+// flat 48 gave them.
+$fa = Curve_Max_Angle;
+$fs = Curve_Min_Segment;
+
 Eps = 0.01;
 
 // -----------------------------------------------------------------------------
@@ -1614,7 +1663,8 @@ module blade_body(i, with_fan_text = true, is_final = false) {
         linear_extrude(height = Blade_Thickness) blade_outline_2d();
 
         translate([0, Hole_Y, -Eps])
-            cylinder(d = Blade_Bottom_Connection_Hole_Diameter, h = Blade_Thickness + 2 * Eps);
+            cylinder(d = Blade_Bottom_Connection_Hole_Diameter, h = Blade_Thickness + 2 * Eps,
+                     $fn = Hardware_Segments);
 
         // Only one slot is cut, and it is the one this blade's own peg is NOT in.
         //
@@ -1703,32 +1753,87 @@ module area_band_2d(y0, y1, jag_lo, jag_hi) {
     polygon(concat(lo, hi));
 }
 
-module blade_slab(i, with_fan_text, is_final, y0, y1, jag_lo, jag_hi, z0, z1, col) {
-    color(col)
-        intersection() {
-            blade_solid(i, with_fan_text, is_final);
-            translate([0, 0, z0])
-                linear_extrude(height = max(0.01, z1 - z0))
-                    area_band_2d(y0, y1, jag_lo, jag_hi);
-        }
+module blade_slab_geom(i, with_fan_text, is_final, y0, y1, jag_lo, jag_hi, z0, z1) {
+    intersection() {
+        blade_solid(i, with_fan_text, is_final);
+        translate([0, 0, z0])
+            linear_extrude(height = max(0.01, z1 - z0))
+                area_band_2d(y0, y1, jag_lo, jag_hi);
+    }
 }
 
-// An area, split across the etch colour band where there is one.  The band is a
-// horizontal slab of a different colour buried just under the etch floor: cutting
-// the lettering down to that floor exposes the top of the band, so the etch reads in
-// the band's colour.  On a printer that is one filament change in and one back out,
-// which is why the band spans the whole blade and not merely the lettering.
+module blade_slab(i, with_fan_text, is_final, y0, y1, jag_lo, jag_hi, z0, z1, col) {
+    color(col)
+        blade_slab_geom(i, with_fan_text, is_final, y0, y1, jag_lo, jag_hi, z0, z1);
+}
+
+// Everything etched into this blade that the colour band reaches, as one 2D region.
+// This is the same geometry blade_body() cuts the recesses with, so the colour
+// underneath lines up with them exactly.
+//
+// The blade number is left out on purpose: it is only Blade_Number_Depth deep, which
+// stops short of the band, so it never took the etch colour and does not start now.
+// The personalized name is in, even though it is cut from the underside - it runs
+// deep enough to reach up into the band, the same as it did when the band spanned
+// the whole blade.
+module etched_region_2d(i, with_fan_text, is_final) {
+    if (A2_Is_Text)
+        etched_art_2d(Area_2_Blade_Cutouts, A2_Cut_Y0, A2_Cut_Y1, i, with_fan_text, is_final);
+    if (A3_Is_Text)
+        etched_art_2d(Area_3_Blade_Cutouts, A3_Cut_Y0, A3_Cut_Y1, i, with_fan_text, is_final);
+    if (Has_Personalized_Name && i == 0 && PName_Depth > Etch_Band_Z0)
+        personalized_name_cut_2d();
+}
+
+// That region as a solid occupying the etch colour band's depth - the block of a
+// second colour that sits directly beneath the etching and nowhere else.  Its top
+// face is the recess floor, which is what makes the etching read in this colour.
+module etch_band_solid(i, with_fan_text, is_final) {
+    translate([0, 0, Etch_Band_Z0])
+        linear_extrude(height = max(0.01, Etch_Band_Z1 - Etch_Band_Z0))
+            etched_region_2d(i, with_fan_text, is_final);
+}
+
+// An area of the blade, carrying the etch colour where there is one.
+//
+// The etch colour is a block of a second colour whose top face is the floor of the
+// etched recesses, so cutting the artwork down to that floor is what makes it show.
+// Etch_Layer_Extent decides how far that block reaches:
+//
+//   artwork - only under the etched shapes.  The blade keeps its own colour
+//             everywhere else at that depth, so no second colour is buried where
+//             nothing can be seen of it.
+//   layer   - right across the blade at that depth, the whole slab of it.
+//
+// A band the same colour as the area around it is invisible either way, and building
+// it is the most expensive boolean work in the model - on a fan carrying SVG art it
+// is half the render.  Same colour, one solid, same result.
 module blade_area(i, with_fan_text, is_final, y0, y1, jag_lo, jag_hi, col) {
-    if (Etch_Layer_Active) {
+    if (!(Etch_Layer_Active && Etch_Layer_Color != col)) {
+        blade_slab(i, with_fan_text, is_final, y0, y1, jag_lo, jag_hi,
+                   -Blade_Thickness, 3 * Blade_Thickness, col);
+    } else if (Etch_Layer_Extent == "artwork") {
+        // The two colours are cut from one another by the same solid, so they meet on
+        // a shared surface - no gap between them, and no overlap.
+        color(col)
+            difference() {
+                blade_slab_geom(i, with_fan_text, is_final, y0, y1, jag_lo, jag_hi,
+                                -Blade_Thickness, 3 * Blade_Thickness);
+                etch_band_solid(i, with_fan_text, is_final);
+            }
+        color(Etch_Layer_Color)
+            intersection() {
+                blade_slab_geom(i, with_fan_text, is_final, y0, y1, jag_lo, jag_hi,
+                                -Blade_Thickness, 3 * Blade_Thickness);
+                etch_band_solid(i, with_fan_text, is_final);
+            }
+    } else {
         blade_slab(i, with_fan_text, is_final, y0, y1, jag_lo, jag_hi,
                    -Blade_Thickness, Etch_Band_Z0, col);
         blade_slab(i, with_fan_text, is_final, y0, y1, jag_lo, jag_hi,
                    Etch_Band_Z0, Etch_Band_Z1, Etch_Layer_Color);
         blade_slab(i, with_fan_text, is_final, y0, y1, jag_lo, jag_hi,
                    Etch_Band_Z1, 3 * Blade_Thickness, col);
-    } else {
-        blade_slab(i, with_fan_text, is_final, y0, y1, jag_lo, jag_hi,
-                   -Blade_Thickness, 3 * Blade_Thickness, col);
     }
 }
 
@@ -1789,9 +1894,10 @@ Peg_Shaft_Length   = Blade_Stack_Height + Blade_Stack_Allowance
 module connector_peg(extra_length = 0) {
     union() {
         cylinder(d = Blade_Bottom_Connection_Peg_Base_Diameter,
-                 h = Blade_Bottom_Connection_Peg_Base_Thickness);
+                 h = Blade_Bottom_Connection_Peg_Base_Thickness, $fn = Hardware_Segments);
         translate([0, 0, Blade_Bottom_Connection_Peg_Base_Thickness - Eps])
-            cylinder(d = Peg_Shaft_Diameter, h = Peg_Shaft_Length + extra_length + Eps);
+            cylinder(d = Peg_Shaft_Diameter, h = Peg_Shaft_Length + extra_length + Eps,
+                     $fn = Hardware_Segments);
     }
 }
 
@@ -1800,10 +1906,10 @@ module connector_peg(extra_length = 0) {
 module connector_peg_cap(shaft_tolerance = Peg_Cap_Shaft_Tolerance) {
     difference() {
         cylinder(d = Blade_Bottom_Connection_Peg_Cap_Diameter,
-                 h = Blade_Bottom_Connection_Peg_Cap_Thickness);
+                 h = Blade_Bottom_Connection_Peg_Cap_Thickness, $fn = Hardware_Segments);
         translate([0, 0, -Eps])
             cylinder(d = Peg_Shaft_Diameter + max(0, shaft_tolerance),
-                     h = Peg_Cap_Socket_Depth + Eps);
+                     h = Peg_Cap_Socket_Depth + Eps, $fn = Hardware_Segments);
     }
 }
 
@@ -1831,13 +1937,13 @@ module connector_hardware_view() {
     dy = (d + Print_Layout_Gap) / 2;
     spare_tol = max(0, Peg_Cap_Shaft_Tolerance - Spare_Cap_Tolerance_Reduction);
 
-    translate([-dx,  dy, 0]) connector_peg();
-    translate([ dx,  dy, 0]) connector_peg_cap_printed();
+    color(Hardware_Color) {
+        translate([-dx,  dy, 0]) connector_peg();
+        translate([ dx,  dy, 0]) connector_peg_cap_printed();
 
-    // color(Spare_Hardware_Color) {
         translate([-dx, -dy, 0]) connector_peg(Spare_Peg_Extra_Length);
         translate([ dx, -dy, 0]) connector_peg_cap_printed(spare_tol);
-    // }
+    }
 }
 
 // -----------------------------------------------------------------------------
@@ -1916,6 +2022,7 @@ module assembly_view() {
                     translate([0, -Hole_Y, 0])
                         blade(i, is_final = (i == Number_Of_Blades - 1));
 
+    color(Hardware_Color)
     translate([0, Hole_Y, -Blade_Bottom_Connection_Peg_Base_Thickness])
         connector_peg();
     // connector_peg_cap() is already modelled the way it sits here - socket facing
@@ -1928,6 +2035,7 @@ module assembly_view() {
     // stack that has run Blade_Stack_Allowance over; seating the cap any lower would
     // drive the shaft straight through the solid end of it.  So the view shows the
     // fit the peg is actually sized for, with the gap that implies.
+    color(Hardware_Color)
     translate([0, Hole_Y,
                Blade_Stack_Height + Blade_Stack_Allowance
                + Blade_Bottom_Connection_Peg_Cap_Tolerance])
